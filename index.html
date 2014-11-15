@@ -3,6 +3,7 @@
 
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta charset="UTF-8">
 <script src="lib/jquery-1.8.2.min.js"></script>
 <script src="js/storage/memory-store.js"></script>
 <script src="js/main.js"></script>
@@ -13,18 +14,40 @@
  
 <body onload = "onBodyLoad();">
 
-<div data-role="page" id="home" data-theme="b">
-    <div id="header" data-role="header" data-theme="b">
-        <a id="bars-button" data-icon="bars"  class="ui-btn-right" style="margin-top:10px;" href="#navpanel"></a>
-        <div id="logo" data-position="left" >ירושמיים</div>
+<div data-role="page" id="home" data-theme="a">
+    <div id="header" data-role="header" data-theme="a">
+        
+        <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
+           <a id="refresh-button" data-icon="refresh" data-role="button" href="javascript:onRefresh()"></a>
+           <a id="bars-button" data-icon="bars" data-role="button" href="#navpanel"></a>
+           
+         </div>
+        <div id="logo" data-position="left" ><img src="img/ic_launcher_02ws.png" align="absmiddle"/> ירושמיים</div>
+        
     </div>
     <div data-role="panel" id="navpanel" data-theme="a"
          data-display="overlay" data-position="right">
         <div data-role="controlgroup" data-corners="false">
-            <a href="#" data-role="button">Language</a>
-            <a href="#" data-role="button">Notifications</a>
+            <a href="#langpanel" data-role="button">Language</a>
+            <label>
+                <input type="checkbox" id="checkbox_notifications" name="checkbox_notifications">Notifications
+            </label>
+            
        
         </div>
+    </div>
+    
+    <div data-role="panel" id="langpanel" data-theme="a"
+         data-display="overlay" data-position="right">
+         <div data-role="controlgroup" data-corners="false">
+         <label>
+        <input type="radio" name="radio-choice-lang" id="radio-choice-langa" value="1">עברית
+        </label>
+        <label for="radio-choice-langb">Eng</label>
+        <input type="radio" name="radio-choice-lang" id="radio-choice-langb" class="custom" value="0">
+            
+       
+        </div>    
     </div>
     
     <div id="applicationContainer" data-role="content" style="height:100%"> 

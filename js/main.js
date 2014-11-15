@@ -68,3 +68,33 @@ function onBodyLoad()
     $('#02wsframe').attr('src', url);
 }
 
+function onRefresh()
+{
+    document.getElementById('02wsframe').src = document.getElementById('02wsframe').src;
+}
+
+function onNotificationsCheck(value)
+{
+    alert('notify: ' + value);
+}
+
+function onLanguageChoose(value)
+{
+    var url = "http://www.02ws.co.il/small.php?lang=" + value;
+    $('#02wsframe').attr('src', url);
+    $('#langpanel').hide();
+}
+
+$(document).ready(function() {
+
+$("[name='radio-choice-lang']").live('change mousedown',function(event) { 
+   
+    onLanguageChoose(this.value);
+}); 
+
+$("[name='checkbox_notifications']").live('change',function(event) { 
+   
+    onNotificationsCheck(this.checked);
+}); 
+});
+
