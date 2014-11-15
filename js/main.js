@@ -36,10 +36,35 @@ var app = {
 		//self.renderHomeView();
                 
 		});
-                window.open("http://www.02ws.co.il/small.php", "_self");
+                //window.open("http://www.02ws.co.il/small.php", "_self");
+                //$("#applicationContainer").load("http://www.02ws.co.il/small.php");
+                /*$.ajax({
+                dataType:'html',
+                url:'http://www.02ws.co.il/small.php',
+                success:function(data) {
+                  $('#applicationContainer').html($(data));   
+                }
+              });*/
+               /* $.get('http://www.02ws.co.il/small.php', function( data ) {
+  alert( 'Successful cross-domain AJAX request.' );
+});*/
+        var url = "http://www.02ws.co.il/small.php";
+        $('#02wsframe').attr('src', url);
         
     }
 
 };
 
 app.initialize();
+function onDeviceReady()
+{     
+    alert('device ready');
+   
+}
+function onBodyLoad()
+{    
+    document.addEventListener("deviceready",onDeviceReady,false); 
+    var url = "http://www.02ws.co.il/small.php";
+    $('#02wsframe').attr('src', url);
+}
+
