@@ -13,12 +13,8 @@ var app = {
         });
     },
 	renderHomeView: function() {
-    var html =
-            "<div class='header'><h1>Home</h1></div>" +
-            "<div class='search-view'>" +
-            "<input class='search-key'/>" +
-            "<ul class='employee-list'></ul>" +
-            "</div>"
+    var html = "";
+           
     $('body').html(html);
     $('.search-key').on('keyup', $.proxy(this.findByName, this));
 	},
@@ -30,32 +26,30 @@ var app = {
             }
 	},
     initialize: function() {
-		var self = this;
-        this.store = new MemoryStore(function() {
-        //self.showAlert('Store Initialized', 'Info');
-		//self.renderHomeView();
-                
-		});
-                //window.open("http://www.02ws.co.il/small.php", "_self");
-                //$("#applicationContainer").load("http://www.02ws.co.il/small.php");
-                /*$.ajax({
-                dataType:'html',
-                url:'http://www.02ws.co.il/small.php',
-                success:function(data) {
-                  $('#applicationContainer').html($(data));   
-                }
-              });*/
-               /* $.get('http://www.02ws.co.il/small.php', function( data ) {
-  alert( 'Successful cross-domain AJAX request.' );
-});*/
-        var url = "http://www.02ws.co.il/small.php";
+	var self = this;
+         
+        var lang = window.localStorage.getItem("lang");
+        if (lang == "")
+            lang = 1;
+        $('[name="radio-choice-lang"][value="' + lang + '"]').attr('checked',true); 
+        var isToNotify = window.localStorage.getItem("notify");
+        if (isToNotify == "")
+            isToNotify = true;
+        $('#checkbox_notifications').prop('checked', isToNotify);
+        var url = "http://www.02ws.co.il/small.php?lang=" + lang;
         $('#02wsframe').attr('src', url);
         
+    },
+    saveLang:function(lang){
+        window.localStorage.setItem("lang", lang);
     }
+    ,
+    saveIsToNotify:function(Notify){
+        window.localStorage.setItem("notify", Notify);
+    }
+    
 
 };
-
-app.initialize();
 function onDeviceReady()
 {     
     alert('device ready');
@@ -64,8 +58,7 @@ function onDeviceReady()
 function onBodyLoad()
 {    
     document.addEventListener("deviceready",onDeviceReady,false); 
-    var url = "http://www.02ws.co.il/small.php";
-    $('#02wsframe').attr('src', url);
+    app.initialize();
 }
 
 function onRefresh()
@@ -76,10 +69,12 @@ function onRefresh()
 function onNotificationsCheck(value)
 {
     alert('notify: ' + value);
+    app.saveIsToNotify(value);
 }
 
 function onLanguageChoose(value)
 {
+    app.saveLang(value);
     var url = "http://www.02ws.co.il/small.php?lang=" + value;
     $('#02wsframe').attr('src', url);
     $('#langpanel').hide();
@@ -97,4 +92,6 @@ $("[name='checkbox_notifications']").live('change',function(event) {
     onNotificationsCheck(this.checked);
 }); 
 });
+
+
 
