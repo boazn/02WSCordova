@@ -26,7 +26,7 @@ var app = {
         $('#checkbox_notifications').prop('checked', isToNotify);
         var url = "http://www.02ws.co.il/small.php?lang=" + lang;
         $('#02wsframe').attr('src', url);
-        pushNotification = window.plugins.pushNotification;
+        
         
     },
     saveLang:function(lang){
@@ -78,7 +78,7 @@ var app = {
 
 };
 var pushNotification;
-document.addEventListener("deviceready", onDeviceReady, false);
+
 function postNewTokenToServer(token, isactive)
 {
     $.ajax({
@@ -109,7 +109,7 @@ function successHandler (result) {
 function onDeviceReady()
 {    
     alert('device ready');
-    app.initialize();
+    pushNotification = window.plugins.pushNotification;
     var token = window.localStorage.getItem("token");
     if (token != "")
     {
@@ -121,9 +121,9 @@ function onDeviceReady()
 }
 function onBodyLoad()
 {    
-    
+
     document.addEventListener("deviceready", onDeviceReady, false);
-    
+    app.initialize();
     
 }
 
@@ -167,7 +167,7 @@ function onNotificationAPN (event) {
 }
 
 $(document).ready(function() {
-
+document.addEventListener("deviceready", onDeviceReady, false);
 $("[name='radio-choice-lang']").live('change mousedown',function(event) { 
    
     onLanguageChoose(this.value);
