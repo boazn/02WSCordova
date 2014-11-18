@@ -134,7 +134,7 @@ function onRefresh()
 
 function onNotificationsCheck(value)
 {
-    alert('notify: ' + value);
+    
     app.saveIsToNotify(value);
     $('#navpanel').panel('close');
 }
