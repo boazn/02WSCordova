@@ -168,7 +168,7 @@ h2 {
         #header {
             height:54px;
         }
-        #bars-button {
+        #bars-button, #refresh-button {
             margin:7px;
         }
         #applicationContainer{
