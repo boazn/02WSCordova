@@ -113,8 +113,16 @@ function onDeviceReady()
     var token = window.localStorage.getItem("token");
     if (token != "")
     {
-        app.register();
+        try {
+            app.register();
         postNewTokenToServer(token, 1);
+        }
+        catch (e)
+        {
+            alert(e);
+        }
+        
+        
     }
    
    
@@ -134,22 +142,34 @@ function onRefresh()
 
 function onNotificationsCheck(value)
 {
-    
-    app.saveIsToNotify(value);
+    try {
+        app.saveIsToNotify(value);
     $('#navpanel').panel('close');
+    }
+    catch (e) {
+        alert(e);
+    }
+    
 }
 
 function onLanguageChoose(value)
 {
-    app.saveLang(value);
+     try {
+         app.saveLang(value);
     var url = "http://www.02ws.co.il/small.php?lang=" + value;
     $('#02wsframe').attr('src', url);
     $('#navpanel').panel('close');
+     }
+     catch (e) {
+        alert(e);
+    }
+    
 }
 
 // iOS
 function onNotificationAPN (event) {
-    if ( event.alert )
+    try {
+        if ( event.alert )
     {
         navigator.notification.alert(event.alert);
     }
@@ -164,6 +184,11 @@ function onNotificationAPN (event) {
     {
         pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
     }
+    }
+    catch (e) {
+        alert(e);
+    }
+    
 }
 
 $(document).ready(function() {
