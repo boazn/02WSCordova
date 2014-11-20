@@ -17,13 +17,21 @@ var app = {
 	var self = this;
          
         var lang = window.localStorage.getItem("lang");
-        if (lang == "")
+        if (lang == undefined)
+        {
             lang = 1;
-        $('[name="radio-choice-lang"][value="' + lang + '"]').attr('checked',true); 
+            saveLang(lang);
+            
+        }
+        $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         var isToNotify = window.localStorage.getItem("notify");
-        if (isToNotify == "")
+        if (isToNotify == undefined)
+        {
             isToNotify = true;
-        $('#checkbox_notifications').prop('checked', isToNotify);
+            //saveIsToNotify(isToNotify);
+        }
+        if (isToNotify)
+        $('#checkbox_notifications').attr('checked', isToNotify);
         var url = "http://www.02ws.co.il/small.php?lang=" + lang;
         $('#02wsframe').attr('src', url);
         
@@ -36,8 +44,9 @@ var app = {
     saveIsToNotify:function(Notify){
         window.localStorage.setItem("notify", Notify);
         var token = window.localStorage.getItem("token");
-        if (token != "")
-            postNewTokenToServer(token, Notify);
+        if (token == undefined)
+            app.register();
+        postNewTokenToServer(token, Notify);
     },
     register:function(){
         console.log('registering ' + device.platform);
