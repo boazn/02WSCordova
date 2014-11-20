@@ -1,20 +1,8 @@
 var app = {
-
-    	renderHomeView: function() {
-    var html = "";
-           
-    $('body').html(html);
-    
-	},
-	showAlert: function (message, title) {
-            if (navigator.notification) {
-                navigator.notification.alert(message, null, title, 'OK');
-            } else {
-                alert(title ? (title + ": " + message) : message);
-            }
-	},
+        // Application Constructor
     initialize: function() {
-	var self = this;
+        this.bindEvents();
+        var self = this;
          
         var lang = window.localStorage.getItem("lang");
         if (lang == undefined)
@@ -34,9 +22,62 @@ var app = {
         $('#checkbox_notifications').attr('checked', isToNotify);
         var url = "http://www.02ws.co.il/small.php?lang=" + lang;
         $('#02wsframe').attr('src', url);
-        
-        
     },
+    // Bind Event Listeners
+    //
+    // Bind any events that are required on startup. Common events are:
+    // 'load', 'deviceready', 'offline', and 'online'.
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+    },
+    // deviceready Event Handler
+    //
+    // The scope of 'this' is the event. In order to call the 'receivedEvent'
+    // function, we must explicitly call 'app.receivedEvent(...);'
+    onDeviceReady: function() {
+        app.receivedEvent('deviceready');
+         alert('device ready');
+        pushNotification = window.plugins.pushNotification;
+        var token = window.localStorage.getItem("token");
+        if (token != "")
+        {
+            try {
+                app.register();
+            postNewTokenToServer(token, 1);
+            }
+            catch (e)
+            {
+                alert(e);
+            }
+
+
+        }
+    },
+    // Update DOM on a Received Event
+    receivedEvent: function(id) {
+        var parentElement = document.getElementById(id);
+        var listeningElement = parentElement.querySelector('.listening');
+        var receivedElement = parentElement.querySelector('.received');
+
+        listeningElement.setAttribute('style', 'display:none;');
+        receivedElement.setAttribute('style', 'display:block;');
+
+        console.log('Received Event: ' + id);
+    },
+    	renderHomeView: function() {
+    var html = "";
+           
+    $('body').html(html);
+    
+	},
+	showAlert: function (message, title) {
+            if (navigator.notification) {
+                navigator.notification.alert(message, null, title, 'OK');
+            } else {
+                alert(title ? (title + ": " + message) : message);
+            }
+	},
+   
     saveLang:function(lang){
         window.localStorage.setItem("lang", lang);
     }
@@ -117,32 +158,11 @@ function successHandler (result) {
 }
 function onDeviceReady()
 {    
-    alert('device ready');
-    pushNotification = window.plugins.pushNotification;
-    var token = window.localStorage.getItem("token");
-    if (token != "")
-    {
-        try {
-            app.register();
-        postNewTokenToServer(token, 1);
-        }
-        catch (e)
-        {
-            alert(e);
-        }
-        
-        
-    }
    
+   app.onDeviceReady();
    
 }
-function onBodyLoad()
-{    
 
-    document.addEventListener("deviceready", onDeviceReady, false);
-    app.initialize();
-    
-}
 
 function onRefresh()
 {
