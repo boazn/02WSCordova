@@ -39,11 +39,11 @@ var app = {
          console.log('device ready: ' + device.platform + ' ' +  device.uuid);
         pushNotification = window.plugins.pushNotification;
         var token = window.localStorage.getItem("token");
-        if (token != "")
+        if (token == undefined)
         {
             try {
                 this.register();
-            postNewTokenToServer(token, 1);
+            
             }
             catch (e)
             {
@@ -82,24 +82,24 @@ var app = {
         var token = window.localStorage.getItem("token");
         if (token == undefined)
         {
-            app.register();
+            this.register();
             
         }
-        postNewTokenToServer(token, Notify);
+        
     },
     register:function(){
         console.log('registering ' + device.platform);
         if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
             pushNotification.register(
-            successHandler,
+            regsuccessHandler,
             errorHandler,
             {
                 "senderID":"761995000479",
-                "ecb":"onNotification"
+                "ecb":"onNotificationGCM"
             });
         } else if ( device.platform == 'blackberry10'){
             pushNotification.register(
-            successHandler,
+            regsuccessHandler,
             errorHandler,
             {
                 invokeTargetId : "replace_with_invoke_target_id",
@@ -147,22 +147,16 @@ function tokenHandler(result)
     alert('device token = ' + result);
     window.localStorage.setItem("token", result);
     console.log('device token = ' + result);
+    app.postNewTokenToServer(result, window.localStorage.getItem("notify"));
 }   
 function errorHandler(error)
 {
     console.log('error in registering: ' + error);
 }
 function successHandler (result) {
-    alert('result = ' + result);
+    alert('registration = ' + result);
+    
 }
-function onDeviceReady()
-{    
-   
-   app.onDeviceReady();
-   
-}
-
-
 function onRefresh()
 {
     document.getElementById('02wsframe').src = document.getElementById('02wsframe').src;
@@ -218,9 +212,65 @@ function onNotificationAPN (event) {
     }
     
 }
+// android
+function onNotificationGCM (e) {
+     switch( e.event )
+    {
+    case 'registered':
+        if ( e.regid.length > 0 )
+        {
+            
+            // Your GCM push server needs to know the regID before it can push to this device
+            // here is where you might want to send it the regID for later use.
+            alert("regID = " + e.regid);
+            app.postNewTokenToServer(e.regid, window.localStorage.getItem("notify"));
+        }
+    break;
+
+    case 'message':
+        // if this flag is set, this notification happened while we were in the foreground.
+        // you might want to play a sound to get the user's attention, throw up a dialog, etc.
+        if ( e.foreground )
+        {
+            
+
+            // on Android soundname is outside the payload.
+            // On Amazon FireOS all custom attributes are contained within payload
+            var soundfile = e.soundname || e.payload.sound;
+            // if the notification contains a soundname, play it.
+            var my_media = new Media("/android_asset/www/"+ soundfile);
+            my_media.play();
+        }
+        else
+        {  // otherwise we were launched because the user touched a notification in the notification tray.
+            if ( e.coldstart )
+            {
+                console.log('--COLDSTART NOTIFICATION--' + '');
+            }
+            else
+            {
+                console.log('--BACKGROUND NOTIFICATION--' + '');
+            }
+        }
+
+       console.log('MESSAGE -> MSG: ' + e.payload.message + '');
+           //Only works for GCM
+       console.log('MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '');
+       //Only works on Amazon Fire OS
+       console.log('MESSAGE -> TIME: ' + e.payload.timeStamp + '');
+    break;
+
+    case 'error':
+        console.log('ERROR -> MSG:' + e.msg + '');
+    break;
+
+    default:
+        console.log('EVENT -> Unknown, an event was received and we do not know what it is');
+    break;
+  }
+}
 
 $(document).ready(function() {
-document.addEventListener("deviceready", onDeviceReady, false);
 $("[name='radio-choice-lang']").live('change mousedown',function(event) { 
    
     onLanguageChoose(this.value);
