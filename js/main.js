@@ -37,7 +37,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-         alert('device ready: ' + device.platform + ' ' +  device.uuid);
+         console.log('device ready: ' + device.platform + ' ' +  device.uuid);
         pushNotification = window.plugins.pushNotification;
         var token = window.localStorage.getItem("token");
         if (token == undefined)
@@ -48,7 +48,7 @@ var app = {
             }
             catch (e)
             {
-                alert(e);
+                console.log(e);
             }
 
 
@@ -58,7 +58,7 @@ var app = {
     receivedEvent: function(id) {
         
 
-        alert('Received Event: ' + id);
+        console.log('Received Event: ' + id);
     },
     	renderHomeView: function() {
     var html = "";
@@ -68,9 +68,9 @@ var app = {
 	},
 	showAlert: function (message, title) {
             if (navigator.notification) {
-                navigator.notification.alert(message, null, title, 'OK');
+                navigator.notification.console.log(message, null, title, 'OK');
             } else {
-                alert(title ? (title + ": " + message) : message);
+                console.log(title ? (title + ": " + message) : message);
             }
 	},
    
@@ -97,7 +97,7 @@ var app = {
 
 function registerDevice()
 {
-    alert('registering ' + device.platform);
+    console.log('registering ' + device.platform);
         if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
             pushNotification.register(
             regsuccessHandler,
@@ -147,17 +147,17 @@ function postNewTokenToServer(token, isactive)
 }
 function tokenHandler(result)
 {
-    alert('device token = ' + result);
+    console.log('device token = ' + result);
     window.localStorage.setItem("token", result);
     console.log('device token = ' + result);
     postNewTokenToServer(result, window.localStorage.getItem("notify"));
 }   
 function errorHandler(error)
 {
-    alert('error in registering: ' + error);
+    console.log('error in registering: ' + error);
 }
 function regsuccessHandler (result) {
-    alert('registration = ' + result);
+    console.log('registration = ' + result);
     
 }
 function onRefresh()
@@ -172,7 +172,7 @@ function onNotificationsCheck(value)
     $('#navpanel').panel('close');
     }
     catch (e) {
-        alert(e);
+        console.log(e);
     }
     
 }
@@ -186,7 +186,7 @@ function onLanguageChoose(value)
     $('#navpanel').panel('close');
      }
      catch (e) {
-        alert(e);
+        console.log(e);
     }
     
 }
@@ -196,7 +196,7 @@ function onNotificationAPN (event) {
     try {
         if ( event.alert )
     {
-        navigator.notification.alert(event.alert);
+        navigator.notification.console.log(event.alert);
     }
 
     if ( event.sound )
@@ -211,7 +211,7 @@ function onNotificationAPN (event) {
     }
     }
     catch (e) {
-        alert(e);
+        console.log(e);
     }
     
 }
@@ -225,7 +225,7 @@ function onNotificationGCM (e) {
             
             // Your GCM push server needs to know the regID before it can push to this device
             // here is where you might want to send it the regID for later use.
-            alert("regID = " + e.regid);
+            console.log("regID = " + e.regid);
             window.localStorage.setItem("token", e.regid);
             postNewTokenToServer(e.regid, window.localStorage.getItem("notify"));
         }
