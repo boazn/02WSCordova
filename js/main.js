@@ -8,7 +8,7 @@ var app = {
         if (lang == undefined)
         {
             lang = 1;
-            saveLang(lang);
+            this.saveLang(lang);
             
         }
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
@@ -16,7 +16,7 @@ var app = {
         if (isToNotify == undefined)
         {
             isToNotify = true;
-            //saveIsToNotify(isToNotify);
+            //this.saveIsToNotify(isToNotify);
         }
         if (isToNotify)
         $('#checkbox_notifications').attr('checked', isToNotify);
@@ -36,13 +36,13 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-         alert('device ready');
+         console.log('device ready: ' + device.platform + ' ' +  device.uuid);
         pushNotification = window.plugins.pushNotification;
         var token = window.localStorage.getItem("token");
         if (token != "")
         {
             try {
-                app.register();
+                this.register();
             postNewTokenToServer(token, 1);
             }
             catch (e)
@@ -55,12 +55,7 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        
 
         console.log('Received Event: ' + id);
     },
@@ -86,7 +81,10 @@ var app = {
         window.localStorage.setItem("notify", Notify);
         var token = window.localStorage.getItem("token");
         if (token == undefined)
+        {
             app.register();
+            
+        }
         postNewTokenToServer(token, Notify);
     },
     register:function(){
@@ -96,7 +94,7 @@ var app = {
             successHandler,
             errorHandler,
             {
-                "senderID":"replace_with_sender_id",
+                "senderID":"761995000479",
                 "ecb":"onNotification"
             });
         } else if ( device.platform == 'blackberry10'){
@@ -127,7 +125,8 @@ var app = {
     
 
 };
-var pushNotification;
+
+
 
 function postNewTokenToServer(token, isactive)
 {
