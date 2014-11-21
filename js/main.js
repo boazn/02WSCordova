@@ -43,7 +43,7 @@ var app = {
         if (token == undefined)
         {
             try {
-                this.registerDevice();
+                registerDevice();
             
             }
             catch (e)
@@ -83,13 +83,21 @@ var app = {
         var token = window.localStorage.getItem("token");
         if (token == undefined)
         {
-            this.registerDevice();
+            registerDevice();
             
         }
+        else
+        {
+            postNewTokenToServer(token, Notify);
+        }
         
-    },
-    registerDevice:function(){
-        alert('registering ' + device.platform);
+    }
+};
+
+
+function registerDevice()
+{
+    alert('registering ' + device.platform);
         if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
             pushNotification.register(
             regsuccessHandler,
@@ -122,13 +130,7 @@ var app = {
                 "ecb":"onNotificationAPN"
             });
         }
-    }
-    
-
-};
-
-
-
+}
 function postNewTokenToServer(token, isactive)
 {
     $.ajax({
