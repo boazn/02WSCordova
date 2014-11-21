@@ -1,3 +1,4 @@
+var pushNotification;
 var app = {
         // Application Constructor
     initialize: function() {
@@ -42,7 +43,7 @@ var app = {
         if (token == undefined)
         {
             try {
-                this.register();
+                this.registerDevice();
             
             }
             catch (e)
@@ -82,12 +83,12 @@ var app = {
         var token = window.localStorage.getItem("token");
         if (token == undefined)
         {
-            this.register();
+            this.registerDevice();
             
         }
         
     },
-    register:function(){
+    registerDevice:function(){
         alert('registering ' + device.platform);
         if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
             pushNotification.register(
@@ -125,7 +126,7 @@ var app = {
     
 
 };
-var pushNotification;
+
 
 
 function postNewTokenToServer(token, isactive)
@@ -134,7 +135,7 @@ function postNewTokenToServer(token, isactive)
               
               url:'http://www.02ws.co.il/apn_register.php',
               type:'POST',
-              data:{name:'boazn', email:device.uuid, regId: token, lang: 1, active:isactive},
+              data:{name:device.model, email:device.uuid, regId: token, lang: window.localStorage.getItem("lang"), active:(isactive ? 1 : 0)},
               crossDomain:true,
               success: function(data){
               console.log('device sent token successfully');
@@ -147,7 +148,7 @@ function tokenHandler(result)
     alert('device token = ' + result);
     window.localStorage.setItem("token", result);
     console.log('device token = ' + result);
-    app.postNewTokenToServer(result, window.localStorage.getItem("notify"));
+    postNewTokenToServer(result, window.localStorage.getItem("notify"));
 }   
 function errorHandler(error)
 {
@@ -223,7 +224,8 @@ function onNotificationGCM (e) {
             // Your GCM push server needs to know the regID before it can push to this device
             // here is where you might want to send it the regID for later use.
             alert("regID = " + e.regid);
-            app.postNewTokenToServer(e.regid, window.localStorage.getItem("notify"));
+            window.localStorage.setItem("token", e.regid);
+            postNewTokenToServer(e.regid, window.localStorage.getItem("notify"));
         }
     break;
 
