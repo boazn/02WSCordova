@@ -36,7 +36,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-         console.log('device ready: ' + device.platform + ' ' +  device.uuid);
+         alert('device ready: ' + device.platform + ' ' +  device.uuid);
         pushNotification = window.plugins.pushNotification;
         var token = window.localStorage.getItem("token");
         if (token == undefined)
@@ -57,7 +57,7 @@ var app = {
     receivedEvent: function(id) {
         
 
-        console.log('Received Event: ' + id);
+        alert('Received Event: ' + id);
     },
     	renderHomeView: function() {
     var html = "";
@@ -88,7 +88,7 @@ var app = {
         
     },
     register:function(){
-        console.log('registering ' + device.platform);
+        alert('registering ' + device.platform);
         if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
             pushNotification.register(
             regsuccessHandler,
@@ -125,7 +125,7 @@ var app = {
     
 
 };
-
+var pushNotification;
 
 
 function postNewTokenToServer(token, isactive)
@@ -151,9 +151,9 @@ function tokenHandler(result)
 }   
 function errorHandler(error)
 {
-    console.log('error in registering: ' + error);
+    alert('error in registering: ' + error);
 }
-function successHandler (result) {
+function regsuccessHandler (result) {
     alert('registration = ' + result);
     
 }
