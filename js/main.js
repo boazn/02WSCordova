@@ -17,7 +17,7 @@ var app = {
         if (isToNotify == undefined)
         {
             isToNotify = true;
-            //this.saveIsToNotify(isToNotify);
+            this.saveIsToNotify(true);
         }
         if (isToNotify)
         $('#checkbox_notifications').attr('checked', isToNotify);
