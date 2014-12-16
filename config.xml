@@ -4,7 +4,7 @@
     <description>
         Jerusalem Weather Station.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
+    <author email="boazn1@gmail.com" href="02ws.co.il">
         Boaz Nechemia
     </author>
     <content src="index.html"/>
@@ -24,12 +24,13 @@
     <preference name="disable-cursor" value="false"/>
     <preference name="android-minSdkVersion" value="7"/>
     <preference name="android-installLocation" value="auto"/>
-    <gap:plugin name="org.apache.cordova.console"/>
-    <gap:plugin name="org.apache.cordova.contacts"/>
-    <gap:plugin name="org.apache.cordova.device" />
-    <gap:plugin name="org.apache.cordova.network-information"/>
-    <gap:plugin name="org.apache.cordova.vibration"/>
+    <gap:plugin name="org.apache.cordova.console" version="0.2.11"/>
+    <gap:plugin name="org.apache.cordova.contacts" version="0.2.12" />
+    <gap:plugin name="org.apache.cordova.device" version="0.2.12"/>
     <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0"/>
+	 <feature name="PushPlugin">
+    <param name="ios-package" value="PushPlugin"/>
+    </feature>
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57"/>
     <icon gap:platform="ios" height="72" src="res/icon/ios/icon-72.png" width="72"/>
     <icon gap:platform="ios" height="114" src="res/icon/ios/icon-114.png" width="114"/>
