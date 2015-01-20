@@ -22,8 +22,9 @@ var app = {
         if (isToNotify)
         $('#checkbox_notifications').attr('checked', isToNotify);
         var url = "http://www.02ws.co.il/small.php?lang=" + lang;
+        alert("Embeddedurl: " + Embeddedurl);
         if ((Embeddedurl != undefined)&&(Embeddedurl))
-            url = Embeddedurl + "?lang=" + lang;
+            url = url + "section=" + Embeddedurl;
         $('#02wsframe').attr('src', url);
         window.localStorage.removeitem("url");
     },
@@ -222,7 +223,6 @@ function onNotificationAPN (event) {
     }
      if (event.EmbeddedUrl)
      {
-         alert(event.EmbeddedUrl);
          window.localStorage.setItem("url", event.EmbeddedUrl);
      }
      
