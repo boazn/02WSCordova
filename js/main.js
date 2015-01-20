@@ -4,7 +4,7 @@ var app = {
     initialize: function() {
         this.bindEvents();
         var self = this;
-         
+        var Embeddedurl =  window.localStorage.getItem("url");
         var lang = window.localStorage.getItem("lang");
         if (lang == undefined)
         {
@@ -22,7 +22,10 @@ var app = {
         if (isToNotify)
         $('#checkbox_notifications').attr('checked', isToNotify);
         var url = "http://www.02ws.co.il/small.php?lang=" + lang;
+        if ((Embeddedurl != undefined)&&(Embeddedurl))
+            url = Embeddedurl + "?lang=" + lang;
         $('#02wsframe').attr('src', url);
+        window.localStorage.removeitem("url");
     },
     // Bind Event Listeners
     //
@@ -97,7 +100,9 @@ var app = {
 
 function registerDevice()
 {
-    console.log('registering ' + device.platform);
+    //console.log('registering ' + device.platform);
+        try
+        {
         if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
             pushNotification.register(
             regsuccessHandler,
@@ -129,6 +134,10 @@ function registerDevice()
                 "alert":"true",
                 "ecb":"onNotificationAPN"
             });
+        }
+        }
+        catch (e){
+            console.log('error registering: ' + e);
         }
 }
 function postNewTokenToServer(token, isactive)
@@ -167,14 +176,10 @@ function onRefresh()
 
 function onNotificationsCheck(value)
 {
-    try {
-        app.saveIsToNotify(value);
+          
+    app.saveIsToNotify(value);
     $('#navpanel').panel('close');
-    }
-    catch (e) {
-        console.log(e);
-    }
-    
+   
 }
 
 function onLanguageChoose(value)
@@ -193,6 +198,8 @@ function onLanguageChoose(value)
 
 // iOS
 function onNotificationAPN (event) {
+      
+    
     try {
         if ( event.alert )
     {
@@ -213,6 +220,11 @@ function onNotificationAPN (event) {
     catch (e) {
         console.log(e);
     }
+     if (event.EmbeddedUrl)
+     {
+         window.localStorage.setItem("url", event.EmbeddedUrl);
+     }
+     
     
 }
 // android
