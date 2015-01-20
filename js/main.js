@@ -28,10 +28,10 @@ var app = {
             url = url + "&section=" + Embeddedurl;
             window.localStorage.removeItem("url");
         }
+        alert(Embeddedurl);
         $('#02wsframe').attr('src', url);
         $('#loading').hide();
-        spinnerplugin.hide();
-        navigator.notification.activityStop();
+        
     },
     // Bind Event Listeners
     //
@@ -50,8 +50,7 @@ var app = {
     onResume: function(){
         setTimeout(function() {
              $('#loading').show();
-             spinnerplugin.show();
-            var Embeddedurl =  window.localStorage.getItem("url");
+             var Embeddedurl =  window.localStorage.getItem("url");
             var lang = window.localStorage.getItem("lang");
             var url = "http://www.02ws.co.il/small.php?lang=" + lang;
             if ((Embeddedurl != undefined)&&(Embeddedurl))
@@ -59,9 +58,10 @@ var app = {
                 url = url + "&section=" + Embeddedurl;
                 window.localStorage.removeItem("url");
             }
+            alert(Embeddedurl);
             $('#02wsframe').attr('src', url);
              $('#loading').hide();
-             spinnerplugin.hide();
+             
         }, 0);
         
     },
@@ -72,22 +72,6 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
          console.log('device ready: ' + device.platform + ' ' +  device.uuid)
-         navigator.notification.activityStart("Loading...טוען", "loading");
-        // Native loading spinner
-        if (window.spinnerplugin) {
-            $.extend($.mobile, {
-                loading: function() {
-                    // Show/hide spinner
-                    var arg = arguments ? arguments[0] : '';
-                    if (arg == 'show') spinnerplugin.show({'overlay':true});
-                    else if (arg == 'hide') spinnerplugin.hide();           
-
-                    // Compatibility with jQM 1.4
-                    return { loader: function() { } }
-                }
-            });
-            spinnerplugin.show();
-        }
         pushNotification = window.plugins.pushNotification;
         var token = window.localStorage.getItem("token");
         if (token == undefined)
