@@ -24,7 +24,7 @@ var app = {
         var url = "http://www.02ws.co.il/small.php?lang=" + lang;
         alert("Embeddedurl: " + Embeddedurl);
         if ((Embeddedurl != undefined)&&(Embeddedurl))
-            url = url + "section=" + Embeddedurl;
+            url = url + "&section=" + Embeddedurl;
         $('#02wsframe').attr('src', url);
         window.localStorage.removeitem("url");
     },
@@ -34,6 +34,26 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener("pause", this.onPause, false);
+        document.addEventListener("resume", this.onResume, false);
+
+
+    },
+     onPause: function(){
+    var Embeddedurl =  window.localStorage.getItem("url");
+    },
+    onResume: function(){
+        setTimeout(function() {
+            var Embeddedurl =  window.localStorage.getItem("url");
+            var lang = window.localStorage.getItem("lang");
+            var url = "http://www.02ws.co.il/small.php?lang=" + lang;
+            alert("Embeddedurl: " + Embeddedurl);
+            if ((Embeddedurl != undefined)&&(Embeddedurl))
+                url = url + "&section=" + Embeddedurl;
+            $('#02wsframe').attr('src', url);
+            window.localStorage.removeitem("url");
+        }, 0);
+        
     },
     // deviceready Event Handler
     //
