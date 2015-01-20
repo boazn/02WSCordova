@@ -28,7 +28,6 @@ var app = {
             url = url + "&section=" + Embeddedurl;
             window.localStorage.removeItem("url");
         }
-        alert(Embeddedurl);
         $('#02wsframe').attr('src', url);
         $('#loading').hide();
         
@@ -58,8 +57,7 @@ var app = {
                 url = url + "&section=" + Embeddedurl;
                 window.localStorage.removeItem("url");
             }
-            alert(Embeddedurl);
-            $('#02wsframe').attr('src', url);
+             $('#02wsframe').attr('src', url);
              $('#loading').hide();
              
         }, 0);
