@@ -222,6 +222,7 @@ function onNotificationAPN (event) {
     }
      if (event.EmbeddedUrl)
      {
+         alert(event.EmbeddedUrl);
          window.localStorage.setItem("url", event.EmbeddedUrl);
      }
      
