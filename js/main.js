@@ -2,6 +2,7 @@ var pushNotification;
 var app = {
         // Application Constructor
     initialize: function() {
+        $('#loading').show();
         this.bindEvents();
         var self = this;
         var Embeddedurl =  window.localStorage.getItem("url");
@@ -22,11 +23,14 @@ var app = {
         if (isToNotify)
         $('#checkbox_notifications').attr('checked', isToNotify);
         var url = "http://www.02ws.co.il/small.php?lang=" + lang;
-        alert("Embeddedurl: " + Embeddedurl);
         if ((Embeddedurl != undefined)&&(Embeddedurl))
+        {
             url = url + "&section=" + Embeddedurl;
+            window.localStorage.removeItem("url");
+        }
         $('#02wsframe').attr('src', url);
-        window.localStorage.removeitem("url");
+        $('#loading').hide();
+        spinnerplugin.hide();
     },
     // Bind Event Listeners
     //
@@ -40,18 +44,23 @@ var app = {
 
     },
      onPause: function(){
-    var Embeddedurl =  window.localStorage.getItem("url");
+    
     },
     onResume: function(){
         setTimeout(function() {
+             $('#loading').show();
+             spinnerplugin.show();
             var Embeddedurl =  window.localStorage.getItem("url");
             var lang = window.localStorage.getItem("lang");
             var url = "http://www.02ws.co.il/small.php?lang=" + lang;
-            alert("Embeddedurl: " + Embeddedurl);
             if ((Embeddedurl != undefined)&&(Embeddedurl))
+            {
                 url = url + "&section=" + Embeddedurl;
+                window.localStorage.removeItem("url");
+            }
             $('#02wsframe').attr('src', url);
-            window.localStorage.removeitem("url");
+             $('#loading').hide();
+             spinnerplugin.hide();
         }, 0);
         
     },
@@ -62,6 +71,20 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
          console.log('device ready: ' + device.platform + ' ' +  device.uuid);
+        // Native loading spinner
+        if (window.spinnerplugin) {
+            $.extend($.mobile, {
+                loading: function() {
+                    // Show/hide spinner
+                    var arg = arguments ? arguments[0] : '';
+                    if (arg == 'show') spinnerplugin.show({'overlay':true});
+                    else if (arg == 'hide') spinnerplugin.hide();           
+
+                    // Compatibility with jQM 1.4
+                    return { loader: function() { } }
+                }
+            }); 
+        }
         pushNotification = window.plugins.pushNotification;
         var token = window.localStorage.getItem("token");
         if (token == undefined)
