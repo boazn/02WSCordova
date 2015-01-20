@@ -31,6 +31,7 @@ var app = {
         $('#02wsframe').attr('src', url);
         $('#loading').hide();
         spinnerplugin.hide();
+        navigator.notification.activityStop();
     },
     // Bind Event Listeners
     //
@@ -70,7 +71,8 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-         console.log('device ready: ' + device.platform + ' ' +  device.uuid);
+         console.log('device ready: ' + device.platform + ' ' +  device.uuid)
+         navigator.notification.activityStart("Loading...טוען", "loading");
         // Native loading spinner
         if (window.spinnerplugin) {
             $.extend($.mobile, {
@@ -83,7 +85,8 @@ var app = {
                     // Compatibility with jQM 1.4
                     return { loader: function() { } }
                 }
-            }); 
+            });
+            spinnerplugin.show();
         }
         pushNotification = window.plugins.pushNotification;
         var token = window.localStorage.getItem("token");
