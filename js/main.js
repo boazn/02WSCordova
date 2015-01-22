@@ -59,7 +59,7 @@ var app = {
             }
              $('#02wsframe').attr('src', url);
              $('#loading').hide();
-             navigator.splashscreen.hide();
+            
         }, 0);
         
     },
@@ -69,7 +69,10 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-         console.log('device ready: ' + device.platform + ' ' +  device.uuid)
+         console.log('device ready: ' + device.platform + ' ' +  device.uuid);
+          setTimeout(function() {
+                navigator.splashscreen.hide();
+          }, 3000);
         pushNotification = window.plugins.pushNotification;
         var token = window.localStorage.getItem("token");
         if (token == undefined)
