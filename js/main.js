@@ -59,7 +59,7 @@ var app = {
             }
              $('#02wsframe').attr('src', url);
              $('#loading').hide();
-             
+             navigator.splashscreen.hide();
         }, 0);
         
     },
