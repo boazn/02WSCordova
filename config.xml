@@ -26,30 +26,34 @@
     <preference name="android-installLocation" value="auto"/>
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarStyle" value="default" />
+    <preference name="SplashScreen" value="Default.png" />
+    <preference name="SplashScreenDelay" value="5000" />
     <gap:plugin name="org.apache.cordova.console" version="0.2.11"/>
     <gap:plugin name="org.apache.cordova.contacts" version="0.2.13" />
     <gap:plugin name="org.apache.cordova.device" version="0.2.12"/>
     <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0"/>
     <gap:plugin name="it.mobimentum.phonegapspinnerplugin" version="1.1.0" />
-	 <feature name="PushPlugin">
+    <feature name="PushPlugin">
     <param name="ios-package" value="PushPlugin"/>
     </feature>
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57"/>
     <icon gap:platform="ios" height="72" src="res/icon/ios/icon-72.png" width="72"/>
+    <icon gap:platform="ios" height="76" src="res/icon/ios/icon-76.png" width="76"/>
     <icon gap:platform="ios" height="114" src="res/icon/ios/icon-114.png" width="114"/>
+    <icon gap:platform="ios" height="120" src="res/icon/ios/icon-120.png" width="120"/>
     <icon gap:platform="ios" height="144" src="res/icon/ios/icon-144.png" width="144"/>
-	<gap:splash src="Default.png"         gap:platform="ios"     width="320" height="480" />
-	<gap:splash src="Default@2x.png"      gap:platform="ios"     width="640" height="960" />
-	<gap:splash src="Default-568h@2x.png" gap:platform="ios"     width="640" height="1136" />
+    <gap:splash src="Default.png"         gap:platform="ios"     width="320" height="480" />
+    <gap:splash src="Default@2x.png"      gap:platform="ios"     width="640" height="960" />
+    <gap:splash src="Default-568h@2x.png" gap:platform="ios"     width="640" height="1136" />
     <gap:splash src="res/screen/ios/screen-iphone-portrait.png"          gap:platform="ios"     width="320" height="480" />
-  <gap:splash src="res/screen/ios/screen-iphone-portrait-2x.png"       gap:platform="ios"     width="640" height="960" />
-  <gap:splash src="res/screen/ios/screen-iphone-landscape.png"         gap:platform="ios"     width="480" height="320" />
-  <gap:splash src="res/screen/ios/screen-iphone-landscape-2x.png"      gap:platform="ios"     width="960" height="640" />
-  <gap:splash src="res/screen/ios/screen-ipad-portrait.png"            gap:platform="ios"     width="768" height="1024" />
-  <gap:splash src="res/screen/ios/screen-ipad-portrait-2x.png"         gap:platform="ios"     width="1536" height="2008" />
-  <gap:splash src="res/screen/ios/screen-ipad-landscape.png"           gap:platform="ios"     width="1024" height="768" />
-  <gap:splash src="res/screen/ios/screen-ipad-landscape-2x.png"        gap:platform="ios"     width="2048" height="1496" />
-  <gap:splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png"  gap:platform="ios"     width="640"  height="1136" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait-2x.png"       gap:platform="ios"     width="640" height="960" />
+    <gap:splash src="res/screen/ios/screen-iphone-landscape.png"         gap:platform="ios"     width="480" height="320" />
+    <gap:splash src="res/screen/ios/screen-iphone-landscape-2x.png"      gap:platform="ios"     width="960" height="640" />
+    <gap:splash src="res/screen/ios/screen-ipad-portrait.png"            gap:platform="ios"     width="768" height="1024" />
+    <gap:splash src="res/screen/ios/screen-ipad-portrait-2x.png"         gap:platform="ios"     width="1536" height="2008" />
+    <gap:splash src="res/screen/ios/screen-ipad-landscape.png"           gap:platform="ios"     width="1024" height="768" />
+    <gap:splash src="res/screen/ios/screen-ipad-landscape-2x.png"        gap:platform="ios"     width="2048" height="1496" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png"  gap:platform="ios"     width="640"  height="1136" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="res/icon/android/icon-36-ldpi.png"/>
     <icon gap:platform="android" gap:qualifier="mdpi" src="res/icon/android/icon-48-mdpi.png"/>
     <icon gap:platform="android" gap:qualifier="hdpi" src="res/icon/android/icon-72-hdpi.png"/>
