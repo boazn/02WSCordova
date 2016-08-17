@@ -9,7 +9,7 @@
     </author>
     <content src="index.html"/>
     <preference name="permissions" value="none"/>
-    <preference name="phonegap-version" value="3.6.3"/>
+    <preference name="phonegap-version" value="cli-6.3.0"/>
     <preference name="orientation" value="default"/>
     <preference name="target-device" value="universal"/>
     <preference name="fullscreen" value="true"/>
@@ -36,6 +36,8 @@
     <gap:plugin name="it.mobimentum.phonegapspinnerplugin" version="1.1.0" />
     <gap:plugin name="org.apache.cordova.statusbar" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="nl.x-services.plugins.socialsharing" source="plugins.cordova.io" />
     <feature name="StatusBar">
             <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
