@@ -37,7 +37,7 @@
     <gap:plugin name="org.apache.cordova.statusbar" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
-    <gap:plugin name="nl.x-services.plugins.socialsharing" source="plugins.cordova.io" />
+    
     <feature name="StatusBar">
             <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
