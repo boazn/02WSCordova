@@ -32,7 +32,6 @@
     <gap:plugin name="org.apache.cordova.console" />
     <gap:plugin name="org.apache.cordova.contacts"  />
     <gap:plugin name="org.apache.cordova.device" />
-    <gap:plugin name="com.phonegap.plugins.pushplugin" />
     <gap:plugin name="it.mobimentum.phonegapspinnerplugin"  />
     <gap:plugin name="org.apache.cordova.statusbar" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
