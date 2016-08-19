@@ -168,8 +168,8 @@ h2 {
         #header {
             height:60px;
         }
-        #bars-button, #refresh-button {
-            margin:10px;
+        #bars-button, #refresh-button, #camera-button, #share-button {
+            margin:10px 2px;
         }
         #applicationContainer{
             padding:0
