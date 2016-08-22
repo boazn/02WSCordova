@@ -3,6 +3,7 @@ var pictureSource;   // picture source
 var destinationType;
 var imageData;
 var imageURI;// sets the format of returned value
+var retries = 0;
 var app = {
         // Application Constructor
     initialize: function() {
@@ -19,7 +20,7 @@ var app = {
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         //ini notifications
         var isToNotify = window.localStorage.getItem("notify");
-        if (isToNotify == "null")
+        if ((isToNotify == "null")||(isToNotify == undefined))
         {
             isToNotify = true;
             this.saveIsToNotify(true, true, true);
@@ -28,35 +29,35 @@ var app = {
         $('#checkbox_notifications').attr('checked', isToNotify);
         //ini shortnotifications
         var isToShortNotify = window.localStorage.getItem("shortnotify");
-        if (isToShortNotify == "null"){isToShortNotify = true;};
+        if ((isToShortNotify == "null")||(isToShortNotify == undefined)){isToShortNotify = true;};
         window.localStorage.setItem("shortnotify", isToShortNotify);
         if (isToShortNotify == "true")
         $('#checkbox_shortnotifications').attr('checked', isToShortNotify);
         
         //ini tipsnotifications
         var isToTipsNotify = window.localStorage.getItem("tipsnotify");
-        if (isToTipsNotify == "null"){isToTipsNotify = true;};
+        if ((isToTipsNotify == "null")||(isToTipsNotify == undefined)){isToTipsNotify = true;};
         window.localStorage.setItem("tipsnotify", isToTipsNotify);
         if (isToTipsNotify == "true")
         $('#checkbox_tipsnotifications').attr('checked', isToTipsNotify);
         
         //ini cloth
         var iscloth = window.localStorage.getItem("cloth");
-        if (iscloth == "null") {iscloth = true;};
+        if ((iscloth == "null")||(iscloth == undefined)) {iscloth = true;};
         window.localStorage.setItem("cloth", iscloth);
         if (iscloth == "true")
         $('#checkbox_cloth').attr('checked', iscloth);
         
         //ini fulltext
         var isfulltext = window.localStorage.getItem("fulltext");
-        if (isfulltext == "null"){isfulltext = false;};
+        if ((isfulltext == "null")||(isfulltext == undefined)){isfulltext = false;};
         window.localStorage.setItem("fulltext", isfulltext);
         if (isfulltext == "true")
         $('#checkbox_fulltext').attr('checked', isfulltext);
         
         //ini sound
         var issound = window.localStorage.getItem("sound");
-        if (issound == "null"){issound = true;};
+        if ((issound == "null")||(issound == undefined)){issound = true;};
         window.localStorage.setItem("sound", issound);
         if (issound == "true")
         $('#checkbox_sound').attr('checked', issound);
@@ -99,7 +100,10 @@ var app = {
                 navigator.splashscreen.hide();
           }, 3000);
           bindStrings();
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
         pushNotification = window.plugins.pushNotification;
+        console.log('file plugin: ' + cordova.file.applicationDirectory);
         var token = window.localStorage.getItem("token");
         if (token == undefined)
         {
@@ -109,7 +113,7 @@ var app = {
             }
             catch (e)
             {
-                console.log(e);
+                console.log("register device:" + e);
             }
         }
     },
@@ -201,48 +205,53 @@ function registerDevice()
         console.log("pic canceled");
         $('#imagepreviewContainer').hide();
     }
-    function onPhotoDataSuccess(imageData) {
-       imageData = imageData;
+    function onPhotoDataSuccess(Data) {
+        $('#campanel').panel('close');
        $('#imagepreviewContainer').show();
-       console.log(imageData);
-      var smallImage = document.getElementById('smallImage');
-      smallImage.style.display = 'block';
-      smallImage.src = "data:image/jpeg;base64," + imageData;
+       console.log(Data);
+       var largeImage = document.getElementById('largeImage');
+        largeImage.style.display = 'block';
+        largeImage.src = "data:image/jpeg;base64," + Data;
+        imageData = largeImage.src;
     }
 
     // Called when a photo is successfully retrieved
     //
-    function onPhotoURISuccess(imageURI) {
-      imageURI = imageURI;
+    function onPhotoURISuccess(result) {
+      $('#campanel').panel('close');
       $('#imagepreviewContainer').show();
-      console.log(imageURI);
-      var largeImage = document.getElementById('largeImage');
-      largeImage.style.display = 'block';
-      largeImage.src = imageURI;
-    }
-
+      CordovaExif.readData(result, function(exifObject) {
+       // navigator.notification.alert(exifObject);
+        
+      });
+      console.log(result);
+      //navigator.notification.alert(result);
+       
+        var largeImage = document.getElementById('largeImage');
+        largeImage.style.display = 'block';
+        largeImage.src = result;
+        imageURI = result;
+        
     
-    // A button will call this function
-    //
-    function capturePhoto() {
-      // Take picture using device camera and retrieve image as base64-encoded string
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 90,
-      destinationType: destinationType.DATA_URL });
     }
 
+    function clearCache() {
+        navigator.camera.cleanup();
+    }
     // A button will call this function
     //
     function capturePhotoEdit() {
-      // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
-        destinationType: destinationType.DATA_URL });
+     clearCache();
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, allowEdit: true,
+        destinationType: destinationType.FILE_URI });
     }
 
     // A button will call this function
     //
     function getPhoto(source) {
+     clearCache();
       // Retrieve image file location from specified source
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 90,
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
         destinationType: destinationType.FILE_URI,
         sourceType: source });
     }
@@ -250,10 +259,14 @@ function registerDevice()
     // Called if something bad happens.
     //
     function onFail(message) {
-      alert('Failed because: ' + message);
+        setTimeout(function() {
+            alert('Image not taken because: ' + message);
+        }, 0);
+     
     }
 function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
 {
+    
     $.ajax({
               
         url:'http://www.02ws.co.il/apn_register.php',
@@ -267,21 +280,45 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
           
 }
 function sendPic(){
-        postNewPictureToServer($('#nameonpic').val(), $('#commentonpic').val(), 0, 0, imageURI, imageData);
+        
+        postNewPictureToServer(imageURI, $('#nameonpic').val(), $('#commentonpic').val(), 0, 0);
         $('#imagepreviewContainer').hide();
 }
-function postNewPictureToServer(nameOnPic, comments, x, y, picname, picdata)
+function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
 {
-    $.ajax({
-              
-        url:'http://www.02ws.co.il/user_picture_reciever.php',
-        type:'POST',
-        data:{name:nameOnPic, comments:comments, x: x, y: y, picname:picname, pic: picdata},
-        crossDomain:true,
-        success: function(data){
-        console.log('picture sent token successfully');
+   var win = function (r) {
+        clearCache();
+        retries = 0;
+        console.log("Code = " + r.responseCode);
+        console.log("Response = " + r.response);
+        console.log("Sent = " + r.bytesSent);
+        navigator.notification.alert(currentLocale.sentsuccess);
+    }
+ 
+    var fail = function (error) {
+        if (retries == 0) {
+            retries ++
+            setTimeout(function() {
+                postNewPictureToServer(fileURI, nameOnPic, comments, x, y);
+            }, 1000)
+        } else {
+            retries = 0;
+            clearCache();
+            navigator.notification.alert('Ups. Something wrong happens! Code = ' + error.code);
         }
-       });
+    }
+    //navigator.notification.alert("postNewPictureToServer: "+fileURI);
+    var options = new FileUploadOptions();
+    options.fileKey = "pic";
+    options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+    options.mimeType = "image/jpeg";
+    options.chunkedMode = false;
+    options.headers = {
+    Connection: "close"
+    };
+    options.params = {name:nameOnPic, comments:comments, x:x, y:y, picname:options.fileName}; // if we need to send parameters to the server request
+    var ft = new FileTransfer();
+    ft.upload(fileURI, encodeURI("http://www.02ws.co.il/user_picture_reciever.php"), win, fail, options);
           
 }
 function tokenHandler(result)
@@ -342,8 +379,8 @@ var options = {
 }
 
 var onShareSuccess = function(result) {
-  console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
-  console.log("Shared to app: " + result.app); // On Android result.app is currently empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+  console.log("Share completed? " + result.completed); 
+  console.log("Shared to app: " + result.app); 
 }
 
 var onShareError = function(msg) {
@@ -443,7 +480,15 @@ function onNotificationGCM (e) {
     break;
   }
 }
+function handleExternalURLs() {
 
+    $(document).on('click', 'a[href^="http"]', function (e) {
+        var url = $(this).attr('href');
+        window.open(url, '_system');
+        e.preventDefault();
+    });
+    
+}
 $(document).ready(function() {
     $("[name='radio-choice-lang']").live('change mousedown',function(event) { 
         onLanguageChoose(this.value, window.localStorage.getItem("cloth") , window.localStorage.getItem("fulltext"), window.localStorage.getItem("sound"));
@@ -470,12 +515,18 @@ $(document).ready(function() {
         capturePhotoEdit();
     });
     $("[id='btn_choosepic']").live('click',function(event) {
-        //getPhoto(pictureSource.SAVEDPHOTOALBUM);
         getPhoto(pictureSource.PHOTOLIBRARY);
     });
-    bindStrings();
-    pictureSource=navigator.camera.PictureSourceType;
-    destinationType=navigator.camera.DestinationType;
+    $("[id='btn_choosepicalbum']").live('click',function(event) {
+        getPhoto(pictureSource.SAVEDPHOTOALBUM);
+       
+    });
+    $("[id='btn_okclosepanel']").live('click',function(event) {
+        $('#navpanel').panel('close');
+       
+    });
+    handleExternalURLs();
+    
 });
 
 

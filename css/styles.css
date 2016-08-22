@@ -11,6 +11,7 @@ body {
     background-color: #fff;
     overflow: hidden;
     position: relative;
+    text-transform: none;
 }
 
 .header {
@@ -166,16 +167,16 @@ h2 {
             margin:0; /*make the buttons flush to the top*/
         }
         #header {
-            height:60px;
+            height:40px;
         }
         #bars-button, #refresh-button, #camera-button, #share-button {
-            margin:10px 2px;
+            margin:0px;
         }
         #applicationContainer{
             padding:0
         }
         #logo{
-            margin:10px;
+            margin:2px 10px;
         }
         #loading{
             padding:2em;

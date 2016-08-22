@@ -15,28 +15,34 @@
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/strings.js"></script>
         <script type="text/javascript" src="lib/PushNotification.js"></script>
+        <script type="text/javascript" src="lib/cordova-exif.js"></script>
+        <script type="text/javascript" src="lib/exifutil.js"></script>
         <script src="lib/jquery.plugin.pullToRefresh.js"></script>
         <title>ירושמיים</title>
     </head>
     <body>
         <div data-role="page" id="home" data-theme="a">
-            <div id="header" data-role="header" data-theme="c">
+            <div id="header" data-role="footer" data-theme="c" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><div id="logo"  data-position="left" ><img src="img/ic_launcher_02ws.png" width="35" align="absmiddle"/>ירושמיים </div></li>
+                        <li><a id="refresh-button" data-icon="refresh" data-role="button" href="javascript:onRefresh()" data-iconpos="notext"></a></li>
+                        <li><a id="camera-button" data-icon="camera" data-role="button" href="#campanel" data-iconpos="notext"></a></li>
+                        <li><a id="share-button" data-icon="action" data-role="button" href="javascript:onShareClick()" data-iconpos="notext"></a></li>
+                        <li><a id="bars-button" data-icon="bars" data-role="button" href="#navpanel" data-iconpos="notext"></a></li>
+                        
+                    </ul>
+                </div>
+                
 
-                <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
-                   <a id="refresh-button" data-icon="refresh" data-role="button" href="javascript:onRefresh()" data-iconpos="notext">Refresh</a>
-                   <a id="camera-button" data-icon="camera" data-role="button" href="#campanel" data-iconpos="notext">Camera</a>
-                   <a id="share-button" data-icon="action" data-role="button" href="javascript:onShareClick()" data-iconpos="notext">Share</a>
-                   <a id="bars-button" data-icon="bars" data-role="button" href="#navpanel" data-iconpos="notext">Panel</a>
-
-                 </div>
-
-                <div id="logo"  data-position="left" ><img src="img/ic_launcher_02ws.png" width="35" align="absmiddle"/>ירושמיים </div>
+                
 
             </div>
             <div data-role="panel" id="campanel" data-theme="a"
                  data-display="overlay" data-position="right">
-                <input type="button" id="btn_takepic" value="take pic"/>
-                <input type="button" id="btn_choosepic" value="choose pic from gallery" />
+                <button type="button" id="btn_takepic" ></button>
+                <button type="button" id="btn_choosepic"  ></button>
+                <button type="button" id="btn_choosepicalbum"  ></button>
             </div>
             <div data-role="panel" id="navpanel" data-theme="a"
                  data-display="overlay" data-position="right">
@@ -66,7 +72,7 @@
                     
                     <input type="checkbox" id="checkbox_sound" name="checkbox_sound">
                     <label for="checkbox_sound" id="lblsound">Sound in forecast</label>
-
+                     <button type="button" id="btn_okclosepanel"  >Ok</button>
                 </div>
             </div>
 
@@ -81,9 +87,9 @@
             </div>
             <div id="imagepreviewContainer" data-role="content" style="display: none">
                  <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
-                 <img style="display:none;" id="largeImage" src="" />
-                 <input type="text" id="nameonpic" value="" />
-                 <input type="text" id="commentonpic" value="" />
+                 <img style="display:none;width:320px;" id="largeImage" src="" />
+                 <input type="text" id="nameonpic" value="" placeholder="name"/>
+                 <input type="text" id="commentonpic" value="" placeholder="comment"/>
                  <input type="button" id="btn_sendpic" value="Send Pic" onclick="sendPic()"/>
                  <input type="button" id="btn_cancel" value="cancel" onclick="cancelPic()"/>
                  
