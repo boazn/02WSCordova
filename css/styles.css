@@ -188,3 +188,10 @@ h2 {
             text-align:center;
             
         }
+        #imagepreviewContainer{
+            position:absolute;
+            top:0;
+            left:0;
+            width:320px;
+            z-index:1000;
+        }

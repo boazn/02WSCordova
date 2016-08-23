@@ -8,7 +8,7 @@
         Boaz Nechemia
     </author>
     <content src="index.html"/>
-    <access origin="*"/>
+    
     <preference name="permissions" value="none"/>
     <preference name="phonegap-version" value="3.7.0"/>
     <preference name="orientation" value="default"/>

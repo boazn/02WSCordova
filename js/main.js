@@ -46,21 +46,21 @@ var app = {
         if ((iscloth == "null")||(iscloth == undefined)) {iscloth = true;};
         window.localStorage.setItem("cloth", iscloth);
         if (iscloth == "true")
-        $('#checkbox_cloth').attr('checked', iscloth);
+            $('#checkbox_cloth').attr('checked', 'checked');
         
         //ini fulltext
         var isfulltext = window.localStorage.getItem("fulltext");
         if ((isfulltext == "null")||(isfulltext == undefined)){isfulltext = false;};
         window.localStorage.setItem("fulltext", isfulltext);
         if (isfulltext == "true")
-        $('#checkbox_fulltext').attr('checked', isfulltext);
+            $('#checkbox_fulltext').attr('checked', 'checked');
         
         //ini sound
         var issound = window.localStorage.getItem("sound");
         if ((issound == "null")||(issound == undefined)){issound = true;};
         window.localStorage.setItem("sound", issound);
         if (issound == "true")
-        $('#checkbox_sound').attr('checked', issound);
+            $('#checkbox_sound').attr('checked', 'checked');
        
         onLanguageChoose(lang, iscloth, isfulltext, issound);
         
@@ -358,6 +358,8 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         if (navigator.notification)
                     navigator.notification.alert(iscloth + ' ' + isfulltext + ' ' + issound);
         var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
+        if (navigator.notification)
+                navigator.notification.alert(url);
         $('#02wsframe').attr('src', url);
         $('#loading').hide();
        // $('#navpanel').panel('close');
