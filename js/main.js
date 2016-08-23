@@ -61,8 +61,7 @@ var app = {
         window.localStorage.setItem("sound", issound);
         if (issound == "true")
         $('#checkbox_sound').attr('checked', issound);
-        
-        
+       
         onLanguageChoose(lang, iscloth, isfulltext, issound);
         
         
@@ -220,12 +219,8 @@ function registerDevice()
     function onPhotoURISuccess(result) {
       $('#campanel').panel('close');
       $('#imagepreviewContainer').show();
-      CordovaExif.readData(result, function(exifObject) {
-       // navigator.notification.alert(exifObject);
-        
-      });
       console.log(result);
-      //navigator.notification.alert(result);
+      navigator.notification.alert(result);
        
         var largeImage = document.getElementById('largeImage');
         largeImage.style.display = 'block';
@@ -242,8 +237,8 @@ function registerDevice()
     //
     function capturePhotoEdit() {
      clearCache();
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, allowEdit: true,
-        destinationType: destinationType.FILE_URI });
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 60, allowEdit: true,
+        destinationType: destinationType.FILE_URI,saveToPhotoAlbum:true });
     }
 
     // A button will call this function
@@ -251,7 +246,7 @@ function registerDevice()
     function getPhoto(source) {
      clearCache();
       // Retrieve image file location from specified source
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 60,
         destinationType: destinationType.FILE_URI,
         sourceType: source });
     }
@@ -359,7 +354,8 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         window.localStorage.setItem("cloth", iscloth);
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
-        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&ft=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
+        navigator.notification.alert(iscloth + ' ' + isfulltext + ' ' + issound);
+        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
         $('#02wsframe').attr('src', url);
         $('#loading').hide();
        // $('#navpanel').panel('close');
@@ -371,9 +367,9 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 }
 // this is the complete list of currently supported params you can pass to the plugin (all optional)
 var options = {
-  message: 'share this', // not supported on some apps (Facebook, Instagram)
+  message: 'שיתוף', // not supported on some apps (Facebook, Instagram)
   subject: 'שיתוף אפליקציה', // fi. for email
-  files: ['http://www.02ws.co.il/02ws_short.png', 'http://www.02ws.co.il/02ws_short_eng.png'], // an array of filenames either locally or remotely
+  files: ['http://www.02ws.co.il/02ws_short.png'], // an array of filenames either locally or remotely
   url: 'https://itunes.apple.com/us/app/yrwsmyym/id925504632?mt=8',
   chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
 }
@@ -525,6 +521,11 @@ $(document).ready(function() {
         $('#navpanel').panel('close');
        
     });
+    
+    $('img').each(function(i, el) {
+        $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
+    });
+
     handleExternalURLs();
     
 });

@@ -8,6 +8,7 @@
         Boaz Nechemia
     </author>
     <content src="index.html"/>
+    <access origin="*"/>
     <preference name="permissions" value="none"/>
     <preference name="phonegap-version" value="3.7.0"/>
     <preference name="orientation" value="default"/>
@@ -28,8 +29,10 @@
     <preference name="SplashScreen" value="Default.png" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="SplashScreenDelay" value="3000" />
+    <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="CameraUsesGeolocation" value="true" />
     <preference name="EnableViewportScale" value="true" />
+    <preference name="OpenAllWhitelistURLsInWebView" value="true" />
     <plugin name="cordova-plugin-console" spec="1.0.1" source="pgb" />
     <plugin name="cordova-plugin-device" spec="1.0.1" source="pgb" />
     <plugin name="org.apache.cordova.file" spec="1.3.3" source="pgb" />
@@ -85,6 +88,6 @@
     <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.png"/>
     <gap:splash gap:platform="blackberry" src="www/res/screen/blackberry/screen-225.png"/>
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg"/>
-    <access origin="*"/>
+    
     
 </widget>

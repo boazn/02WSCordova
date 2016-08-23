@@ -11,7 +11,9 @@ var locales = {
     takepic:'take pic',
     chooselib:'choose pic from library',
     choosealbum:'choose pic from album',
-    sentsuccess:'picture sent successfully'
+    sentsuccess:'picture sent successfully',
+    share:'share this...'
+    
   },
   he: {
     hello: 'שלום',
@@ -24,7 +26,8 @@ var locales = {
     takepic:'צילום תמונה',
     chooselib:'בחירת תמונה מספריה',
     choosealbum:'בחירת תמונה מאלבום',
-    sentsuccess:'התמונה נשלחה בהצלחה. תודה'
+    sentsuccess:'התמונה נשלחה בהצלחה. תודה',
+    share:'שיתוף'
   }
 };
  function bindStrings(){
