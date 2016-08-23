@@ -8,7 +8,6 @@
         Boaz Nechemia
     </author>
     <content src="index.html"/>
-    
     <preference name="permissions" value="none"/>
     <preference name="phonegap-version" value="3.7.0"/>
     <preference name="orientation" value="default"/>
@@ -16,7 +15,6 @@
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="false"/>
     <preference name="prerendered-icon" value="true"/>
-    <preference name="stay-in-webview" value="true"/>
     <preference name="ios-statusbarstyle" value="black-opaque"/>
     <preference name="detect-data-types" value="true"/>
     <preference name="exit-on-suspend" value="false"/>
@@ -44,7 +42,10 @@
     <plugin name="org.apache.cordova.camera" spec="0.3.6" source="pgb" />
     <plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <plugin name="cordova-plugin-dialogs" source="npm" />
-    
+    <plugin name="com.indigoway.cordova.whitelist.whitelistplugin" spec="1.1.1" source="pgb" />
+    <!-- Allow links to web pages to open in a browser -->
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
     <feature name="StatusBar">
             <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
