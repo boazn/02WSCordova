@@ -354,7 +354,9 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         window.localStorage.setItem("cloth", iscloth);
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
-        navigator.notification.alert(iscloth + ' ' + isfulltext + ' ' + issound);
+        console.log(iscloth + ' ' + isfulltext + ' ' + issound);
+        if (navigator.notification)
+                    navigator.notification.alert(iscloth + ' ' + isfulltext + ' ' + issound);
         var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
         $('#02wsframe').attr('src', url);
         $('#loading').hide();
