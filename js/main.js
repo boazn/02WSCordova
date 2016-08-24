@@ -217,17 +217,16 @@ function registerDevice()
     // Called when a photo is successfully retrieved
     //
     function onPhotoURISuccess(result) {
-      $('#campanel').panel('close');
-      $('#imagepreviewContainer').show();
-      console.log(result);
-      setTimeout(function() {
-	 navigator.notification.alert(result);
+        setTimeout(function() {
+	 alert(result);
 	}, 0);
       
         var largeImage = document.getElementById('largeImage');
         largeImage.style.display = 'block';
         largeImage.src = result;
         imageURI = result;
+        $('#campanel').panel('close');
+      	$('#imagepreviewContainer').show();
         
     
     }
@@ -313,7 +312,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     options.headers = {
     Connection: "close"
     };
-    options.params = {name:nameOnPic, comments:comments, x:x, y:y, picname:options.fileName}; // if we need to send parameters to the server request
+    options.params = {name:nameOnPic, comment:comments, x:x, y:y, picname:options.fileName}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
     ft.upload(fileURI, encodeURI("http://www.02ws.co.il/user_picture_reciever.php"), win, fail, options);
           
