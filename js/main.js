@@ -226,8 +226,8 @@ function registerDevice()
    	var thisResult = JSON.parse(result);
    	var metadata = JSON.parse(thisResult.json_metadata);
 	navigator.notification.alert('Lat: '+metadata.GPS.Latitude+' Lon: '+metadata.GPS.Longitude);
-	x = metadata.GPS.Latitude;
-	y = metadata.GPS.Longitude
+	y = metadata.GPS.Latitude;
+	x = metadata.GPS.Longitude
         var largeImage = document.getElementById('largeImage');
         largeImage.style.display = 'block';
         largeImage.src = thisResult.filename;
