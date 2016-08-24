@@ -44,8 +44,7 @@
     <plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <plugin name="cordova-plugin-dialogs" source="npm" />
     <plugin name="com.indigoway.cordova.whitelist.whitelistplugin" spec="1.1.1" source="pgb" />
-    <!-- Allow links to web pages to open in a browser -->
-    <allow-navigation href="*" />
+    
     <feature name="StatusBar">
             <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
