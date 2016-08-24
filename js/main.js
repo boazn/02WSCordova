@@ -575,6 +575,6 @@ $(document).ready(function() {
     });
 
     handleExternalURLs();
-    openAllLinksWithBlankTargetInSystemBrowser();
+    //  openAllLinksWithBlankTargetInSystemBrowser();
 });
 
