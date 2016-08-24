@@ -3,6 +3,8 @@ var pictureSource;   // picture source
 var destinationType;
 var imageData;
 var imageURI;// sets the format of returned value
+var x;
+var y;
 var retries = 0;
 var app = {
         // Application Constructor
@@ -217,15 +219,21 @@ function registerDevice()
     // Called when a photo is successfully retrieved
     //
     function onPhotoURISuccess(result) {
-      $('#campanel').panel('close');
-      $('#imagepreviewContainer').show();
-      console.log(result);
-      navigator.notification.alert(result);
-       
+        setTimeout(function() {
+	 alert(result);
+	}, 0);
+      
+   	var thisResult = JSON.parse(result);
+   	var metadata = JSON.parse(thisResult.json_metadata);
+	navigator.notification.alert('Lat: '+metadata.GPS.Latitude+' Lon: '+metadata.GPS.Longitude);
+	y = metadata.GPS.Latitude;
+	x = metadata.GPS.Longitude
         var largeImage = document.getElementById('largeImage');
         largeImage.style.display = 'block';
-        largeImage.src = result;
-        imageURI = result;
+        largeImage.src = thisResult.filename;
+        imageURI = thisResult.filename;
+        $('#campanel').panel('close');
+      	$('#imagepreviewContainer').show();
         
     
     }
@@ -276,7 +284,7 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
 }
 function sendPic(){
         
-        postNewPictureToServer(imageURI, $('#nameonpic').val(), $('#commentonpic').val(), 0, 0);
+        postNewPictureToServer(imageURI, $('#nameonpic').val(), $('#commentonpic').val(), x, y);
         $('#imagepreviewContainer').hide();
 }
 function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
@@ -311,7 +319,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     options.headers = {
     Connection: "close"
     };
-    options.params = {name:nameOnPic, comments:comments, x:x, y:y, picname:options.fileName}; // if we need to send parameters to the server request
+    options.params = {name:nameOnPic, comment:comments, x:x, y:y, picname:options.fileName}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
     ft.upload(fileURI, encodeURI("http://www.02ws.co.il/user_picture_reciever.php"), win, fail, options);
           
@@ -488,6 +496,42 @@ function handleExternalURLs() {
         e.preventDefault();
     });
     
+    
+    
+    
+}
+function openAllLinksWithBlankTargetInSystemBrowser() {
+    if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
+        throw new Error("You are trying to run this code for a non-cordova project, " +
+                "or did not install the cordova InAppBrowser plugin");
+    }
+
+    // Currently (for retrocompatibility reasons) the plugin automagically wrap window.open
+    // We don't want the plugin to always be run: we want to call it explicitly when needed
+    // See https://issues.apache.org/jira/browse/CB-9573
+    delete window.open; // scary, but it just sets back to the default window.open behavior
+    var windowOpen = window.open; // Yes it is not deleted !
+
+    // Note it does not take a target!
+    var systemOpen = function(url, options) {
+        // Do not use window.open becaus the InAppBrowser open will not proxy window.open
+        // in the future versions of the plugin (see doc) so it is safer to call InAppBrowser.open directly
+        cordova.InAppBrowser.open(url,"_system",options);
+    };
+
+
+    // Handle direct calls like window.open("url","_blank")
+    window.open = function(url,target,options) {
+        if ( target == "_blank" ) systemOpen(url,options);
+        else windowOpen(url,target,options);
+    };
+
+    // Handle html links like <a href="url" target="_blank">
+    // See https://issues.apache.org/jira/browse/CB-6747
+    $(document).on('click', 'a[target=_blank]', function(event) {
+        event.preventDefault();
+        systemOpen($(this).attr('href'));
+    });
 }
 $(document).ready(function() {
     $("[name='radio-choice-lang']").live('change mousedown',function(event) { 
@@ -531,8 +575,6 @@ $(document).ready(function() {
     });
 
     handleExternalURLs();
-    
+    openAllLinksWithBlankTargetInSystemBrowser();
 });
-
-
 
