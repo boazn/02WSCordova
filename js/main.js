@@ -220,8 +220,10 @@ function registerDevice()
       $('#campanel').panel('close');
       $('#imagepreviewContainer').show();
       console.log(result);
-      navigator.notification.alert(result);
-       
+      setTimeout(function() {
+	 navigator.notification.alert(result);
+	}, 0);
+      
         var largeImage = document.getElementById('largeImage');
         largeImage.style.display = 'block';
         largeImage.src = result;
