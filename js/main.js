@@ -3,6 +3,8 @@ var pictureSource;   // picture source
 var destinationType;
 var imageData;
 var imageURI;// sets the format of returned value
+var x;
+var y;
 var retries = 0;
 var app = {
         // Application Constructor
@@ -221,10 +223,15 @@ function registerDevice()
 	 alert(result);
 	}, 0);
       
+   	var thisResult = JSON.parse(result);
+   	var metadata = JSON.parse(thisResult.json_metadata);
+	navigator.notification.alert('Lat: '+metadata.GPS.Latitude+' Lon: '+metadata.GPS.Longitude);
+	x = metadata.GPS.Latitude;
+	y = metadata.GPS.Longitude
         var largeImage = document.getElementById('largeImage');
         largeImage.style.display = 'block';
-        largeImage.src = result;
-        imageURI = result;
+        largeImage.src = thisResult.filename;
+        imageURI = thisResult.filename;
         $('#campanel').panel('close');
       	$('#imagepreviewContainer').show();
         
@@ -277,7 +284,7 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
 }
 function sendPic(){
         
-        postNewPictureToServer(imageURI, $('#nameonpic').val(), $('#commentonpic').val(), 0, 0);
+        postNewPictureToServer(imageURI, $('#nameonpic').val(), $('#commentonpic').val(), x, y);
         $('#imagepreviewContainer').hide();
 }
 function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
