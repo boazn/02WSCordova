@@ -5,7 +5,7 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=320" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/styles.css"/>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
@@ -24,18 +24,19 @@
             <div id="header" data-role="footer" data-theme="c" data-position="fixed">
                 <div data-role="navbar">
                     <ul>
-                        <li><div id="logo"  data-position="left" ><img src="img/ic_launcher_02ws.png" width="35" align="absmiddle"/>ירושמיים </div></li>
                         <li><a id="refresh-button" data-icon="refresh" data-role="button" href="javascript:onRefresh()" data-iconpos="notext"></a></li>
+                        <li><a id="navpanel-button" data-icon="cloud" data-role="button" href="#navlinkpanel" data-iconpos="notext"></a></li>
                         <li><a id="camera-button" data-icon="camera" data-role="button" href="#campanel" data-iconpos="notext"></a></li>
                         <li><a id="share-button" data-icon="action" data-role="button" href="javascript:onShareClick()" data-iconpos="notext"></a></li>
                         <li><a id="bars-button" data-icon="bars" data-role="button" href="#navpanel" data-iconpos="notext"></a></li>
-                        
                     </ul>
                 </div>
-                
-
-                
-
+             </div>
+            <div data-role="panel" id="navlinkpanel" data-theme="a"
+                 data-display="overlay" data-position="right">
+                <button type="button" id="btn_radar" ></button>
+                <button type="button" id="btn_temp"  ></button>
+                <button type="button" id="btn_hum"  ></button>
             </div>
             <div data-role="panel" id="campanel" data-theme="a"
                  data-display="overlay" data-position="right">
@@ -71,7 +72,7 @@
                     
                     <input type="checkbox" id="checkbox_sound" name="checkbox_sound">
                     <label for="checkbox_sound" id="lblsound">Sound in forecast</label>
-                     <button type="button" id="btn_okclosepanel"  >Ok</button>
+                    <button type="button" id="btn_okclosepanel"  data-position="fixed" data-role="footer" >Ok</button>
                 </div>
             </div>
 
@@ -80,7 +81,7 @@
                 <div class="scrollable">
                 <div class="wrap">
                 <div id="loading">loading...טוען</div>
-                <iframe id="02wsframe" src="" style="width:100%;height:100%;border:0"  seamless ></iframe>
+                <iframe id="02wsframe" src="" style="width:100%;height:100%;border:0" sandbox="" seamless ></iframe>
                 </div>
                 </div>
             </div>

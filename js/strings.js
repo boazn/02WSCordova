@@ -12,7 +12,10 @@ var locales = {
     chooselib:'choose pic from library',
     choosealbum:'choose pic from album',
     sentsuccess:'picture sent successfully',
-    share:'share this...'
+    share:'share this...',
+    temppage:'temp page',
+    humpage:'hum page',
+    radar:'radar'
     
   },
   he: {
@@ -27,7 +30,10 @@ var locales = {
     chooselib:'בחירת תמונה מספריה',
     choosealbum:'בחירת תמונה מאלבום',
     sentsuccess:'התמונה נשלחה בהצלחה. תודה',
-    share:'שיתוף'
+    share:'שיתוף',
+    temppage:'גרף טמפ',
+    humpage:'גרף לחות',
+    radar:'מכ"ם גשם'
   }
 };
  function bindStrings(){
@@ -44,6 +50,10 @@ var locales = {
      $("#btn_takepic").html(currentLocale.takepic);
      $('#btn_choosepic').html(currentLocale.chooselib);
      $('#btn_choosepicalbum').html(currentLocale.choosealbum);
+     $('#btn_radar').html(currentLocale.radar);
+     $('#btn_temp').html(currentLocale.temppage);
+     $('#btn_hum').html(currentLocale.humpage);
+     
  }
 
  

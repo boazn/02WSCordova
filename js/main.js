@@ -500,6 +500,7 @@ function handleExternalURLs() {
     
     
 }
+
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
         throw new Error("You are trying to run this code for a non-cordova project, " +
@@ -569,7 +570,37 @@ $(document).ready(function() {
         $('#navpanel').panel('close');
        
     });
-    
+    $("[id='btn_radar']").live('click',function(event) {
+         var url = "http://www.02ws.co.il/small.php?section=radar.php&lang=1" ;
+        if (navigator.notification)
+                navigator.notification.alert(url);
+        $('#02wsframe').attr('src', url);
+        viewport = document.querySelector("meta[name=viewport]");
+        viewport.setAttribute('content', 'width=570');
+        $('#navlinkpanel').panel('close');
+       
+    });
+    $("[id='btn_temp']").live('click',function(event) {
+         var url = "http://www.02ws.co.il/small.php?section=radar.php&lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
+        if (navigator.notification)
+                navigator.notification.alert(url);
+        $('#02wsframe').attr('src', url);
+        viewport = document.querySelector("meta[name=viewport]");
+        viewport.setAttribute('content', 'width=960');
+       $('#navlinkpanel').panel('close');
+    });
+    $("[id='btn_hum']").live('click',function(event) {
+         var url = "http://www.02ws.co.il/small.php?section=radar.php&lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
+        if (navigator.notification)
+                navigator.notification.alert(url);
+        $('#02wsframe').attr('src', url);
+        viewport = document.querySelector("meta[name=viewport]");
+        viewport.setAttribute('content', 'width=960');
+        $('#navlinkpanel').panel('close');
+    });
+    $('#02wsframe').load(function(){
+        alert('frame has (re)loaded: ' + this.contentWindow.location);
+    });
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
