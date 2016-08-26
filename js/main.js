@@ -369,6 +369,8 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         if (navigator.notification)
                 navigator.notification.alert(url);
         $('#02wsframe').attr('src', url);
+        viewport = document.querySelector("meta[name=viewport]");
+        viewport.setAttribute('content', 'width=320');
         $('#loading').hide();
        // $('#navpanel').panel('close');
    }
@@ -582,8 +584,8 @@ $(document).ready(function() {
        
     });
     $('#02wsframe').load(function(){
-        alert('frame has (re)loaded: ' + this.contentWindow.location);
-        console.log('frame has (re)loaded: ' + this.contentWindow.location);
+        //alert('frame has (re)loaded: ' + this.contentWindow.location);
+        console.log('02wsframe has (re)loaded ');
     });
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
