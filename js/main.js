@@ -578,28 +578,8 @@ $(document).ready(function() {
         viewport = document.querySelector("meta[name=viewport]");
         viewport.setAttribute('content', 'width=570');
         $('#navlinkpanel').panel('close');
-        $('#navlinkpanel').trigger( "updatelayout" );
-       
-    });
-    $("[id='btn_temp']").live('click',function(event) {
-         var url = "http://www.02ws.co.il/small.php?section=graph.php&lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
-        if (navigator.notification)
-                navigator.notification.alert(url);
-        $('#02wsframe').attr('src', url);
-        viewport = document.querySelector("meta[name=viewport]");
-        viewport.setAttribute('content', 'width=960');
-       $('#navlinkpanel').panel('close');
-       
-    });
-    $("[id='btn_hum']").live('click',function(event) {
-         var url = "http://www.02ws.co.il/small.php?section=graph.php&lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
-        if (navigator.notification)
-                navigator.notification.alert(url);
-        $('#02wsframe').attr('src', url);
-        viewport = document.querySelector("meta[name=viewport]");
-        viewport.setAttribute('content', 'width=960');
-        $('#navlinkpanel').panel('close');
         
+       
     });
     $('#02wsframe').load(function(){
         alert('frame has (re)loaded: ' + this.contentWindow.location);

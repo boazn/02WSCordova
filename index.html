@@ -15,8 +15,8 @@
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/strings.js"></script>
         <script type="text/javascript" src="lib/PushNotification.js"></script>
-        <script type="text/javascript" src="lib/cordova-exif.js"></script>
-        <script src="lib/jquery.plugin.pullToRefresh.js"></script>
+        <script type="text/javascript" src="lib/iscroll.js"></script>
+        <script type="text/javascript" src="lib/jquery.plugin.pullToRefresh.js"></script>
         <title>ירושמיים</title>
     </head>
     <body>
@@ -24,11 +24,11 @@
             <div id="header" data-role="footer" data-theme="c" data-position="fixed">
                 <div data-role="navbar">
                     <ul>
-                        <li><a id="refresh-button" data-icon="refresh" data-role="button" href="javascript:onRefresh()" data-iconpos="notext"></a></li>
-                        <li><a id="navpanel-button" data-icon="cloud" data-role="button" href="#navlinkpanel" data-iconpos="notext"></a></li>
-                        <li><a id="camera-button" data-icon="camera" data-role="button" href="#campanel" data-iconpos="notext"></a></li>
-                        <li><a id="share-button" data-icon="action" data-role="button" href="javascript:onShareClick()" data-iconpos="notext"></a></li>
-                        <li><a id="bars-button" data-icon="bars" data-role="button" href="#navpanel" data-iconpos="notext"></a></li>
+                        <li><a id="refresh-button" data-icon="refresh" data-role="button" href="javascript:onRefresh()" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="navpanel-button" data-icon="cloud" data-role="button" href="#navlinkpanel" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="camera-button" data-icon="camera" data-role="button" href="#campanel" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="share-button" data-icon="action" data-role="button" href="javascript:onShareClick()" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="bars-button" data-icon="bars" data-role="button" href="#navpanel" data-iconpos="notext" class="header-button"></a></li>
                     </ul>
                 </div>
              </div>
