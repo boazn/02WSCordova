@@ -104,7 +104,7 @@ var app = {
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
         pushNotification = window.plugins.pushNotification;
-        console.log('file plugin: ' + cordova.file.applicationDirectory);
+        //console.log('file plugin: ' + cordova.file.applicationDirectory);
         var token = window.localStorage.getItem("token");
         if (token == undefined)
         {
@@ -373,7 +373,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
        // $('#navpanel').panel('close');
    }
      catch (e) {
-        console.log(e);
+        console.log('error on onLanguageChoose: ' + e);
     }
     
 }
@@ -583,12 +583,13 @@ $(document).ready(function() {
     });
     $('#02wsframe').load(function(){
         alert('frame has (re)loaded: ' + this.contentWindow.location);
+        console.log('frame has (re)loaded: ' + this.contentWindow.location);
     });
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
     
-    handleExternalURLs();
+    //handleExternalURLs();
     //openAllLinksWithBlankTargetInSystemBrowser();
 });
 
