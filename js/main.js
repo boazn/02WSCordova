@@ -100,8 +100,8 @@ var app = {
           setTimeout(function() {
                 navigator.splashscreen.hide();
           }, 3000);
-        app.startup();
         bindStrings();
+        startup();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
         pushNotification = window.plugins.pushNotification;
@@ -361,20 +361,16 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 {
     try {
         app.saveLang(value);
-        /*window.localStorage.setItem("cloth", iscloth);
+        window.localStorage.setItem("cloth", iscloth);
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
         console.log(iscloth + ' ' + isfulltext + ' ' + issound);
         var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
-        */
-        var url = "http://www.02ws.co.il/small.php?lang=1" ;
         if (navigator.notification)
                 navigator.notification.alert(url);
         console.log(url);    
         $('#02wsframe').attr('src', url);
-        //viewport = document.querySelector("meta[name=viewport]");
-        //viewport.setAttribute('content', 'width=320');
-        
+        setView(320);
        // $('#navpanel').panel('close');
    }
      catch (e) {
@@ -505,7 +501,10 @@ function handleExternalURLs() {
     
     
 }
-
+function setView(width){
+    viewport = document.querySelector("meta[name=viewport]");
+    viewport.setAttribute('content', 'width=' + width);
+}
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
         throw new Error("You are trying to run this code for a non-cordova project, " +
@@ -576,17 +575,55 @@ $(document).ready(function() {
        
     });
     $("[id='btn_radar']").live('click',function(event) {
-         var url = "http://www.02ws.co.il/small.php?section=radar.php&lang=1" ;
+        lang = window.localStorage.getItem("lang");
+        iscloth = window.localStorage.getItem("cloth");
+        isfulltext = window.localStorage.getItem("fulltext");
+        issound = window.localStorage.getItem("sound");
+         var url = "http://www.02ws.co.il/small.php?section=radar.php&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
         if (navigator.notification)
                 navigator.notification.alert(url);
         $('#02wsframe').attr('src', url);
-        viewport = document.querySelector("meta[name=viewport]");
-        viewport.setAttribute('content', 'width=570');
+        setView(960);
         $('#navlinkpanel').panel('close');
         
        
     });
+    $("[id='btn_temp']").live('click',function(event) {
+        lang = window.localStorage.getItem("lang");
+        iscloth = window.localStorage.getItem("cloth");
+        isfulltext = window.localStorage.getItem("fulltext");
+        issound = window.localStorage.getItem("sound");
+         var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
+        if (navigator.notification)
+                navigator.notification.alert(url);
+        $('#02wsframe').attr('src', url);
+        setView(960);
+        $('#navlinkpanel').panel('close');
+        
        
+    });
+    $("[id='btn_hum']").live('click',function(event) {
+        lang = window.localStorage.getItem("lang");
+        iscloth = window.localStorage.getItem("cloth");
+        isfulltext = window.localStorage.getItem("fulltext");
+        issound = window.localStorage.getItem("sound");
+         var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
+        if (navigator.notification)
+                navigator.notification.alert(url);
+        $('#02wsframe').attr('src', url);
+        setView(960);
+        $('#navlinkpanel').panel('close');
+        
+       
+    });
+    $("[id='btn_home']").live('click',function(event) {
+        lang = window.localStorage.getItem("lang");
+        iscloth = window.localStorage.getItem("cloth");
+        isfulltext = window.localStorage.getItem("fulltext");
+        issound = window.localStorage.getItem("sound");
+        onLanguageChoose(lang, iscloth, isfulltext, issound);
+        
+    });   
     $('#02wsframe').load(function(){
         //alert('frame has (re)loaded: ' + this.contentWindow.location);
         console.log('02wsframe has (re)loaded ');

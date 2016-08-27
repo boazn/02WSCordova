@@ -15,7 +15,8 @@ var locales = {
     share:'share this...',
     temppage:'temp page',
     humpage:'hum page',
-    radar:'radar'
+    radar:'radar',
+    home:'home'
     
   },
   he: {
@@ -33,7 +34,8 @@ var locales = {
     share:'שיתוף',
     temppage:'גרף טמפ',
     humpage:'גרף לחות',
-    radar:'מכ"ם גשם'
+    radar:'מכ"ם גשם',
+    home:'עמוד ראשי'
   }
 };
  function bindStrings(){
