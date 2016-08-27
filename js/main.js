@@ -12,6 +12,7 @@ var app = {
     initialize: function() {
         app.bindEvents();
         var self = this;
+        app.startup();
      },
     startup:function(){
         
@@ -66,7 +67,7 @@ var app = {
         window.localStorage.setItem("sound", issound);
         if (issound == "true")
             $('#checkbox_sound').attr('checked', 'checked');
-        
+        console.log("startup finished");
         onLanguageChoose(lang, iscloth, isfulltext, issound);
     },
     // Bind Event Listeners
@@ -101,7 +102,6 @@ var app = {
                 navigator.splashscreen.hide();
           }, 3000);
         bindStrings();
-        startup();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
         pushNotification = window.plugins.pushNotification;
@@ -631,17 +631,6 @@ $(document).ready(function() {
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
-    $('.scrollable').pullToRefresh({
-        callback: function () {
-            var deferred = $.Deferred();
-
-            onRefresh();
-
-            return deferred.promise();
-        }
-    });
-    
-    
     handleExternalURLs();
     openAllLinksWithBlankTargetInSystemBrowser();
 });

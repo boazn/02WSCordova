@@ -55,6 +55,7 @@ var locales = {
      $('#btn_radar').html(currentLocale.radar);
      $('#btn_temp').html(currentLocale.temppage);
      $('#btn_hum').html(currentLocale.humpage);
+     $('#btn_home').html(currentLocale.home);
      
  }
 

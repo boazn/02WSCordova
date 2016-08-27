@@ -13,7 +13,6 @@
     <preference name="orientation" value="default"/>
     <preference name="target-device" value="universal"/>
     <preference name="fullscreen" value="false"/>
-    <preference name="webviewbounce" value="false"/>
     <preference name="prerendered-icon" value="true"/>
     <preference name="ios-statusbarstyle" value="black-opaque"/>
     <preference name="detect-data-types" value="true"/>
