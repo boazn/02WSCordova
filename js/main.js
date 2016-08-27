@@ -365,7 +365,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
         console.log(iscloth + ' ' + isfulltext + ' ' + issound);
-        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
+        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0);
         if (navigator.notification)
                 navigator.notification.alert(url);
         console.log(url);    
@@ -552,13 +552,13 @@ $(document).ready(function() {
         onNotificationsCheck($("[name='checkbox_notifications']").is(":checked"), $("[name='checkbox_shortnotifications']").is(":checked"), this.checked);
     }); 
     $("[name='checkbox_cloth']").live('change',function(event) { 
-        onLanguageChoose(window.localStorage.getItem("lang"), this.checked, window.localStorage.getItem("fulltext"), window.localStorage.getItem("sound"));
+        onLanguageChoose(window.localStorage.getItem("lang"), this.checked, window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
     });
     $("[name='checkbox_fulltext']").live('change',function(event) { 
-        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth"), this.checked, window.localStorage.getItem("sound"));
+        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", this.checked, window.localStorage.getItem("sound")=== "true");
     });
     $("[name='checkbox_sound']").live('change',function(event) { 
-        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth"), window.localStorage.getItem("fulltext"), this.checked);
+        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", this.checked);
     });
     $("[id='btn_takepic']").live('click',function(event) { 
         capturePhotoEdit();
