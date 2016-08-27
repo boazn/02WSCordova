@@ -364,10 +364,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         window.localStorage.setItem("cloth", iscloth);
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
-        console.log(iscloth + ' ' + isfulltext + ' ' + issound);
         var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0);
-        if (navigator.notification)
-                navigator.notification.alert(url);
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
@@ -503,7 +500,7 @@ function handleExternalURLs() {
 }
 function setView(width){
     viewport = document.querySelector("meta[name=viewport]");
-    viewport.setAttribute('content', 'width=' + width);
+    viewport.setAttribute('content', 'user-scalable=no,width=' + width);
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
@@ -580,10 +577,8 @@ $(document).ready(function() {
         isfulltext = window.localStorage.getItem("fulltext");
         issound = window.localStorage.getItem("sound");
          var url = "http://www.02ws.co.il/small.php?section=radar.php&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
-        if (navigator.notification)
-                navigator.notification.alert(url);
         $('#02wsframe').attr('src', url);
-        setView(960);
+        setView(570);
         $('#navlinkpanel').panel('close');
         
        
@@ -593,11 +588,9 @@ $(document).ready(function() {
         iscloth = window.localStorage.getItem("cloth");
         isfulltext = window.localStorage.getItem("fulltext");
         issound = window.localStorage.getItem("sound");
-         var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
-        if (navigator.notification)
-                navigator.notification.alert(url);
+         var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
         $('#02wsframe').attr('src', url);
-        setView(960);
+        setView(570);
         $('#navlinkpanel').panel('close');
         
        
@@ -607,11 +600,10 @@ $(document).ready(function() {
         iscloth = window.localStorage.getItem("cloth");
         isfulltext = window.localStorage.getItem("fulltext");
         issound = window.localStorage.getItem("sound");
-         var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
-        if (navigator.notification)
-                navigator.notification.alert(url);
+         var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
+        
         $('#02wsframe').attr('src', url);
-        setView(960);
+        setView(570);
         $('#navlinkpanel').panel('close');
         
        
