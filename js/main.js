@@ -6,15 +6,12 @@ var imageURI;// sets the format of returned value
 var x;
 var y;
 var retries = 0;
-var viewport;
 var app = {
         // Application Constructor
     initialize: function() {
-        app.bindEvents();
+        $('#loading').show();
+        this.bindEvents();
         var self = this;
-     },
-    startup:function(){
-        
         var lang = window.localStorage.getItem("lang");
         if (lang == undefined)
         {
@@ -28,7 +25,7 @@ var app = {
         if ((isToNotify == "null")||(isToNotify == undefined))
         {
             isToNotify = true;
-            app.saveIsToNotify(true, true, true);
+            this.saveIsToNotify(true, true, true);
         }
         if (isToNotify)
         $('#checkbox_notifications').attr('checked', isToNotify);
@@ -66,8 +63,11 @@ var app = {
         window.localStorage.setItem("sound", issound);
         if (issound == "true")
             $('#checkbox_sound').attr('checked', 'checked');
-        
+       
         onLanguageChoose(lang, iscloth, isfulltext, issound);
+        
+        
+        
     },
     // Bind Event Listeners
     //
@@ -100,12 +100,11 @@ var app = {
           setTimeout(function() {
                 navigator.splashscreen.hide();
           }, 3000);
-        app.startup();
-        bindStrings();
+          bindStrings();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
         pushNotification = window.plugins.pushNotification;
-        //console.log('file plugin: ' + cordova.file.applicationDirectory);
+        console.log('file plugin: ' + cordova.file.applicationDirectory);
         var token = window.localStorage.getItem("token");
         if (token == undefined)
         {
@@ -137,7 +136,6 @@ var app = {
 	},
    
     saveLang:function(lang){
-        console.log('saved lang=' + lang);
         window.localStorage.setItem("lang", lang);
     }
     ,
@@ -361,24 +359,21 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 {
     try {
         app.saveLang(value);
-        /*window.localStorage.setItem("cloth", iscloth);
+        window.localStorage.setItem("cloth", iscloth);
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
         console.log(iscloth + ' ' + isfulltext + ' ' + issound);
+        if (navigator.notification)
+                    navigator.notification.alert(iscloth + ' ' + isfulltext + ' ' + issound);
         var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
-        */
-        var url = "http://www.02ws.co.il/small.php?lang=1" ;
         if (navigator.notification)
                 navigator.notification.alert(url);
-        console.log(url);    
         $('#02wsframe').attr('src', url);
-        //viewport = document.querySelector("meta[name=viewport]");
-        //viewport.setAttribute('content', 'width=320');
-        
+        $('#loading').hide();
        // $('#navpanel').panel('close');
    }
      catch (e) {
-        console.log('error on onLanguageChoose: ' + e);
+        console.log(e);
     }
     
 }
@@ -501,43 +496,6 @@ function handleExternalURLs() {
         e.preventDefault();
     });
     
-    
-    
-    
-}
-
-function openAllLinksWithBlankTargetInSystemBrowser() {
-    if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
-        throw new Error("You are trying to run this code for a non-cordova project, " +
-                "or did not install the cordova InAppBrowser plugin");
-    }
-
-    // Currently (for retrocompatibility reasons) the plugin automagically wrap window.open
-    // We don't want the plugin to always be run: we want to call it explicitly when needed
-    // See https://issues.apache.org/jira/browse/CB-9573
-    delete window.open; // scary, but it just sets back to the default window.open behavior
-    var windowOpen = window.open; // Yes it is not deleted !
-
-    // Note it does not take a target!
-    var systemOpen = function(url, options) {
-        // Do not use window.open becaus the InAppBrowser open will not proxy window.open
-        // in the future versions of the plugin (see doc) so it is safer to call InAppBrowser.open directly
-        cordova.InAppBrowser.open(url,"_system",options);
-    };
-
-
-    // Handle direct calls like window.open("url","_blank")
-    window.open = function(url,target,options) {
-        if ( target == "_blank" ) systemOpen(url,options);
-        else windowOpen(url,target,options);
-    };
-
-    // Handle html links like <a href="url" target="_blank">
-    // See https://issues.apache.org/jira/browse/CB-6747
-    $(document).on('click', 'a[target=_blank]', function(event) {
-        event.preventDefault();
-        systemOpen($(this).attr('href'));
-    });
 }
 $(document).ready(function() {
     $("[name='radio-choice-lang']").live('change mousedown',function(event) { 
@@ -575,24 +533,11 @@ $(document).ready(function() {
         $('#navpanel').panel('close');
        
     });
-    $("[id='btn_radar']").live('click',function(event) {
-         var url = "http://www.02ws.co.il/small.php?section=radar.php&lang=1" ;
-        if (navigator.notification)
-                navigator.notification.alert(url);
-        $('#02wsframe').attr('src', url);
-        viewport = document.querySelector("meta[name=viewport]");
-        viewport.setAttribute('content', 'width=570');
-        $('#navlinkpanel').panel('close');
-        
-       
+    
+    $('img').each(function(i, el) {
+        $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
-    
-    
-    
-    
-    
-    
-    //handleExternalURLs();
-    //openAllLinksWithBlankTargetInSystemBrowser();
-});
 
+    handleExternalURLs();
+    
+});
