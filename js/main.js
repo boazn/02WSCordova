@@ -6,12 +6,15 @@ var imageURI;// sets the format of returned value
 var x;
 var y;
 var retries = 0;
+var viewport;
 var app = {
         // Application Constructor
     initialize: function() {
-        $('#loading').show();
-        this.bindEvents();
+        app.bindEvents();
         var self = this;
+     },
+    startup:function(){
+        
         var lang = window.localStorage.getItem("lang");
         if (lang == undefined)
         {
@@ -25,7 +28,7 @@ var app = {
         if ((isToNotify == "null")||(isToNotify == undefined))
         {
             isToNotify = true;
-            this.saveIsToNotify(true, true, true);
+            app.saveIsToNotify(true, true, true);
         }
         if (isToNotify)
         $('#checkbox_notifications').attr('checked', isToNotify);
@@ -63,11 +66,8 @@ var app = {
         window.localStorage.setItem("sound", issound);
         if (issound == "true")
             $('#checkbox_sound').attr('checked', 'checked');
-       
+        
         onLanguageChoose(lang, iscloth, isfulltext, issound);
-        
-        
-        
     },
     // Bind Event Listeners
     //
@@ -100,7 +100,8 @@ var app = {
           setTimeout(function() {
                 navigator.splashscreen.hide();
           }, 3000);
-          bindStrings();
+        app.startup();
+        bindStrings();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
         pushNotification = window.plugins.pushNotification;
@@ -136,6 +137,7 @@ var app = {
 	},
    
     saveLang:function(lang){
+        console.log('saved lang=' + lang);
         window.localStorage.setItem("lang", lang);
     }
     ,
@@ -359,19 +361,20 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 {
     try {
         app.saveLang(value);
-        window.localStorage.setItem("cloth", iscloth);
+        /*window.localStorage.setItem("cloth", iscloth);
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
         console.log(iscloth + ' ' + isfulltext + ' ' + issound);
-        if (navigator.notification)
-                    navigator.notification.alert(iscloth + ' ' + isfulltext + ' ' + issound);
         var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0);
+        */
+        var url = "http://www.02ws.co.il/small.php?lang=1" ;
         if (navigator.notification)
                 navigator.notification.alert(url);
+        console.log(url);    
         $('#02wsframe').attr('src', url);
-        viewport = document.querySelector("meta[name=viewport]");
-        viewport.setAttribute('content', 'width=320');
-        $('#loading').hide();
+        //viewport = document.querySelector("meta[name=viewport]");
+        //viewport.setAttribute('content', 'width=320');
+        
        // $('#navpanel').panel('close');
    }
      catch (e) {
@@ -583,13 +586,11 @@ $(document).ready(function() {
         
        
     });
-    $('#02wsframe').load(function(){
-        //alert('frame has (re)loaded: ' + this.contentWindow.location);
-        console.log('02wsframe has (re)loaded ');
-    });
-    $('img').each(function(i, el) {
-        $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
-    });
+    
+    
+    
+    
+    
     
     //handleExternalURLs();
     //openAllLinksWithBlankTargetInSystemBrowser();
