@@ -12,7 +12,7 @@
     <preference name="phonegap-version" value="3.7.0"/>
     <preference name="orientation" value="default"/>
     <preference name="target-device" value="universal"/>
-    <preference name="fullscreen" value="false"/>
+    <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="false"/>
     <preference name="prerendered-icon" value="true"/>
     <preference name="ios-statusbarstyle" value="black-opaque"/>
@@ -42,7 +42,10 @@
     <plugin name="cordova-plugin-camera-with-exif" source="npm"/>
     <plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <plugin name="cordova-plugin-dialogs" source="npm" />
-    
+    <allow-plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
     
     <feature name="StatusBar">
             <param name="ios-package" value="CDVStatusBar" onload="true" />
