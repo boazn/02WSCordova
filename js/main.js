@@ -108,7 +108,7 @@ var app = {
         var token = window.localStorage.getItem("token");
         console.log("token from storage:" + token);
         setTimeout(function() {
-	 alert("token:" + token);
+	 alert("token from storage:" + token);
 	}, 0);
         if (token == undefined)
         {
@@ -154,11 +154,13 @@ var app = {
         
         if (token == undefined)
         {
+            alert(" saveIsToNotify: registerDevice");
             registerDevice();
             
         }
         else
         {
+            alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
             postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
         }
         
