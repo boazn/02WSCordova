@@ -44,9 +44,7 @@
     <plugin name="cordova-plugin-dialogs" source="npm" />
     <allow-plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    
+        
     <feature name="StatusBar">
             <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>

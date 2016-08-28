@@ -29,7 +29,6 @@ var app = {
         if ((isToNotify == "null")||(isToNotify == undefined))
         {
             isToNotify = true;
-            app.saveIsToNotify(true, true, true);
         }
         if (isToNotify)
         $('#checkbox_notifications').attr('checked', isToNotify);
@@ -107,6 +106,10 @@ var app = {
         pushNotification = window.plugins.pushNotification;
         //console.log('file plugin: ' + cordova.file.applicationDirectory);
         var token = window.localStorage.getItem("token");
+        console.log("token from storage:" + token);
+        setTimeout(function() {
+	 alert("token:" + token);
+	}, 0);
         if (token == undefined)
         {
             try {
@@ -117,6 +120,8 @@ var app = {
             {
                 console.log("register device:" + e);
             }
+        }else{
+            
         }
     },
     // Update DOM on a Received Event
@@ -146,6 +151,7 @@ var app = {
         window.localStorage.setItem("shortnotify", shortNotify);
         window.localStorage.setItem("tipsnotify", tipsNotify);
         var token = window.localStorage.getItem("token");
+        
         if (token == undefined)
         {
             registerDevice();
@@ -162,7 +168,7 @@ var app = {
 
 function registerDevice()
 {
-    //console.log('registering ' + device.platform);
+    console.log('registering ' + device.platform);
         try
         {
         if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
@@ -276,7 +282,7 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
               
         url:'http://www.02ws.co.il/apn_register.php',
         type:'POST',
-        data:{name:device.model, email:device.uuid, regId: token, lang: window.localStorage.getItem("lang"), long_active:(islongactive ? 1 : 0), short_active:(isshortactive ? 1 : 0), tips_active:(istipsactive ? 1 : 0)},
+        data:{name:device.model, email:device.uuid, regId: token, lang: window.localStorage.getItem("lang"), active:(islongactive ? 1 : 0), active_rain_etc:(isshortactive ? 1 : 0), active_tips:(istipsactive ? 1 : 0)},
         crossDomain:true,
         success: function(data){
         console.log('device sent token successfully');
@@ -330,7 +336,9 @@ function tokenHandler(result)
 {
     console.log('device token = ' + result);
     window.localStorage.setItem("token", result);
-    console.log('device token = ' + result);
+    setTimeout(function() {
+	  navigator.notification.alert('device token from registration = ' + result);
+	}, 0);
     postNewTokenToServer(result, window.localStorage.getItem("notify"), window.localStorage.getItem("shortnotify"), window.localStorage.getItem("tipsnotify"));
  }   
 function errorHandler(error)
