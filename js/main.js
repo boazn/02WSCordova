@@ -22,8 +22,8 @@ var app = {
             lang = 1;
             this.saveLang(lang);
             
-        }
-        $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
+        } 
+       $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         //ini notifications
         var isToNotify = window.localStorage.getItem("notify");
         if ((isToNotify == "null")||(isToNotify == undefined))
