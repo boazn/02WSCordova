@@ -222,12 +222,12 @@ function registerDevice()
     //
     function onPhotoURISuccess(result) {
         setTimeout(function() {
-	 alert(result);
+	 //alert(result);
 	}, 0);
       
    	var thisResult = JSON.parse(result);
    	var metadata = JSON.parse(thisResult.json_metadata);
-	navigator.notification.alert('Lat: '+metadata.GPS.Latitude+' Lon: '+metadata.GPS.Longitude);
+	//navigator.notification.alert('Lat: '+metadata.GPS.Latitude+' Lon: '+metadata.GPS.Longitude);
 	y = metadata.GPS.Latitude;
 	x = metadata.GPS.Longitude
         var largeImage = document.getElementById('largeImage');
@@ -368,7 +368,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
-       // $('#navpanel').panel('close');
+        $('#navpanel').panel('close');
    }
      catch (e) {
         console.log('error on onLanguageChoose: ' + e);
@@ -377,8 +377,8 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 }
 // this is the complete list of currently supported params you can pass to the plugin (all optional)
 var options = {
-  message: 'שיתוף', // not supported on some apps (Facebook, Instagram)
-  subject: 'שיתוף אפליקציה', // fi. for email
+  message: currentLocale.sharemessage, // not supported on some apps (Facebook, Instagram)
+  subject: currentLocale.sharesubject, // fi. for email
   files: ['http://www.02ws.co.il/02ws_short.png'], // an array of filenames either locally or remotely
   url: 'https://itunes.apple.com/us/app/yrwsmyym/id925504632?mt=8',
   chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
@@ -500,7 +500,7 @@ function handleExternalURLs() {
 }
 function setView(width){
     viewport = document.querySelector("meta[name=viewport]");
-    viewport.setAttribute('content', 'user-scalable=no,width=' + width);
+    viewport.setAttribute('content', 'user-scalable=no,initial-scale=1,width=' + width);
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
@@ -590,7 +590,7 @@ $(document).ready(function() {
         issound = window.localStorage.getItem("sound");
          var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
         $('#02wsframe').attr('src', url);
-        setView(570);
+        setView(560);
         $('#navlinkpanel').panel('close');
         
        
@@ -603,7 +603,7 @@ $(document).ready(function() {
          var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
         
         $('#02wsframe').attr('src', url);
-        setView(570);
+        setView(560);
         $('#navlinkpanel').panel('close');
         
        

@@ -16,7 +16,9 @@ var locales = {
     temppage:'temp page',
     humpage:'hum page',
     radar:'radar',
-    home:'home'
+    home:'home',
+    sharesubject:'Weather now',
+    sharemessage:'From 02WS App'
     
   },
   he: {
@@ -35,7 +37,9 @@ var locales = {
     temppage:'גרף טמפ',
     humpage:'גרף לחות',
     radar:'מכ"ם גשם',
-    home:'עמוד ראשי'
+    home:'עמוד ראשי',
+    sharesubject:'מזג-אוויר עכשיו',
+    sharemessage:'מתוך אפליקציית ירושמיים'
   }
 };
  function bindStrings(){
