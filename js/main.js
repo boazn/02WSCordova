@@ -67,7 +67,7 @@ var app = {
         if (issound == "true")
             $('#checkbox_sound').attr('checked', 'checked');
         console.log("startup finished");
-        onLanguageChoose(lang, iscloth, isfulltext, issound);
+        onLanguageChoose(lang, window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
     },
     // Bind Event Listeners
     //
@@ -84,7 +84,7 @@ var app = {
         setTimeout(function() {
              $('#loading').show();
              window.localStorage.getItem("sound");
-             onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth"), window.localStorage.getItem("fulltext"), window.localStorage.getItem("sound"));
+             onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
              $('#loading').hide();
             
         }, 0);
@@ -100,7 +100,7 @@ var app = {
           setTimeout(function() {
                 navigator.splashscreen.hide();
           }, 3000);
-        bindStrings();
+        
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
         pushNotification = window.plugins.pushNotification;
@@ -154,14 +154,14 @@ var app = {
         
         if (token == undefined)
         {
-            alert(" saveIsToNotify: registerDevice");
-            registerDevice();
-            
-        }
+            console.log(" saveIsToNotify: token undefined");
+            //registerDevice();
+       }
         else
         {
             alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
-            postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
+            postNewTokenToServer(token, longNotify === "true", shortNotify=== "true", tipsNotify=== "true");
+            
         }
         
     }
@@ -341,7 +341,7 @@ function tokenHandler(result)
     setTimeout(function() {
 	  navigator.notification.alert('device token from registration = ' + result);
 	}, 0);
-    postNewTokenToServer(result, window.localStorage.getItem("notify"), window.localStorage.getItem("shortnotify"), window.localStorage.getItem("tipsnotify"));
+    postNewTokenToServer(result, window.localStorage.getItem("notify")=== "true", window.localStorage.getItem("shortnotify")=== "true", window.localStorage.getItem("tipsnotify")=== "true");
  }   
 function errorHandler(error)
 {
@@ -369,7 +369,7 @@ function onShareClick()
 }
 function onNotificationsCheck(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked)
 {
-          
+    alert("onNotificationsCheck:"+longNotifyIsChecked+shortNotifyIsChecked+tipsNotifyIsChecked);      
     app.saveIsToNotify(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked);
     $('#navpanel').panel('close');
    
@@ -382,11 +382,14 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         window.localStorage.setItem("cloth", iscloth);
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
+        console.log("onLanguageChoose:" + iscloth + isfulltext + issound); 
         var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0);
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
-        //$('#navpanel').panel('close');
+        if( $('#navpanel').hasClass("ui-panel-open") == true ){
+         $('#navpanel').panel('close');
+        }
    }
      catch (e) {
         console.log('error on onLanguageChoose: ' + e);
@@ -451,7 +454,7 @@ function onNotificationGCM (e) {
             // here is where you might want to send it the regID for later use.
             console.log("regID = " + e.regid);
             window.localStorage.setItem("token", e.regid);
-            postNewTokenToServer(e.regid, window.localStorage.getItem("notify"), window.localStorage.getItem("shortnotify"), window.localStorage.getItem("tipsnotify"));
+            postNewTokenToServer(e.regid, window.localStorage.getItem("notify")=== "true", window.localStorage.getItem("shortnotify")=== "true", window.localStorage.getItem("tipsnotify")=== "true");
         }
     break;
 
@@ -541,48 +544,53 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
 
     // Handle html links like <a href="url" target="_blank">
     // See https://issues.apache.org/jira/browse/CB-6747
-    $(document).on('click', 'a[target=_blank]', function(event) {
+    $(document).on('click', 'a[target=_top]', function(event) {
         event.preventDefault();
         systemOpen($(this).attr('href'));
     });
 }
 $(document).ready(function() {
-    $("[name='radio-choice-lang']").live('change mousedown',function(event) { 
-        onLanguageChoose(this.value, window.localStorage.getItem("cloth") , window.localStorage.getItem("fulltext"), window.localStorage.getItem("sound"));
-    }); 
-    $("[name='checkbox_notifications']").live('change',function(event) { 
-        onNotificationsCheck(this.checked, $("[name='checkbox_shortnotifications']").is(":checked"), $("[name='checkbox_tipsnotifications']").is(":checked"));
-    }); 
-    $("[name='checkbox_shortnotifications']").live('change',function(event) { 
-        onNotificationsCheck($("[name='checkbox_notifications']").is(":checked"), this.checked, $("[name='checkbox_tipsnotifications']").is(":checked"));
-    }); 
-     $("[name='checkbox_tipsnotifications']").live('change',function(event) { 
-        onNotificationsCheck($("[name='checkbox_notifications']").is(":checked"), $("[name='checkbox_shortnotifications']").is(":checked"), this.checked);
-    }); 
-    $("[name='checkbox_cloth']").live('change',function(event) { 
-        onLanguageChoose(window.localStorage.getItem("lang"), this.checked, window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
+    $("[name='radio-choice-lang']").on('change mousedown',function(event) { 
+        onLanguageChoose(this.value, window.localStorage.getItem("cloth")=== "true" , window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
     });
-    $("[name='checkbox_fulltext']").live('change',function(event) { 
-        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", this.checked, window.localStorage.getItem("sound")=== "true");
+    
+    
+    $('#checkbox_notifications').on('change', function() {
+        
+        onNotificationsCheck($(this).is(':checked'), $("[name='checkbox_shortnotifications']").is(":checked"), $("[name='checkbox_tipsnotifications']").is(":checked"));
+    }); 
+    $('#checkbox_shortnotifications').on('change', function() {
+        
+        onNotificationsCheck($("[name='checkbox_notifications']").is(":checked"), $(this).is(':checked'), $("[name='checkbox_tipsnotifications']").is(":checked"));
+    }); 
+     $('#checkbox_tipsnotifications').on('change', function() { 
+         
+        onNotificationsCheck($("[name='checkbox_notifications']").is(":checked"), $("[name='checkbox_shortnotifications']").is(":checked"), $(this).is(':checked'));
+    }); 
+    $("[name='checkbox_cloth']").click(function() { 
+        onLanguageChoose(window.localStorage.getItem("lang"), $(this).is(':checked'), window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
     });
-    $("[name='checkbox_sound']").live('change',function(event) { 
-        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", this.checked);
+    $("[name='checkbox_fulltext']").click(function() { 
+        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", $(this).is(':checked'), window.localStorage.getItem("sound")=== "true");
     });
-    $("[id='btn_takepic']").live('click',function(event) { 
+    $("[name='checkbox_sound']").click(function() { 
+        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", $(this).is(':checked'));
+    });
+    $("[id='btn_takepic']").on('click',function(event) { 
         capturePhotoEdit();
     });
-    $("[id='btn_choosepic']").live('click',function(event) {
+    $("[id='btn_choosepic']").on('click',function(event) {
         getPhoto(pictureSource.PHOTOLIBRARY);
     });
-    $("[id='btn_choosepicalbum']").live('click',function(event) {
+    $("[id='btn_choosepicalbum']").on('click',function(event) {
         getPhoto(pictureSource.SAVEDPHOTOALBUM);
        
     });
-    $("[id='btn_okclosepanel']").live('click',function(event) {
+    $("[id='btn_okclosepanel']").on('click',function(event) {
         $('#navpanel').panel('close');
        
     });
-    $("[id='btn_radar']").live('click',function(event) {
+    $("[id='btn_radar']").on('click',function(event) {
         lang = window.localStorage.getItem("lang");
         iscloth = window.localStorage.getItem("cloth");
         isfulltext = window.localStorage.getItem("fulltext");
@@ -594,7 +602,7 @@ $(document).ready(function() {
         
        
     });
-    $("[id='btn_temp']").live('click',function(event) {
+    $("[id='btn_temp']").on('click',function(event) {
         lang = window.localStorage.getItem("lang");
         iscloth = window.localStorage.getItem("cloth");
         isfulltext = window.localStorage.getItem("fulltext");
@@ -606,25 +614,25 @@ $(document).ready(function() {
         
        
     });
-    $("[id='btn_hum']").live('click',function(event) {
+    $("[id='btn_hum']").on('click',function(event) {
+        setView(560);
         lang = window.localStorage.getItem("lang");
         iscloth = window.localStorage.getItem("cloth");
         isfulltext = window.localStorage.getItem("fulltext");
         issound = window.localStorage.getItem("sound");
          var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
-        
         $('#02wsframe').attr('src', url);
-        setView(560);
         $('#navlinkpanel').panel('close');
         
        
     });
-    $("[id='btn_home']").live('click',function(event) {
+    $("[id='btn_home']").on('click',function(event) {
         lang = window.localStorage.getItem("lang");
         iscloth = window.localStorage.getItem("cloth");
         isfulltext = window.localStorage.getItem("fulltext");
         issound = window.localStorage.getItem("sound");
         onLanguageChoose(lang, iscloth, isfulltext, issound);
+        $('#navlinkpanel').panel('close');
         
     });   
     $('#02wsframe').load(function(){
@@ -634,7 +642,8 @@ $(document).ready(function() {
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
-    handleExternalURLs();
-    openAllLinksWithBlankTargetInSystemBrowser();
+    bindStrings();
+    //handleExternalURLs();
+    //openAllLinksWithBlankTargetInSystemBrowser();
 });
 

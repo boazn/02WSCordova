@@ -61,6 +61,8 @@ var locales = {
      $('#btn_hum').html(currentLocale.humpage);
      $('#btn_home').html(currentLocale.home);
      
+     $('checkbox_notifications').slider('refresh');
+     
  }
 
  

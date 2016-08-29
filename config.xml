@@ -15,15 +15,10 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="fullscreen" value="false"/>
     <preference name="prerendered-icon" value="true"/>
-    <preference name="ios-statusbarstyle" value="black-opaque"/>
     <preference name="detect-data-types" value="true"/>
     <preference name="exit-on-suspend" value="false"/>
     <preference name="show-splash-screen-spinner" value="true"/>
     <preference name="auto-hide-splash-screen" value="true"/>
-    <preference name="disable-cursor" value="false"/>
-    <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarStyle" value="lightcontent" />f
-    <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="SplashScreen" value="Default.png" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="SplashScreenDelay" value="3000" />

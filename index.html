@@ -4,11 +4,11 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no,width=320,initial-scale=1" />
+        <meta name="viewport" content="target-densitydpi=device-dpi,user-scalable=no,width=320,initial-scale=1" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/styles.css"/>
         <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
-        <script type="text/javascript" src="lib/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="lib/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="lib/jquery.mobile-1.4.5.min.js"></script>s
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
@@ -53,25 +53,26 @@
                    <label for="radio-choice-langb">Eng</label>
                    <input type="radio" name="radio-choice-lang" id="radio-choice-langb" class="custom" value="0">
                    </div>    
-                    
-                    <input type="checkbox" id="checkbox_notifications" name="checkbox_notifications">
+                    <form>
                     <label for="checkbox_notifications" id="lbllongterm"></label>
-                     
-                    <input type="checkbox" id="checkbox_shortnotifications" name="checkbox_shortnotifications">
-                    <label for="checkbox_shortnotifications" id="lblshortterm"></label>
-                    
-                    <input type="checkbox" id="checkbox_tipsnotifications" name="checkbox_tipsnotifications">
+                    <input type="checkbox"  id="checkbox_notifications" name="checkbox_notifications" data-role="flipswitch" data-mini="true">
+                    <hr />
+                    <label for="checkbox_shortnotifications" id="lblshortterm"></label> 
+                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortnotifications" name="checkbox_shortnotifications">
+                    <hr />
                     <label for="checkbox_tipsnotifications" id="lbltips"></label>
-                    
-                     <input type="checkbox" id="checkbox_cloth" name="checkbox_cloth">
+                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_tipsnotifications" name="checkbox_tipsnotifications">
+                    <hr />
                     <label for="checkbox_cloth" id="lblcloths"></label>
-                    
-                    <input type="checkbox" id="checkbox_fulltext" name="checkbox_fulltext">
+                     <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_cloth" name="checkbox_cloth">
+                    <hr />
                     <label for="checkbox_fulltext" id="lblfulltext"></label>
-                    
-                    <input type="checkbox" id="checkbox_sound" name="checkbox_sound">
-                    <label for="checkbox_sound" id="lblsound">Sound in forecast</label>
-                    <button type="button" id="btn_okclosepanel"  data-position="fixed" data-role="footer" >Ok</button>
+                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_fulltext" name="checkbox_fulltext">
+                    <hr />
+                    <label for="checkbox_sound" id="lblsound"></label>
+                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_sound" name="checkbox_sound">
+                    </form>
+                    <button type="button" id="btn_okclosepanel"  data-position="fixed" data-role="footer">Ok</button>
                 </div>
             </div>
 

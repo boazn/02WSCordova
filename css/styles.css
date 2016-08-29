@@ -167,7 +167,7 @@ h2 {
         margin:0; /*make the buttons flush to the top*/
     }
     #header {
-        height:45px;
+        height:40px;
     }
 
     #bars-button, #refresh-button, #camera-button, #share-button, #navpanel-button {
@@ -199,4 +199,11 @@ h2 {
     }
     #btn_okclosepanel{
       margin:20px 0;   
+    }
+    #navpanel hr{
+        margin:0.1em
+    }
+    #navpanel label{
+        margin:0;
+        font-size:0.8em;
     }
