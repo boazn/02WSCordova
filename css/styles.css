@@ -207,3 +207,7 @@ h2 {
         margin:0;
         font-size:0.8em;
     }
+    #navpanel .float{
+        width:50%;
+        float:right
+    }

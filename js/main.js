@@ -36,35 +36,35 @@ var app = {
         var isToShortNotify = window.localStorage.getItem("shortnotify");
         if ((isToShortNotify == "null")||(isToShortNotify == undefined)){isToShortNotify = true;};
         window.localStorage.setItem("shortnotify", isToShortNotify);
-        if (isToShortNotify == "true")
+        if (isToShortNotify === "true")
         $('#checkbox_shortnotifications').attr('checked', isToShortNotify);
         
         //ini tipsnotifications
         var isToTipsNotify = window.localStorage.getItem("tipsnotify");
         if ((isToTipsNotify == "null")||(isToTipsNotify == undefined)){isToTipsNotify = true;};
         window.localStorage.setItem("tipsnotify", isToTipsNotify);
-        if (isToTipsNotify == "true")
+        if (isToTipsNotify === "true")
         $('#checkbox_tipsnotifications').attr('checked', isToTipsNotify);
         
         //ini cloth
         var iscloth = window.localStorage.getItem("cloth");
         if ((iscloth == "null")||(iscloth == undefined)) {iscloth = true;};
         window.localStorage.setItem("cloth", iscloth);
-        if (iscloth == "true")
+        if (iscloth === "true")
             $('#checkbox_cloth').attr('checked', 'checked');
         
         //ini fulltext
         var isfulltext = window.localStorage.getItem("fulltext");
         if ((isfulltext == "null")||(isfulltext == undefined)){isfulltext = false;};
         window.localStorage.setItem("fulltext", isfulltext);
-        if (isfulltext == "true")
+        if (isfulltext === "true")
             $('#checkbox_fulltext').attr('checked', 'checked');
         
         //ini sound
         var issound = window.localStorage.getItem("sound");
         if ((issound == "null")||(issound == undefined)){issound = true;};
         window.localStorage.setItem("sound", issound);
-        if (issound == "true")
+        if (issound === "true")
             $('#checkbox_sound').attr('checked', 'checked');
         console.log("startup finished");
         onLanguageChoose(lang, window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
@@ -369,7 +369,6 @@ function onShareClick()
 }
 function onNotificationsCheck(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked)
 {
-    alert("onNotificationsCheck:"+longNotifyIsChecked+shortNotifyIsChecked+tipsNotifyIsChecked);      
     app.saveIsToNotify(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked);
     $('#navpanel').panel('close');
    
@@ -567,13 +566,13 @@ $(document).ready(function() {
          
         onNotificationsCheck($("[name='checkbox_notifications']").is(":checked"), $("[name='checkbox_shortnotifications']").is(":checked"), $(this).is(':checked'));
     }); 
-    $("[name='checkbox_cloth']").click(function() { 
+    $("[name='checkbox_cloth']").on('change', function() { 
         onLanguageChoose(window.localStorage.getItem("lang"), $(this).is(':checked'), window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
     });
-    $("[name='checkbox_fulltext']").click(function() { 
+    $("[name='checkbox_fulltext']").on('change', function() { 
         onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", $(this).is(':checked'), window.localStorage.getItem("sound")=== "true");
     });
-    $("[name='checkbox_sound']").click(function() { 
+    $("[name='checkbox_sound']").on('change', function() { 
         onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", $(this).is(':checked'));
     });
     $("[id='btn_takepic']").on('click',function(event) { 
