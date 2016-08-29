@@ -36,35 +36,35 @@ var app = {
         var isToShortNotify = window.localStorage.getItem("shortnotify");
         if ((isToShortNotify == "null")||(isToShortNotify == undefined)){isToShortNotify = true;};
         window.localStorage.setItem("shortnotify", isToShortNotify);
-        if (isToShortNotify === "true")
+        if (isToShortNotify)
         $('#checkbox_shortnotifications').attr('checked', isToShortNotify);
         
         //ini tipsnotifications
         var isToTipsNotify = window.localStorage.getItem("tipsnotify");
         if ((isToTipsNotify == "null")||(isToTipsNotify == undefined)){isToTipsNotify = true;};
         window.localStorage.setItem("tipsnotify", isToTipsNotify);
-        if (isToTipsNotify === "true")
+        if (isToTipsNotify)
         $('#checkbox_tipsnotifications').attr('checked', isToTipsNotify);
         
         //ini cloth
         var iscloth = window.localStorage.getItem("cloth");
         if ((iscloth == "null")||(iscloth == undefined)) {iscloth = true;};
         window.localStorage.setItem("cloth", iscloth);
-        if (iscloth === "true")
+        if (iscloth)
             $('#checkbox_cloth').attr('checked', 'checked');
         
         //ini fulltext
         var isfulltext = window.localStorage.getItem("fulltext");
         if ((isfulltext == "null")||(isfulltext == undefined)){isfulltext = false;};
         window.localStorage.setItem("fulltext", isfulltext);
-        if (isfulltext === "true")
+        if (isfulltext)
             $('#checkbox_fulltext').attr('checked', 'checked');
         
         //ini sound
         var issound = window.localStorage.getItem("sound");
         if ((issound == "null")||(issound == undefined)){issound = true;};
         window.localStorage.setItem("sound", issound);
-        if (issound === "true")
+        if (issound)
             $('#checkbox_sound').attr('checked', 'checked');
         console.log("startup finished");
         onLanguageChoose(lang, window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
