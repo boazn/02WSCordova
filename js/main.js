@@ -17,13 +17,8 @@ var app = {
     startup:function(){
         
         var lang = window.localStorage.getItem("lang");
-        if (lang == undefined)
-        {
-            lang = 1;
-            this.saveLang(lang);
-            
-        } 
-       $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
+        if (lang == undefined) {lang = 1;}
+        $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         //ini notifications
         var isToNotify = window.localStorage.getItem("notify");
         if ((isToNotify == "null")||(isToNotify == undefined))
@@ -103,26 +98,19 @@ var app = {
         
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
-        pushNotification = window.plugins.pushNotification;
         //console.log('file plugin: ' + cordova.file.applicationDirectory);
+        bindStrings();
         var token = window.localStorage.getItem("token");
         console.log("token from storage:" + token);
-        setTimeout(function() {
-	 //alert("token from storage:" + token);
-	}, 0);
-        if (token == undefined)
-        {
-            try {
-                registerDevice();
-            
-            }
-            catch (e)
-            {
-                console.log("register device:" + e);
-            }
-        }else{
-            
+        
+        try {
+           registerDevice();
         }
+        catch (e)
+        {
+            console.log("register device:" + e);
+        }
+       
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -159,30 +147,14 @@ var app = {
        }
         else
         {
-            alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
+            console.log(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
             postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
             
         }
         
     }
 };
-push.on('registration', function(data) {
-    tokenHandler(data.registrationId);
-});
 
-push.on('notification', function(data) {
-      
-    console.log(data.message);
-    console.log(data.title);
-    console.log(data.count);
-    console.log(data.sound);
-    console.log(data.image);
-    console.log(data.additionalData);
-});
-
-push.on('error', function(e) {
-    console.log('error in registering: ' + e.message);
-});
 
 function registerDevice()
 {
@@ -202,6 +174,24 @@ function registerDevice()
                 sound: "true"
             },
             windows: {}
+        });
+        push.on('registration', function(data) {
+            console.log('onregistration:' + data);
+            tokenHandler(data.registrationId);
+        });
+
+        push.on('notification', function(data) {
+
+            console.log(data.message);
+            console.log(data.title);
+            console.log(data.count);
+            console.log(data.sound);
+            console.log(data.image);
+            console.log(data.additionalData);
+        });
+
+        push.on('error', function(e) {
+            console.log('error in registering: ' + e.message);
         });
         }
         catch (e){
@@ -253,7 +243,7 @@ function registerDevice()
     //
     function capturePhotoEdit() {
      clearCache();
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 60, allowEdit: true,
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 80, allowEdit: true,
         destinationType: destinationType.FILE_URI,saveToPhotoAlbum:true });
     }
 
@@ -262,7 +252,7 @@ function registerDevice()
     function getPhoto(source) {
      clearCache();
       // Retrieve image file location from specified source
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 60,
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 80,
         destinationType: destinationType.FILE_URI,
         sourceType: source });
     }
@@ -336,9 +326,6 @@ function tokenHandler(result)
 {
     console.log('device token from registration= ' + result);
     window.localStorage.setItem("token", result);
-    setTimeout(function() {
-	  navigator.notification.alert('device token from registration = ' + result);
-	}, 0);
     postNewTokenToServer(result, true, true, true);
  }   
 function errorHandler(error)
@@ -420,7 +407,10 @@ function handleExternalURLs() {
 function setView(width){
     var viewportScale = 1 / window.devicePixelRatio;
     viewport = document.querySelector("meta[name=viewport]");
-    viewport.setAttribute('content', 'user-scalable=no, initial-scale='+viewportScale+', minimum-scale=1  , maximum-scale=2, width=' + width);
+    if (width == 320)
+     viewport.setAttribute('content', 'user-scalable=no, width=' + width);
+       else
+    viewport.setAttribute('content', 'user-scalable=no, initial-scale='+viewportScale+', minimum-scale=0.55  , maximum-scale=1, width=' + width);
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
@@ -548,8 +538,8 @@ $(document).ready(function() {
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
-    bindStrings();
-    //handleExternalURLs();
-    //openAllLinksWithBlankTargetInSystemBrowser();
+    
+    handleExternalURLs();
+    openAllLinksWithBlankTargetInSystemBrowser();
 });
 
