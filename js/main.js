@@ -1,4 +1,4 @@
-var pushNotification;
+var push;
 var pictureSource;   // picture source
 var destinationType;
 var imageData;
@@ -108,7 +108,7 @@ var app = {
         var token = window.localStorage.getItem("token");
         console.log("token from storage:" + token);
         setTimeout(function() {
-	 alert("token from storage:" + token);
+	 //alert("token from storage:" + token);
 	}, 0);
         if (token == undefined)
         {
@@ -160,51 +160,49 @@ var app = {
         else
         {
             alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
-            postNewTokenToServer(token, longNotify === "true", shortNotify=== "true", tipsNotify=== "true");
+            postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
             
         }
         
     }
 };
+push.on('registration', function(data) {
+    tokenHandler(data.registrationId);
+});
 
+push.on('notification', function(data) {
+      
+    console.log(data.message);
+    console.log(data.title);
+    console.log(data.count);
+    console.log(data.sound);
+    console.log(data.image);
+    console.log(data.additionalData);
+});
+
+push.on('error', function(e) {
+    console.log('error in registering: ' + e.message);
+});
 
 function registerDevice()
 {
     console.log('registering ' + device.platform);
         try
         {
-        if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
-            pushNotification.register(
-            regsuccessHandler,
-            errorHandler,
-            {
-                "senderID":"761995000479",
-                "ecb":"onNotificationGCM"
-            });
-        } else if ( device.platform == 'blackberry10'){
-            pushNotification.register(
-            regsuccessHandler,
-            errorHandler,
-            {
-                invokeTargetId : "replace_with_invoke_target_id",
-                appId: "replace_with_app_id",
-                ppgUrl:"replace_with_ppg_url", //remove for BES pushes
-                ecb: "pushNotificationHandler",
-                simChangeCallback: replace_with_simChange_callback,
-                pushTransportReadyCallback: replace_with_pushTransportReady_callback,
-                launchApplicationOnPush: true
-            });
-        } else {
-            pushNotification.register(
-            tokenHandler,
-            errorHandler,
-            {
-                "badge":"true",
-                "sound":"true",
-                "alert":"true",
-                "ecb":"onNotificationAPN"
-            });
-        }
+        push = PushNotification.init({
+            android: {
+                senderID: "12345679"
+            },
+            browser: {
+                pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+            },
+            ios: {
+                alert: "true",
+                badge: "true",
+                sound: "true"
+            },
+            windows: {}
+        });
         }
         catch (e){
             console.log('error registering: ' + e);
@@ -336,12 +334,12 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
 }
 function tokenHandler(result)
 {
-    console.log('device token = ' + result);
+    console.log('device token from registration= ' + result);
     window.localStorage.setItem("token", result);
     setTimeout(function() {
 	  navigator.notification.alert('device token from registration = ' + result);
 	}, 0);
-    postNewTokenToServer(result, window.localStorage.getItem("notify")=== "true", window.localStorage.getItem("shortnotify")=== "true", window.localStorage.getItem("tipsnotify")=== "true");
+    postNewTokenToServer(result, true, true, true);
  }   
 function errorHandler(error)
 {
@@ -410,95 +408,6 @@ var onShareError = function(msg) {
 function successIconBadgeNumberHandler(){
    console.log("successIconBadgeNumber"); 
 }
-// iOS
-function onNotificationAPN (event) {
-      
-    
-    try {
-        if ( event.alert )
-    {
-        navigator.notification.console.log(event.alert);
-    }
-
-    if ( event.sound )
-    {
-        var snd = new Media(event.sound);
-        snd.play();
-    }
-
-    if ( event.badge )
-    {
-        pushNotification.setApplicationIconBadgeNumber(successIconBadgeNumberHandler, errorHandler, event.badge);
-    }
-    }
-    catch (e) {
-        console.log(e);
-    }
-     if (event.EmbeddedUrl)
-     {
-         window.localStorage.setItem("url", event.EmbeddedUrl);
-     }
-     
-    
-}
-// android
-function onNotificationGCM (e) {
-     switch( e.event )
-    {
-    case 'registered':
-        if ( e.regid.length > 0 )
-        {
-            
-            // Your GCM push server needs to know the regID before it can push to this device
-            // here is where you might want to send it the regID for later use.
-            console.log("regID = " + e.regid);
-            window.localStorage.setItem("token", e.regid);
-            postNewTokenToServer(e.regid, window.localStorage.getItem("notify")=== "true", window.localStorage.getItem("shortnotify")=== "true", window.localStorage.getItem("tipsnotify")=== "true");
-        }
-    break;
-
-    case 'message':
-        // if this flag is set, this notification happened while we were in the foreground.
-        // you might want to play a sound to get the user's attention, throw up a dialog, etc.
-        if ( e.foreground )
-        {
-            
-
-            // on Android soundname is outside the payload.
-            // On Amazon FireOS all custom attributes are contained within payload
-            var soundfile = e.soundname || e.payload.sound;
-            // if the notification contains a soundname, play it.
-            var my_media = new Media("/android_asset/www/"+ soundfile);
-            my_media.play();
-        }
-        else
-        {  // otherwise we were launched because the user touched a notification in the notification tray.
-            if ( e.coldstart )
-            {
-                console.log('--COLDSTART NOTIFICATION--' + '');
-            }
-            else
-            {
-                console.log('--BACKGROUND NOTIFICATION--' + '');
-            }
-        }
-
-       console.log('MESSAGE -> MSG: ' + e.payload.message + '');
-           //Only works for GCM
-       console.log('MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '');
-       //Only works on Amazon Fire OS
-       console.log('MESSAGE -> TIME: ' + e.payload.timeStamp + '');
-    break;
-
-    case 'error':
-        console.log('ERROR -> MSG:' + e.msg + '');
-    break;
-
-    default:
-        console.log('EVENT -> Unknown, an event was received and we do not know what it is');
-    break;
-  }
-}
 function handleExternalURLs() {
 
     $(document).on('click', 'a[href^="http"]', function (e) {
@@ -507,13 +416,11 @@ function handleExternalURLs() {
         e.preventDefault();
     });
     
-    
-    
-    
 }
 function setView(width){
+    var viewportScale = 1 / window.devicePixelRatio;
     viewport = document.querySelector("meta[name=viewport]");
-    viewport.setAttribute('content', 'user-scalable=no,initial-scale=1,width=' + width);
+    viewport.setAttribute('content', 'user-scalable=no, initial-scale='+viewportScale+', minimum-scale=0.5  , maximum-scale=2, width=' + width);
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
