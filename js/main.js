@@ -420,7 +420,7 @@ function handleExternalURLs() {
 function setView(width){
     var viewportScale = 1 / window.devicePixelRatio;
     viewport = document.querySelector("meta[name=viewport]");
-    viewport.setAttribute('content', 'user-scalable=no, initial-scale='+viewportScale+', minimum-scale=0.5  , maximum-scale=2, width=' + width);
+    viewport.setAttribute('content', 'user-scalable=no, initial-scale='+viewportScale+', minimum-scale=1  , maximum-scale=2, width=' + width);
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
