@@ -315,9 +315,11 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
         }
     }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
+    var basename = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+    var manipulatedName = basename.substr(0,fileURI.lastIndexOf('.') - 1) + "_" + (new Date()).getTime() + basename.substr(fileURI.lastIndexOf('.'));
     var options = new FileUploadOptions();
     options.fileKey = "pic";
-    options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+    options.fileName = manipulatedName;
     options.mimeType = "image/jpeg";
     options.chunkedMode = false;
     options.headers = {
@@ -416,7 +418,7 @@ function setView(width){
     if (width == 320)
      viewport.setAttribute('content', 'user-scalable=no, width=' + width);
        else
-    viewport.setAttribute('content', 'user-scalable=no, initial-scale='+viewportScale+', minimum-scale=0.55  , maximum-scale=1, width=' + width);
+    viewport.setAttribute('content', 'initial-scale='+viewportScale+', minimum-scale=0.55  , maximum-scale=1, width=' + width);
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {

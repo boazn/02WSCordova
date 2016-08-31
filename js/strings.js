@@ -23,9 +23,9 @@ var locales = {
   },
   he: {
     hello: 'שלום',
-    LongTermsNotifications:'התראות לטווח ארוך',
-    ShortTermsNotifications:'התראות לטווח קצר',
-    Tips:'התראות טיפים',
+    LongTermsNotifications:'התראה לימים הבאים - תחזית ועוד',
+    ShortTermsNotifications:'התראה מיידית - גשם ועוד',
+    Tips:'טיפים',
     cloth:'הצג ביגוד',
     fulltext:'תחזית מלל מלא',
     sound:'סאונד',
