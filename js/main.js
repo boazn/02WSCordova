@@ -317,6 +317,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
     var basename = fileURI.substr(fileURI.lastIndexOf('/') + 1);
     var manipulatedName = basename.substr(0,fileURI.lastIndexOf('.') - 1) + "_" + (new Date()).getTime() + basename.substr(fileURI.lastIndexOf('.'));
+    alert(manipulatedName);
     var options = new FileUploadOptions();
     options.fileKey = "pic";
     options.fileName = manipulatedName;
