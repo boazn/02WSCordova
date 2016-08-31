@@ -147,7 +147,7 @@ var app = {
        }
         else
         {
-            console.log(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
+            alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
             postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
             
         }
@@ -217,19 +217,25 @@ function registerDevice()
     // Called when a photo is successfully retrieved
     //
     function onPhotoURISuccess(result) {
+        var fname;
         setTimeout(function() {
-	 //alert(result);
+	 alert(result);
 	}, 0);
-      
-   	var thisResult = JSON.parse(result);
-   	var metadata = JSON.parse(thisResult.json_metadata);
-	//navigator.notification.alert('Lat: '+metadata.GPS.Latitude+' Lon: '+metadata.GPS.Longitude);
-	y = metadata.GPS.Latitude;
-	x = metadata.GPS.Longitude
+        try{
+            var thisResult = JSON.parse(result);
+            var metadata = JSON.parse(thisResult.json_metadata);
+            //navigator.notification.alert('Lat: '+metadata.GPS.Latitude+' Lon: '+metadata.GPS.Longitude);
+            y = metadata.GPS.Latitude;
+            x = metadata.GPS.Longitude
+            fname = thisResult.filename;
+        }
+        catch(e){
+            fname = result;
+        }
         var largeImage = document.getElementById('largeImage');
-        largeImage.style.display = 'block';
-        largeImage.src = thisResult.filename;
-        imageURI = thisResult.filename;
+   	largeImage.style.display = 'block';
+        largeImage.src = fname;
+        imageURI = fname;
         $('#campanel').panel('close');
       	$('#imagepreviewContainer').show();
         
@@ -275,7 +281,7 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
         data:{name:device.model, email:device.uuid, regId: token, lang: window.localStorage.getItem("lang"), active:(islongactive ? 1 : 0), active_rain_etc:(isshortactive ? 1 : 0), active_tips:(istipsactive ? 1 : 0)},
         crossDomain:true,
         success: function(data){
-        console.log('device sent token successfully');
+        console.log('device sent token successfully: ' + data);
         }
        });
           
@@ -444,6 +450,10 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
         event.preventDefault();
         systemOpen($(this).attr('href'));
     });
+    
+    
+    
+
 }
 $(document).ready(function() {
     $("[name='radio-choice-lang']").on('change mousedown',function(event) { 
@@ -533,7 +543,26 @@ $(document).ready(function() {
     });   
     $('#02wsframe').load(function(){
         //alert('frame has (re)loaded: ' + this.contentWindow.location);
+        var allAsBlank = iframe.contents().find("a[target=_blank]");
+        allAsBlank.on("click",function(e){           
+            e.preventDefault();           
+            var url = this.href;           
+            window.open(url,"_system");       
+        });
+        var allAsTop = iframe.contents().find("a[target=_top]");
+        allAsTop.on("click",function(e){           
+            e.preventDefault();           
+            var url = this.href;           
+            window.open(url,"_system");       
+        });
+        var allAsExternal = iframe.contents().find("a[rel=external]");
+        allAsExternal.on("click",function(e){           
+            e.preventDefault();           
+            var url = this.href;           
+            window.open(url,"_system");       
+        });
         console.log('02wsframe has (re)loaded ');
+        
     });
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
