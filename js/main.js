@@ -452,11 +452,13 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
         event.preventDefault();
         systemOpen($(this).attr('href'));
     });
-    
-    
-    
-
-}
+    $(document).on('click', 'a[href^=http], a[href^=https]', function (e) {
+        e.preventDefault();
+        var $this = $(this),
+            target = $this.data('inAppBrowser') || '_system'; // system open the device browser. _blank open inappbrowser
+        window.open($this.attr('href'), target, 'location=no');
+    });
+ }
 $(document).ready(function() {
     $("[name='radio-choice-lang']").on('change mousedown',function(event) { 
         onLanguageChoose(this.value, window.localStorage.getItem("cloth")=== "true" , window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
