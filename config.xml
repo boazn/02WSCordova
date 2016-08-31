@@ -42,7 +42,8 @@
     <plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <plugin name="cordova-plugin-dialogs" source="npm" />
     <allow-plugin name="cordova-plugin-whitelist" spec="1" />
-    <allow-navigation href="*://*.02ws.co.il/*" />
+    <access-origin href="*" />
+    <allow-navigation href="*://*/*" />
     <allow-intent href="*://*/*" />
      <feature name="StatusBar">
             <param name="ios-package" value="CDVStatusBar" onload="true" />

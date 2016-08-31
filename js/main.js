@@ -219,7 +219,7 @@ function registerDevice()
     function onPhotoURISuccess(result) {
         var fname;
         setTimeout(function() {
-	 alert(result);
+	 //alert(result);
 	}, 0);
         try{
             var thisResult = JSON.parse(result);
@@ -316,8 +316,8 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
     var basename = fileURI.substr(fileURI.lastIndexOf('/') + 1);
-    var manipulatedName = basename.substr(0,fileURI.lastIndexOf('.') - 1) + "_" + (new Date()).getTime() + basename.substr(fileURI.lastIndexOf('.'));
-    alert(manipulatedName);
+    var manipulatedName = basename.substr(0,basename.lastIndexOf('.') - 1) + "_" + (new Date()).getTime() + basename.substr(basename.lastIndexOf('.'));
+    //navigator.notification.alert(manipulatedName);
     var options = new FileUploadOptions();
     options.fileKey = "pic";
     options.fileName = manipulatedName;
