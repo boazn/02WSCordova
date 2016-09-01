@@ -147,7 +147,7 @@ var app = {
        }
         else
         {
-            alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
+            //alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
             postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
             
         }
@@ -219,7 +219,7 @@ function registerDevice()
     function onPhotoURISuccess(result) {
         var fname;
         setTimeout(function() {
-	 //alert(result);
+	 alert(result);
 	}, 0);
         try{
             var thisResult = JSON.parse(result);
@@ -267,7 +267,7 @@ function registerDevice()
     //
     function onFail(message) {
         setTimeout(function() {
-            alert('Image not taken because: ' + message);
+            console.log('Image not taken because: ' + message);
         }, 0);
      
     }
@@ -419,14 +419,14 @@ function setView(width){
     if (width == 320)
      viewport.setAttribute('content', 'user-scalable=no, width=' + width);
        else
-    viewport.setAttribute('content', 'initial-scale='+viewportScale+', minimum-scale=0.55  , maximum-scale=1, width=' + width);
+    viewport.setAttribute('content', 'initial-scale=0.55, minimum-scale=0.55  , maximum-scale=1, width=' + width);
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
         throw new Error("You are trying to run this code for a non-cordova project, " +
                 "or did not install the cordova InAppBrowser plugin");
     }
-
+    
     // Currently (for retrocompatibility reasons) the plugin automagically wrap window.open
     // We don't want the plugin to always be run: we want to call it explicitly when needed
     // See https://issues.apache.org/jira/browse/CB-9573
@@ -451,13 +451,15 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
     // See https://issues.apache.org/jira/browse/CB-6747
     $(document).on('click', 'a[target=_top]', function(event) {
         event.preventDefault();
+        alert('a[target=_top]');
         systemOpen($(this).attr('href'));
     });
     $(document).on('click', 'a[href^=http], a[href^=https]', function (e) {
         e.preventDefault();
+        alert('a[href^=http]');
         var $this = $(this),
             target = $this.data('inAppBrowser') || '_system'; // system open the device browser. _blank open inappbrowser
-        window.open($this.attr('href'), target, 'location=no');
+        systemOpen($(this).attr('href'));
     });
  }
 $(document).ready(function() {
@@ -548,19 +550,19 @@ $(document).ready(function() {
     });   
     $('#02wsframe').load(function(){
         //alert('frame has (re)loaded: ' + this.contentWindow.location);
-        var allAsBlank = iframe.contents().find("a[target=_blank]");
+        var allAsBlank = $('#02wsframe').contents().find("a[target=_blank]");
         allAsBlank.on("click",function(e){           
             e.preventDefault();           
             var url = this.href;           
             window.open(url,"_system");       
         });
-        var allAsTop = iframe.contents().find("a[target=_top]");
+        var allAsTop = $('#02wsframe').contents().find("a[target=_top]");
         allAsTop.on("click",function(e){           
             e.preventDefault();           
             var url = this.href;           
             window.open(url,"_system");       
         });
-        var allAsExternal = iframe.contents().find("a[rel=external]");
+        var allAsExternal = $('#02wsframe').contents().find("a[rel=external]");
         allAsExternal.on("click",function(e){           
             e.preventDefault();           
             var url = this.href;           
@@ -573,7 +575,7 @@ $(document).ready(function() {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
     
-    handleExternalURLs();
+    //handleExternalURLs();
     openAllLinksWithBlankTargetInSystemBrowser();
 });
 

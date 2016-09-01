@@ -18,7 +18,11 @@ var locales = {
     radar:'radar',
     home:'home',
     sharesubject:'Weather now',
-    sharemessage:'From 02WS App'
+    sharemessage:'From 02WS App',
+    feelslike:'feels like',
+    sendpic:'Send Pic',
+    name:'name',
+    cancel:'cancel'
     
   },
   he: {
@@ -39,7 +43,11 @@ var locales = {
     radar:'מכ"ם גשם',
     home:'עמוד ראשי',
     sharesubject:'מזג-אוויר עכשיו',
-    sharemessage:'מתוך אפליקציית ירושמיים'
+    sharemessage:'מתוך אפליקציית ירושמיים',
+    feelslike:'מרגיש כמו',
+    sendpic:'שליחת תמונה',
+    name:'כינוי',
+    cancel:'דווקא לא בא לי'
   }
 };
  function bindStrings(){
@@ -60,7 +68,10 @@ var locales = {
      $('#btn_temp').html(currentLocale.temppage);
      $('#btn_hum').html(currentLocale.humpage);
      $('#btn_home').html(currentLocale.home);
-     
+     $('#btn_sendpic').val(currentLocale.sendpic);
+     $('#btn_cancel').val(currentLocale.cancel);
+     $('#nameonpic').attr('placeholder',currentLocale.name);
+     $('#commentonpic').attr('placeholder',currentLocale.feelslike);
      $('checkbox_notifications').slider('refresh');
      
  }
