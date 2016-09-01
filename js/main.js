@@ -224,10 +224,15 @@ function registerDevice()
         try{
             var thisResult = JSON.parse(result);
             var metadata = JSON.parse(thisResult.json_metadata);
-            //navigator.notification.alert('Lat: '+metadata.GPS.Latitude+' Lon: '+metadata.GPS.Longitude);
-            y = metadata.GPS.Latitude;
-            x = metadata.GPS.Longitude
             fname = thisResult.filename;
+            
+            try{
+                y = metadata.GPS.Latitude;
+                x = metadata.GPS.Longitude;
+                //navigator.notification.alert('Lat: '+metadata.GPS.Latitude+' Lon: '+metadata.GPS.Longitude);
+            }catch(e){
+                console.log('no GPS data')
+            }
         }
         catch(e){
             fname = result;
