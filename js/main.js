@@ -149,7 +149,7 @@ var app = {
         {
             //alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
             postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
-            window.FirebasePlugin.logEvent("saveIsToNotify", {page: "dashboard"});
+            
             
         }
         
@@ -176,19 +176,7 @@ function registerDevice()
             },
             windows: {}
         });
-        window.FirebasePlugin.grantPermission();
-        window.FirebasePlugin.getInstanceId(function(token) {
-            // save this server-side and use it to push notifications to this device
-            console.log('token from firebase:' + token);
-            tokenHandler(token);
-        }, function(error) {
-            console.error(error);
-        });
-        window.FirebasePlugin.onNotificationOpen(function(success) {
-            console.log(success);
-        }, function(error) {
-            console.error(error);
-        });
+        
         push.on('registration', function(data) {
             console.log('onregistration:' + data);
             tokenHandler(data.registrationId);
@@ -379,7 +367,7 @@ function onShareClick()
       chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
     }
     window.plugins.socialsharing.shareWithOptions(options, onShareSuccess, onShareError);
-    window.FirebasePlugin.logEvent("onShareClick", {page: "dashboard"});
+    
 }
 function onNotificationsCheck(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked)
 {
@@ -414,12 +402,12 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 var onShareSuccess = function(result) {
   console.log("Share completed? " + result.completed); 
   console.log("Shared to app: " + result.app);
-  window.FirebasePlugin.logEvent("Shared to app " + result.app, {page: "dashboard"});
+  
 }
 
 var onShareError = function(msg) {
   console.log("Sharing failed with message: " + msg);
-  window.FirebasePlugin.logEvent("Shared to app failed:" + msg, {page: "dashboard"});
+  
 }
 
 
