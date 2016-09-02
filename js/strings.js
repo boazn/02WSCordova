@@ -63,13 +63,12 @@ var locales = {
      $('#lblsound').text(currentLocale.sound);
      $("#btn_takepic").html(currentLocale.takepic);
      $('#btn_choosepic').html(currentLocale.chooselib);
-     $('#btn_choosepicalbum').html(currentLocale.choosealbum);
      $('#btn_radar').html(currentLocale.radar);
      $('#btn_temp').html(currentLocale.temppage);
      $('#btn_hum').html(currentLocale.humpage);
      $('#btn_home').html(currentLocale.home);
-     document.getElementById('btn_sendpic').value = currentLocale.sendpic;
-     document.getElementById('btn_cancel').value = currentLocale.cancel;
+     document.getElementById('btn_sendpic').value = "'" + currentLocale.sendpic + "'";
+     document.getElementById('btn_cancel').value = "'" + currentLocale.cancel + "'";
      $('#nameonpic').attr('placeholder',currentLocale.name);
      $('#commentonpic').attr('placeholder',currentLocale.feelslike);
      $('checkbox_notifications').slider('refresh');

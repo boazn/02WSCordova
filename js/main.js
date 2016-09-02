@@ -219,7 +219,7 @@ function registerDevice()
     function onPhotoURISuccess(result) {
         var fname;
         setTimeout(function() {
-	 alert(result);
+	 //alert(result);
 	}, 0);
         try{
             var thisResult = JSON.parse(result);
