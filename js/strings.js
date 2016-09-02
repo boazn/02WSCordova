@@ -67,8 +67,8 @@ var locales = {
      $('#btn_temp').html(currentLocale.temppage);
      $('#btn_hum').html(currentLocale.humpage);
      $('#btn_home').html(currentLocale.home);
-     document.getElementById('btn_sendpic').value = "'" + currentLocale.sendpic + "'";
-     document.getElementById('btn_cancel').value = "'" + currentLocale.cancel + "'";
+     $('#btn_sendpic').html(currentLocale.sendpic);
+     $('#btn_cancel').html(currentLocale.cancel);
      $('#nameonpic').attr('placeholder',currentLocale.name);
      $('#commentonpic').attr('placeholder',currentLocale.feelslike);
      $('checkbox_notifications').slider('refresh');

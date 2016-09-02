@@ -5,7 +5,7 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no,initial-scale=1.0,width=320" />
-        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+        <meta http-equiv="Content-Security-Policy" content="sandbox allow-forms allow-same-origin allow-popups allow-scripts">
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/styles.css"/>
         <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
@@ -24,19 +24,21 @@
                 <div data-role="navbar">
                     <ul>
                         <li><a id="refresh-button" data-icon="refresh" data-role="button" href="javascript:onRefresh()" data-iconpos="notext" class="header-button"></a></li>
-                        <li><a id="navpanel-button" data-icon="cloud" data-role="button" href="#navlinkpanel" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="navpanel-button" data-rel="panel" data-icon="cloud" data-role="button"  href="#navlinkpanel" data-iconpos="notext" class="header-button"></a></li>
                         <li><a id="camera-button" data-icon="camera" data-role="button" href="#campanel" data-iconpos="notext" class="header-button"></a></li>
                         <li><a id="share-button" data-icon="action" data-role="button" href="javascript:onShareClick()" data-iconpos="notext" class="header-button"></a></li>
                         <li><a id="bars-button" data-icon="bars" data-role="button" href="#navpanel" data-iconpos="notext" class="header-button"></a></li>
                     </ul>
                 </div>
              </div>
-            <div data-role="panel" id="navlinkpanel" data-theme="a"
-                 data-display="overlay" data-position="right">
-                <button type="button" id="btn_radar" ></button>
-                <button type="button" id="btn_temp"  ></button>
-                <button type="button" id="btn_hum"  ></button>
-                <button type="button" id="btn_home"  ></button>
+            
+            <div data-role="panel" id="navlinkpanel" data-overlay-theme="a" class="ui-content" data-display="overlay" data-position="left">
+                <ul data-role="listview" class="ui-content" data-overlay-theme="a">
+                        <li><a id="btn_radar" href="javascript:void()" onclick="radarClicked()"></a></li>
+                        <li><a id="btn_temp" onclick="tempClicked()"></a></li>
+                        <li><a id="btn_hum" onclick="humClicked()"></a></li>
+                        <li data-icon="home"><a id="btn_home" onclick="homeClicked()"></a></li>
+                </ul>
             </div>
             <div data-role="panel" id="campanel" data-theme="a"
                  data-display="overlay" data-position="right">
@@ -79,7 +81,7 @@
                     <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_sound" name="checkbox_sound">
                     </div>
                     </form>
-                    <button type="button" id="btn_okclosepanel"  data-position="fixed" data-role="footer">Ok</button>
+                    <button type="button" id="btn_okclosepanel"  data-position="fixed" data-role="footer">OK</button>
                 </div>
             </div>
 
@@ -96,9 +98,9 @@
                  <img style="display:none;width:290px;" id="largeImage" src="" />
                  <input type="text" id="nameonpic" value="" placeholder="name"/>
                  <input type="text" id="commentonpic" value="" placeholder="comment"/>
-                 <input type="button" id="btn_sendpic" value="" onclick="sendPic()"/>
-                 <input type="button" id="btn_cancel" value="" onclick="cancelPic()"/>
-                 
+                 <button type="button" id="btn_sendpic" onclick="sendPic()"></button>
+                 <button type="button" id="btn_cancel"  onclick="cancelPic()" ></button>
+                                  
             </div>
         </div>
         

@@ -149,6 +149,7 @@ var app = {
         {
             //alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
             postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
+            window.FirebasePlugin.logEvent("saveIsToNotify", {page: "dashboard"});
             
         }
         
@@ -174,6 +175,19 @@ function registerDevice()
                 sound: "true"
             },
             windows: {}
+        });
+        window.FirebasePlugin.grantPermission();
+        window.FirebasePlugin.getInstanceId(function(token) {
+            // save this server-side and use it to push notifications to this device
+            console.log('token from firebase:' + token);
+            tokenHandler(token);
+        }, function(error) {
+            console.error(error);
+        });
+        window.FirebasePlugin.onNotificationOpen(function(success) {
+            console.log(success);
+        }, function(error) {
+            console.error(error);
         });
         push.on('registration', function(data) {
             console.log('onregistration:' + data);
@@ -365,6 +379,7 @@ function onShareClick()
       chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
     }
     window.plugins.socialsharing.shareWithOptions(options, onShareSuccess, onShareError);
+    window.FirebasePlugin.logEvent("onShareClick", {page: "dashboard"});
 }
 function onNotificationsCheck(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked)
 {
@@ -398,11 +413,13 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 
 var onShareSuccess = function(result) {
   console.log("Share completed? " + result.completed); 
-  console.log("Shared to app: " + result.app); 
+  console.log("Shared to app: " + result.app);
+  window.FirebasePlugin.logEvent("Shared to app " + result.app, {page: "dashboard"});
 }
 
 var onShareError = function(msg) {
   console.log("Sharing failed with message: " + msg);
+  window.FirebasePlugin.logEvent("Shared to app failed:" + msg, {page: "dashboard"});
 }
 
 
@@ -425,6 +442,34 @@ function setView(width){
      viewport.setAttribute('content', 'user-scalable=no, width=' + width);
        else
     viewport.setAttribute('content', 'initial-scale=0.55, minimum-scale=0.55  , maximum-scale=1, width=' + width);
+}
+function navClicked(baseurl){
+    lang = window.localStorage.getItem("lang");
+    iscloth = window.localStorage.getItem("cloth");
+    isfulltext = window.localStorage.getItem("fulltext");
+    issound = window.localStorage.getItem("sound");
+     var url = baseurl + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
+    $('#02wsframe').attr('src', url);
+    setView(570);
+    $('#navlinkpanel').panel('close');
+}
+function radarClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=radar.php&lang=');
+}
+function tempClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=');
+}
+function humClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=');
+}
+function homeClicked(){
+    lang = window.localStorage.getItem("lang");
+    iscloth = window.localStorage.getItem("cloth");
+    isfulltext = window.localStorage.getItem("fulltext");
+    issound = window.localStorage.getItem("sound");
+    onLanguageChoose(lang, iscloth, isfulltext, issound);
+    $('#navlinkpanel').panel('close');
+        
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
     if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
@@ -509,49 +554,16 @@ $(document).ready(function() {
        
     });
     $("[id='btn_radar']").on('click',function(event) {
-        lang = window.localStorage.getItem("lang");
-        iscloth = window.localStorage.getItem("cloth");
-        isfulltext = window.localStorage.getItem("fulltext");
-        issound = window.localStorage.getItem("sound");
-         var url = "http://www.02ws.co.il/small.php?section=radar.php&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
-        $('#02wsframe').attr('src', url);
-        setView(570);
-        $('#navlinkpanel').panel('close');
-        
-       
-    });
+       radarClicked(); 
+     });
     $("[id='btn_temp']").on('click',function(event) {
-        lang = window.localStorage.getItem("lang");
-        iscloth = window.localStorage.getItem("cloth");
-        isfulltext = window.localStorage.getItem("fulltext");
-        issound = window.localStorage.getItem("sound");
-         var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
-        $('#02wsframe').attr('src', url);
-        setView(560);
-        $('#navlinkpanel').panel('close');
-        
-       
+        tempClicked();
     });
     $("[id='btn_hum']").on('click',function(event) {
-        setView(560);
-        lang = window.localStorage.getItem("lang");
-        iscloth = window.localStorage.getItem("cloth");
-        isfulltext = window.localStorage.getItem("fulltext");
-        issound = window.localStorage.getItem("sound");
-         var url = "http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
-        $('#02wsframe').attr('src', url);
-        $('#navlinkpanel').panel('close');
-        
-       
+        humClicked();
     });
     $("[id='btn_home']").on('click',function(event) {
-        lang = window.localStorage.getItem("lang");
-        iscloth = window.localStorage.getItem("cloth");
-        isfulltext = window.localStorage.getItem("fulltext");
-        issound = window.localStorage.getItem("sound");
-        onLanguageChoose(lang, iscloth, isfulltext, issound);
-        $('#navlinkpanel').panel('close');
-        
+        homeClicked()();
     });   
     $('#02wsframe').load(function(){
         //alert('frame has (re)loaded: ' + this.contentWindow.location);
