@@ -1,0 +1,56 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "org.apache.cordova.device": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "cordova-plugin-spinner": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "phonegap-plugin-push": {
+            "SENDER_ID": "1234567",
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "cordova-plugin-camera-with-exif": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "il.co.jws"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "il.co.jws"
+        }
+    }
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no,initial-scale=1.0,width=320" />
+        <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+        <script type="text/javascript" src="lib/jquery-2.2.4.min.js"></script>
+        <script type="text/javascript" src="lib/jquery.mobile-1.4.5.min.js"></script>s
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/strings.js"></script>
+        <script type="text/javascript" src="lib/PushNotification.js"></script>
+       
+        <title>ירושמיים</title>
+    </head>
+    <body>
+        <div data-role="page" id="home" data-theme="a">
+            <div id="header" data-role="footer" data-theme="c" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a id="refresh-button" data-icon="refresh" data-role="button" href="javascript:onRefresh()" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="navpanel-button" data-rel="panel" data-icon="cloud" data-role="button"  href="#navlinkpanel" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="camera-button" data-icon="camera" data-role="button" href="#campanel" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="share-button" data-icon="action" data-role="button" href="javascript:onShareClick()" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="bars-button" data-icon="bars" data-role="button" href="#navpanel" data-iconpos="notext" class="header-button"></a></li>
+                    </ul>
+                </div>
+             </div>
+            
+            <div data-role="panel" id="navlinkpanel" data-overlay-theme="a" class="ui-content" data-display="overlay" data-position="left">
+                <ul data-role="listview" class="ui-content" data-overlay-theme="a">
+                        <li><a id="btn_radar" href="javascript:void()" onclick="radarClicked()"></a></li>
+                        <li><a id="btn_temp" onclick="tempClicked()"></a></li>
+                        <li><a id="btn_hum" onclick="humClicked()"></a></li>
+                        <li data-icon="home"><a id="btn_home" onclick="homeClicked()"></a></li>
+                </ul>
+            </div>
+            <div data-role="panel" id="campanel" data-theme="a"
+                 data-display="overlay" data-position="right">
+                <button type="button" id="btn_takepic" ></button>
+                <button type="button" id="btn_choosepic"  ></button>
+            </div>
+            <div data-role="panel" id="navpanel" data-theme="a"
+                 data-display="overlay" data-position="right">
+                <div data-role="controlgroup" data-corners="false">
+                    <div data-role="controlgroup" data-corners="false">
+                    <label>
+                   <input type="radio" name="radio-choice-lang" id="radio-choice-langa" value="1">עברית
+                   </label>
+                   <label for="radio-choice-langb">Eng</label>
+                   <input type="radio" name="radio-choice-lang" id="radio-choice-langb" class="custom" value="0">
+                   </div>    
+                    <form>
+                    <div class="float">
+                    <label for="checkbox_notifications" id="lbllongterm"></label>
+                    <input type="checkbox"  id="checkbox_notifications" name="checkbox_notifications" data-role="flipswitch" data-mini="true">
+                    </div>
+                    <div class="float">
+                    <label for="checkbox_shortnotifications" id="lblshortterm"></label> 
+                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortnotifications" name="checkbox_shortnotifications">
+                    </div>
+                    <div class="float">
+                    <label for="checkbox_tipsnotifications" id="lbltips"></label>
+                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_tipsnotifications" name="checkbox_tipsnotifications">
+                    </div>
+                    <div class="float">
+                    <label for="checkbox_cloth" id="lblcloths"></label>
+                     <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_cloth" name="checkbox_cloth">
+                    </div>
+                    <div class="float">
+                    <label for="checkbox_fulltext" id="lblfulltext"></label>
+                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_fulltext" name="checkbox_fulltext">
+                     </div>
+                    <div class="float">
+                    <label for="checkbox_sound" id="lblsound"></label>
+                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_sound" name="checkbox_sound">
+                    </div>
+                    </form>
+                    <button type="button" id="btn_okclosepanel"  data-position="fixed" data-role="footer">OK</button>
+                </div>
+            </div>
+
+
+            <div id="applicationContainer" data-role="content" style="height:100%">
+                <div class="scrollable">
+                <div class="wrap">
+                <iframe id="02wsframe" src="" style="width:100%;height:100%;border:0" seamless ></iframe>
+                </div>
+                </div>
+            </div>
+            <div id="imagepreviewContainer" data-role="content" style="display: none">
+                 <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+                 <img style="display:none;width:290px;" id="largeImage" src="" />
+                 <input type="text" id="nameonpic" value="" placeholder="name"/>
+                 <input type="text" id="commentonpic" value="" placeholder="comment"/>
+                 <button type="button" id="btn_sendpic" onclick="sendPic()"></button>
+                 <button type="button" id="btn_cancel"  onclick="cancelPic()" ></button>
+                                  
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+                     app.initialize();
+        </script>
+    </body>
+</html>
