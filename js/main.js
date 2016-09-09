@@ -356,9 +356,16 @@ function regsuccessHandler (result) {
 }
 function onRefresh()
 {
-    window.cache.clear( success, error );
-    window.cache.cleartemp();
-    document.getElementById('02wsframe').src = document.getElementById('02wsframe').src;
+   var successclear = function(status) {
+        alert('successclear: ' + status);
+    }
+
+    var errorclear = function(status) {
+        alert('Errorclear: ' + status);
+    } 
+    window.cache.clear( successclear, errorclear );
+    
+    document.getElementById('02wsframe').src = document.getElementById('02wsframe').src + (new Date()).getTime();
 }
 function onShareClick()
 {
