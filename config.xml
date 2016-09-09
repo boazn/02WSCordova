@@ -9,7 +9,7 @@
     </author>
     <content src="index.html"/>
     <preference name="permissions" value="none"/>
-    <preference name="phonegap-version" value="cli-5.2.0"/>
+    <preference name="phonegap-version" value="cli-6.3.0"/>
     <preference name="orientation" value="default"/>
     <preference name="target-device" value="universal"/>
     <preference name="DisallowOverscroll" value="true" />
@@ -27,6 +27,7 @@
     <preference name="EnableViewportScale" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <plugin name="cordova-plugin-cache" source="npm" />
     <plugin name="cordova-plugin-console" source="npm" />
     <plugin name="cordova-plugin-device" source="npm" />
     <plugin name="cordova-plugin-file" source="npm" />
@@ -41,9 +42,9 @@
     <plugin name="cordova-plugin-camera-with-exif" source="npm"/>
     <plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <plugin name="cordova-plugin-dialogs" source="npm" />
-    <allow-plugin name="cordova-plugin-whitelist" spec="1" />
+    <plugin name="cordova-plugin-whitelist" source="npm" />
     <access origin="*" />
-    <allow-navigation href="*://*/*" />
+    <allow-navigation href="*://*.02ws.co.il/*" />
     <allow-intent href="*://*/*" />
     <allow-intent href="itms:*"/>
     <allow-intent href="itms-apps:*"/>

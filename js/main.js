@@ -110,6 +110,8 @@ var app = {
         {
             console.log("register device:" + e);
         }
+        
+        
        
     },
     // Update DOM on a Received Event
@@ -354,6 +356,8 @@ function regsuccessHandler (result) {
 }
 function onRefresh()
 {
+    window.cache.clear( success, error );
+    window.cache.cleartemp();
     document.getElementById('02wsframe').src = document.getElementById('02wsframe').src;
 }
 function onShareClick()
@@ -418,9 +422,9 @@ function handleExternalURLs() {
 
     $(document).on('click', 'a[href^="http"]', function (e) {
         var url = $(this).attr('href');
+         e.preventDefault();
         window.open(url, '_system');
-        e.preventDefault();
-    });
+     });
     
 }
 function setView(width){
@@ -441,6 +445,9 @@ function navClicked(baseurl){
     setView(570);
     $('#navlinkpanel').panel('close');
 }
+function dailypicClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=picoftheday.php&lang=');
+}
 function radarClicked(){
     navClicked('http://www.02ws.co.il/small.php?section=radar.php&lang=');
 }
@@ -460,10 +467,10 @@ function homeClicked(){
         
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
-    if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
+    /*if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
         throw new Error("You are trying to run this code for a non-cordova project, " +
                 "or did not install the cordova InAppBrowser plugin");
-    }
+    }*/
     
     // Currently (for retrocompatibility reasons) the plugin automagically wrap window.open
     // We don't want the plugin to always be run: we want to call it explicitly when needed
@@ -475,7 +482,8 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
     var systemOpen = function(url, options) {
         // Do not use window.open becaus the InAppBrowser open will not proxy window.open
         // in the future versions of the plugin (see doc) so it is safer to call InAppBrowser.open directly
-        cordova.InAppBrowser.open(url,"_system",options);
+        //cordova.InAppBrowser.open(url,"_system",options);
+        window.open(url,"_system",options);
     };
 
 
@@ -537,6 +545,9 @@ $(document).ready(function() {
         getPhoto(pictureSource.SAVEDPHOTOALBUM);
        
     });
+     $("[id='btn_dailypic']").on('click',function(event) {
+        dailypicClicked(); 
+    });
     $("[id='btn_okclosepanel']").on('click',function(event) {
         $('#navpanel').panel('close');
        
@@ -553,8 +564,8 @@ $(document).ready(function() {
     $("[id='btn_home']").on('click',function(event) {
         homeClicked()();
     });   
-    $('#02wsframe').load(function(){
-        //alert('frame has (re)loaded: ' + this.contentWindow.location);
+   $('#02wsframe').load(function(){
+        alert('frame has (re)loaded: ' + this.contentWindow.location);
         var allAsBlank = $('#02wsframe').contents().find("a[target=_blank]");
         allAsBlank.on("click",function(e){           
             e.preventDefault();           
@@ -580,7 +591,7 @@ $(document).ready(function() {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
     
-    //handleExternalURLs();
-    //openAllLinksWithBlankTargetInSystemBrowser();
+    handleExternalURLs();
+    openAllLinksWithBlankTargetInSystemBrowser();
 });
 
