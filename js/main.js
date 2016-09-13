@@ -320,7 +320,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
         } else {
             retries = 0;
             clearCache();
-            navigator.notification.alert('Ups. Something wrong happens! Code = ' + error.code);
+            console.log('Ups. Something wrong happens! Code = ' + error.code);
         }
     }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
@@ -357,11 +357,11 @@ function regsuccessHandler (result) {
 function onRefresh()
 {
    var successclear = function(status) {
-        alert('successclear: ' + status);
+        console.log('successclear: ' + status);
     }
 
     var errorclear = function(status) {
-        alert('Errorclear: ' + status);
+        console.log('Errorclear: ' + status);
     } 
     window.cache.clear( successclear, errorclear );
     
@@ -454,6 +454,7 @@ function navClicked(baseurl){
 }
 function dailypicClicked(){
     navClicked('http://www.02ws.co.il/small.php?section=picoftheday.php&lang=');
+    $('#campanel').panel('close');
 }
 function radarClicked(){
     navClicked('http://www.02ws.co.il/small.php?section=radar.php&lang=');
@@ -504,12 +505,12 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
     // See https://issues.apache.org/jira/browse/CB-6747
     $(document).on('click', 'a[target=_top]', function(event) {
         event.preventDefault();
-        alert('a[target=_top]');
+        console.log('a[target=_top]');
         systemOpen($(this).attr('href'));
     });
     $(document).on('click', 'a[href^=http], a[href^=https]', function (e) {
         e.preventDefault();
-        alert('a[href^=http]');
+        console.log('a[href^=http]');
         var $this = $(this),
             target = $this.data('inAppBrowser') || '_system'; // system open the device browser. _blank open inappbrowser
         systemOpen($(this).attr('href'));
@@ -572,7 +573,7 @@ $(document).ready(function() {
         homeClicked()();
     });   
    $('#02wsframe').load(function(){
-        alert('frame has (re)loaded: ' + this.contentWindow.location);
+        console.log('frame has (re)loaded: ' + this.contentWindow.location);
         var allAsBlank = $('#02wsframe').contents().find("a[target=_blank]");
         allAsBlank.on("click",function(e){           
             e.preventDefault();           
