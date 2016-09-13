@@ -22,7 +22,8 @@ var locales = {
     feelslike:'feels like',
     sendpic:'Send Pic',
     name:'name',
-    cancel:'cancel'
+    cancel:'cancel',
+    dailypic:'pic of the day'
     
   },
   he: {
@@ -47,7 +48,8 @@ var locales = {
     feelslike:'מרגיש כמו',
     sendpic:'שליחת תמונה',
     name:'כינוי',
-    cancel:'דווקא לא בא לי'
+    cancel:'דווקא לא בא לי',
+    dailypic:'תמונת היום'
   }
 };
  function bindStrings(){
@@ -69,6 +71,7 @@ var locales = {
      $('#btn_home').html(currentLocale.home);
      $('#btn_sendpic').html(currentLocale.sendpic);
      $('#btn_cancel').html(currentLocale.cancel);
+     $('#btn_dailypic').html(currentLocale.dailypic);
      $('#nameonpic').attr('placeholder',currentLocale.name);
      $('#commentonpic').attr('placeholder',currentLocale.feelslike);
      $('checkbox_notifications').slider('refresh');

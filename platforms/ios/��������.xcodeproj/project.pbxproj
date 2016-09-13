@@ -74,6 +74,7 @@
 		B732E3360F8543B890DA059E /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB768B09374A09A57FF65E /* CDVNotification.m */; };
 		31ECCCD5EC704444AB2796EB /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 704123892D3E4A37A6FC9EFD /* CDVNotification.bundle */; };
 		159D21C6DA204FF0B0924B8B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2E98D32CFB6420099922EB4 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		646BF3EFC72C4F8DB521A2DB /* Cache.m in Sources */ = {isa = PBXBuildFile; fileRef = 512D63CD09CF48F5AD161B1E /* Cache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,6 +211,8 @@
 		ED3EAC8479994FEB893B6C70 /* CDVNotification.h */ = {isa = PBXFileReference; name = "CDVNotification.h"; path = "cordova-plugin-dialogs/CDVNotification.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		704123892D3E4A37A6FC9EFD /* CDVNotification.bundle */ = {isa = PBXFileReference; name = "CDVNotification.bundle"; path = "CDVNotification.bundle"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.plug-in; explicitFileType = undefined; includeInIndex = 0; };
 		D2E98D32CFB6420099922EB4 /* AudioToolbox.framework */ = {isa = PBXFileReference; name = "AudioToolbox.framework"; path = "System/Library/Frameworks/AudioToolbox.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		512D63CD09CF48F5AD161B1E /* Cache.m */ = {isa = PBXFileReference; name = "Cache.m"; path = "org.apache.cordova.plugin.cache/Cache.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		819F353146A541029280329E /* Cache.h */ = {isa = PBXFileReference; name = "Cache.h"; path = "org.apache.cordova.plugin.cache/Cache.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -445,6 +448,8 @@
 				8A7AB90C6839409DAB660D05 /* SocialSharing.h */,
 				9BDB768B09374A09A57FF65E /* CDVNotification.m */,
 				ED3EAC8479994FEB893B6C70 /* CDVNotification.h */,
+				512D63CD09CF48F5AD161B1E /* Cache.m */,
+				819F353146A541029280329E /* Cache.h */,
 			);
 			name = Plugins;
 			path = "��������/Plugins";
@@ -582,6 +587,7 @@
 				7DD84020F5634C808486C35E /* NSString+URLEncoding.m in Sources */,
 				D981FD6AAF0A48C29B5A7315 /* SocialSharing.m in Sources */,
 				B732E3360F8543B890DA059E /* CDVNotification.m in Sources */,
+				646BF3EFC72C4F8DB521A2DB /* Cache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

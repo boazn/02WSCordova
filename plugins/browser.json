@@ -46,6 +46,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "il.co.jws"
+        },
+        "org.apache.cordova.plugin.cache": {
+            "PACKAGE_NAME": "il.co.jws"
         }
     },
     "dependent_plugins": {

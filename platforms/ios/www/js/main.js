@@ -110,6 +110,8 @@ var app = {
         {
             console.log("register device:" + e);
         }
+        
+        
        
     },
     // Update DOM on a Received Event
@@ -318,7 +320,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
         } else {
             retries = 0;
             clearCache();
-            navigator.notification.alert('Ups. Something wrong happens! Code = ' + error.code);
+            console.log('Ups. Something wrong happens! Code = ' + error.code);
         }
     }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
@@ -354,7 +356,16 @@ function regsuccessHandler (result) {
 }
 function onRefresh()
 {
-    document.getElementById('02wsframe').src = document.getElementById('02wsframe').src;
+   var successclear = function(status) {
+        console.log('successclear: ' + status);
+    }
+
+    var errorclear = function(status) {
+        console.log('Errorclear: ' + status);
+    } 
+    window.cache.clear( successclear, errorclear );
+    
+    document.getElementById('02wsframe').src = document.getElementById('02wsframe').src + (new Date()).getTime();
 }
 function onShareClick()
 {
@@ -418,9 +429,9 @@ function handleExternalURLs() {
 
     $(document).on('click', 'a[href^="http"]', function (e) {
         var url = $(this).attr('href');
+         e.preventDefault();
         window.open(url, '_system');
-        e.preventDefault();
-    });
+     });
     
 }
 function setView(width){
@@ -441,6 +452,10 @@ function navClicked(baseurl){
     setView(570);
     $('#navlinkpanel').panel('close');
 }
+function dailypicClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=picoftheday.php&lang=');
+    $('#campanel').panel('close');
+}
 function radarClicked(){
     navClicked('http://www.02ws.co.il/small.php?section=radar.php&lang=');
 }
@@ -460,10 +475,10 @@ function homeClicked(){
         
 }
 function openAllLinksWithBlankTargetInSystemBrowser() {
-    if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
+    /*if ( typeof cordova === "undefined" || !cordova.InAppBrowser ) {
         throw new Error("You are trying to run this code for a non-cordova project, " +
                 "or did not install the cordova InAppBrowser plugin");
-    }
+    }*/
     
     // Currently (for retrocompatibility reasons) the plugin automagically wrap window.open
     // We don't want the plugin to always be run: we want to call it explicitly when needed
@@ -475,7 +490,8 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
     var systemOpen = function(url, options) {
         // Do not use window.open becaus the InAppBrowser open will not proxy window.open
         // in the future versions of the plugin (see doc) so it is safer to call InAppBrowser.open directly
-        cordova.InAppBrowser.open(url,"_system",options);
+        //cordova.InAppBrowser.open(url,"_system",options);
+        window.open(url,"_system",options);
     };
 
 
@@ -489,12 +505,12 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
     // See https://issues.apache.org/jira/browse/CB-6747
     $(document).on('click', 'a[target=_top]', function(event) {
         event.preventDefault();
-        alert('a[target=_top]');
+        console.log('a[target=_top]');
         systemOpen($(this).attr('href'));
     });
     $(document).on('click', 'a[href^=http], a[href^=https]', function (e) {
         e.preventDefault();
-        alert('a[href^=http]');
+        console.log('a[href^=http]');
         var $this = $(this),
             target = $this.data('inAppBrowser') || '_system'; // system open the device browser. _blank open inappbrowser
         systemOpen($(this).attr('href'));
@@ -537,6 +553,9 @@ $(document).ready(function() {
         getPhoto(pictureSource.SAVEDPHOTOALBUM);
        
     });
+     $("[id='btn_dailypic']").on('click',function(event) {
+        dailypicClicked(); 
+    });
     $("[id='btn_okclosepanel']").on('click',function(event) {
         $('#navpanel').panel('close');
        
@@ -553,8 +572,8 @@ $(document).ready(function() {
     $("[id='btn_home']").on('click',function(event) {
         homeClicked()();
     });   
-    $('#02wsframe').load(function(){
-        //alert('frame has (re)loaded: ' + this.contentWindow.location);
+   $('#02wsframe').load(function(){
+        console.log('frame has (re)loaded: ' + this.contentWindow.location);
         var allAsBlank = $('#02wsframe').contents().find("a[target=_blank]");
         allAsBlank.on("click",function(e){           
             e.preventDefault();           
@@ -580,7 +599,7 @@ $(document).ready(function() {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
     
-    //handleExternalURLs();
-    //openAllLinksWithBlankTargetInSystemBrowser();
+    handleExternalURLs();
+    openAllLinksWithBlankTargetInSystemBrowser();
 });
 

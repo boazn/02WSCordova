@@ -58,6 +58,9 @@
     <feature name="Notification">
         <param name="ios-package" value="CDVNotification" />
     </feature>
+    <feature name="Cache">
+        <param name="ios-package" value="Cache" />
+    </feature>
     <name>��������</name>
     <description>
         Jerusalem Weather Station.

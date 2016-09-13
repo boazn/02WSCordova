@@ -4,7 +4,18 @@
         "uninstalled": []
     },
     "config_munge": {
-        "files": {}
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"Cache\"><param name=\"ios-package\" value=\"Cache\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
     },
     "installed_plugins": {
         "cordova-plugin-console": {
@@ -45,6 +56,9 @@
             "PACKAGE_NAME": "il.co.jws"
         },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "il.co.jws"
+        },
+        "org.apache.cordova.plugin.cache": {
             "PACKAGE_NAME": "il.co.jws"
         }
     },

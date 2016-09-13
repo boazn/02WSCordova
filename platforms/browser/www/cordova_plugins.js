@@ -333,6 +333,14 @@ module.exports = [
         "merges": [
             "navigator.notification"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.plugin.cache/www/Cache.js",
+        "id": "org.apache.cordova.plugin.cache.Cache",
+        "pluginId": "org.apache.cordova.plugin.cache",
+        "clobbers": [
+            "cache"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -340,7 +348,6 @@ module.exports.metadata =
 {
     "cordova-plugin-console": "1.0.3",
     "org.apache.cordova.device": "0.2.12",
-    "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-file": "4.2.0",
     "cordova-plugin-file-transfer": "1.5.1",
     "cordova-plugin-spinner": "1.1.0",
@@ -351,7 +358,9 @@ module.exports.metadata =
     "cordova-plugin-camera-with-exif": "1.1.3",
     "cordova-plugin-x-socialsharing": "5.1.3",
     "cordova-plugin-dialogs": "1.2.1",
-    "cordova-plugin-whitelist": "1.2.2"
+    "cordova-plugin-whitelist": "1.2.2",
+    "org.apache.cordova.plugin.cache": "1.0.5",
+    "cordova-plugin-compat": "1.0.0"
 }
 // BOTTOM OF METADATA
 });
