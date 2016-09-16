@@ -601,5 +601,6 @@ $(document).ready(function() {
     
     handleExternalURLs();
     openAllLinksWithBlankTargetInSystemBrowser();
+    
 });
 
