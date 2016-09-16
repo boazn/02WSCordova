@@ -74,6 +74,10 @@ var locales = {
      $('#btn_dailypic').html(currentLocale.dailypic);
      $('#nameonpic').attr('placeholder',currentLocale.name);
      $('#commentonpic').attr('placeholder',currentLocale.feelslike);
+     if (userLanguage == 'he'){
+         $('#nameonpic').css('direction','rtl');
+         $('#commentonpic').css('direction','rtl');
+     }
      $('checkbox_notifications').slider('refresh');
      
  }

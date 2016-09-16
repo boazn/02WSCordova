@@ -193,8 +193,10 @@ h2 {
         position:absolute;
         top:0;
         left:0;
-        width:100%;
+        width:310px;
         z-index:1000;
+        margin:0 auto;
+        text-align: center;
         background-color: #fff;
     }
     #btn_okclosepanel{
@@ -211,6 +213,19 @@ h2 {
         width:50%;
         float:right
     }
-    #btn_sendpic, #btn_cancel, #nameonpic, #commentonpic{
-        width:80%
+    #largeImage{
+        margin:0 auto;
+    }
+    #btn_sendpic, #btn_cancel{
+        width:200px;
+        margin:0.3em auto;
+    }
+    #nameonpic, #commentonpic{
+        text-align:center;
+        margin:0.3em auto;
+    }
+    .imageinput{
+        width:290px !important;
+        margin:0.3em auto;
+        
     }

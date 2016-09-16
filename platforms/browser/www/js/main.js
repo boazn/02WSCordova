@@ -320,7 +320,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
         } else {
             retries = 0;
             clearCache();
-            navigator.notification.alert('Ups. Something wrong happens! Code = ' + error.code);
+            console.log('Ups. Something wrong happens! Code = ' + error.code);
         }
     }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
@@ -505,15 +505,15 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
     // See https://issues.apache.org/jira/browse/CB-6747
     $(document).on('click', 'a[target=_top]', function(event) {
         event.preventDefault();
-        alert('a[target=_top]');
-        systemOpen($(this).attr('href'));
+        console.log('a[target=_top]');
+        systemOpen($(this).attr('href'), 'location=no');
     });
     $(document).on('click', 'a[href^=http], a[href^=https]', function (e) {
         e.preventDefault();
-        alert('a[href^=http]');
+        console.log('a[href^=http]');
         var $this = $(this),
             target = $this.data('inAppBrowser') || '_system'; // system open the device browser. _blank open inappbrowser
-        systemOpen($(this).attr('href'));
+        systemOpen($(this).attr('href'), 'location=no');
     });
  }
 $(document).ready(function() {
@@ -601,5 +601,6 @@ $(document).ready(function() {
     
     handleExternalURLs();
     openAllLinksWithBlankTargetInSystemBrowser();
+    
 });
 

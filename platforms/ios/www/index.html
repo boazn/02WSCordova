@@ -96,11 +96,11 @@
             <div id="imagepreviewContainer" data-role="content" style="display: none">
                  <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
                  <img style="display:none;width:290px;" id="largeImage" src="" />
-                 <input type="text" id="nameonpic" value="" placeholder="name"/>
-                 <input type="text" id="commentonpic" value="" placeholder="comment"/>
-                 <button type="button" id="btn_sendpic" onclick="sendPic()"></button>
-                 <button type="button" id="btn_cancel"  onclick="cancelPic()" ></button>
-                                  
+                 
+                 <input type="text" id="nameonpic" name="nameonpic" value="" data-wrapper-class="imageinput" placeholder="name" data-mini="true" />
+                 <textarea data-mini="true" rows="2" placeholder="comment" id="commentonpic" name="commentonpic" data-wrapper-class="imageinput"></textarea>
+                 <button type="button" data-theme="b" id="btn_sendpic" data-wrapper-class="imageinput" onclick="sendPic()"></button>
+                 <button type="button" data-theme="a" id="btn_cancel" data-wrapper-class="imageinput" onclick="cancelPic()" ></button>
             </div>
         </div>
         
