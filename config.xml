@@ -64,6 +64,7 @@
     <icon gap:platform="ios" height="114" src="res/icon/ios/icon-114.png" width="114"/>
     <icon gap:platform="ios" height="120" src="res/icon/ios/icon-120.png" width="120"/>
     <icon gap:platform="ios" height="144" src="res/icon/ios/icon-144.png" width="144"/>
+    <icon gap:platform="ios" height="152" src="res/icon/ios/icon-152.png" width="152"/>
     <gap:splash src="Default.png"         gap:platform="ios"     width="320" height="480" />
     <gap:splash src="Default@2x.png"      gap:platform="ios"     width="640" height="960" />
     <gap:splash src="Default-568h@2x.png" gap:platform="ios"     width="640" height="1136" />
