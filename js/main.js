@@ -18,6 +18,8 @@ var app = {
         
         var lang = window.localStorage.getItem("lang");
         if (lang == undefined) {lang = 1;}
+        var tempunits = window.localStorage.getItem("tempunits");
+        if (tempunits == undefined) {tempunits = '°C';}
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         //ini notifications
         var isToNotify = window.localStorage.getItem("notify");
@@ -164,7 +166,7 @@ function registerDevice()
     console.log('registering ' + device.platform);
         try
         {
-        push = PushNotification.init({
+        var push = PushNotification.init({
             android: {
                 senderID: "12345679"
             },
@@ -174,18 +176,30 @@ function registerDevice()
             ios: {
                 alert: "true",
                 badge: "true",
-                sound: "true"
+                sound: "true",
+                clearBadge: "true",
+                "categories": {
+                    "share": {
+                    "yes": {
+                        "callback": "onShareNotification", "title": currentLocale.share, "foreground": true, "destructive": false
+                    },
+                    "no": {
+                         "title": currentLocale.cancel, "foreground": false, "destructive": false
+                    }
+                },
+                
+                }
             },
             windows: {}
         });
         
         push.on('registration', function(data) {
-            console.log('onregistration:' + data);
+            console.log('on registration:' + data);
             tokenHandler(data.registrationId);
         });
 
         push.on('notification', function(data) {
-
+            console.log('on notification:' + data);
             console.log(data.message);
             console.log(data.title);
             console.log(data.count);
@@ -258,7 +272,7 @@ function registerDevice()
     //
     function capturePhotoEdit() {
      clearCache();
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 80, allowEdit: true,
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 95, allowEdit: true,
         destinationType: destinationType.FILE_URI,saveToPhotoAlbum:true });
     }
 
@@ -267,7 +281,7 @@ function registerDevice()
     function getPhoto(source) {
      clearCache();
       // Retrieve image file location from specified source
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 80,
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 95,
         destinationType: destinationType.FILE_URI,
         sourceType: source });
     }
@@ -367,6 +381,18 @@ function onRefresh()
     
     document.getElementById('02wsframe').src = document.getElementById('02wsframe').src + (new Date()).getTime();
 }
+function onShareNotification(message)
+{
+   // this is the complete list of currently supported params you can pass to the plugin (all optional)
+    var options = {
+      message: message,
+      subject: currentLocale.sharesubject, // fi. for email
+      url: 'https://itunes.apple.com/us/app/yrwsmyym/id925504632?mt=8',
+      chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
+    }
+    window.plugins.socialsharing.shareWithOptions(options, onShareSuccess, onShareError); 
+    push.finish();
+}
 function onShareClick()
 {
     // this is the complete list of currently supported params you can pass to the plugin (all optional)
@@ -394,8 +420,9 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         window.localStorage.setItem("cloth", iscloth);
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
+        var tempunits = window.localStorage.getItem("tempunits");
         console.log("onLanguageChoose:" + iscloth + isfulltext + issound); 
-        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0);
+        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits;
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
@@ -405,6 +432,27 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
    }
      catch (e) {
         console.log('error on onLanguageChoose: ' + e);
+    }
+    
+}
+function onTempUnitsChoose(value)
+{
+    try {
+        var iscloth = window.localStorage.getItem("cloth");
+        var isfulltext = window.localStorage.getItem("fulltext");
+        var issound = window.localStorage.getItem("sound");
+        window.localStorage.setItem("tempunits", value);
+        console.log("onTempUnitsChoose:" + value); 
+        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0) + "&tempunit=" + value;
+        console.log(url);    
+        $('#02wsframe').attr('src', url);
+        setView(320);
+        if( $('#navpanel').hasClass("ui-panel-open") == true ){
+         $('#navpanel').panel('close');
+        }
+   }
+     catch (e) {
+        console.log('error on onTempUnitsChoose: ' + e);
     }
     
 }
