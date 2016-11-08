@@ -21,6 +21,7 @@ var app = {
         var tempunits = window.localStorage.getItem("tempunits");
         if (tempunits == undefined) {tempunits = '°C';}
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
+         $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
         //ini notifications
         var isToNotify = window.localStorage.getItem("notify");
         if ((isToNotify == "null")||(isToNotify == undefined))
@@ -340,6 +341,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
     var basename = fileURI.substr(fileURI.lastIndexOf('/') + 1);
     var manipulatedName = basename.substr(0,basename.lastIndexOf('.') - 1) + "_" + (new Date()).getTime() + basename.substr(basename.lastIndexOf('.'));
+    var token = window.localStorage.getItem("token");
     //navigator.notification.alert(manipulatedName);
     var options = new FileUploadOptions();
     options.fileKey = "pic";
@@ -349,7 +351,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     options.headers = {
     Connection: "close"
     };
-    options.params = {name:nameOnPic, comment:comments, x:x, y:y, picname:options.fileName}; // if we need to send parameters to the server request
+    options.params = {name:nameOnPic, comment:comments, x:x, y:y, reg_id:token, picname:options.fileName}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
     ft.upload(fileURI, encodeURI("http://www.02ws.co.il/user_picture_reciever.php"), win, fail, options);
           
@@ -441,9 +443,10 @@ function onTempUnitsChoose(value)
         var iscloth = window.localStorage.getItem("cloth");
         var isfulltext = window.localStorage.getItem("fulltext");
         var issound = window.localStorage.getItem("sound");
+        var lang = window.localStorage.getItem("lang");
         window.localStorage.setItem("tempunits", value);
         console.log("onTempUnitsChoose:" + value); 
-        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0) + "&tempunit=" + value;
+        var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0) + "&tempunit=" + value;
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
@@ -567,6 +570,10 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
 $(document).ready(function() {
     $("[name='radio-choice-lang']").on('change mousedown',function(event) { 
         onLanguageChoose(this.value, window.localStorage.getItem("cloth")=== "true" , window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
+    });
+    
+    $("[name='radio-choice-temp']").on('change mousedown',function(event) { 
+        onTempUnitsChoose(this.value);
     });
     
     
