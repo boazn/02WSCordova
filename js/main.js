@@ -148,11 +148,11 @@ var app = {
         if (token == undefined)
         {
             console.log(" saveIsToNotify: token undefined");
-            //registerDevice();
+            registerDevice();
        }
         else
         {
-            //alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
+            alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
             postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
             
             
@@ -164,7 +164,7 @@ var app = {
 
 function registerDevice()
 {
-    console.log('registering ' + device.platform);
+    alert('registering ' + device.platform);
         try
         {
         var push = PushNotification.init({
@@ -195,7 +195,7 @@ function registerDevice()
         });
         
         push.on('registration', function(data) {
-            console.log('on registration:' + data);
+            alert('on registration:' + data);
             tokenHandler(data.registrationId);
         });
 
@@ -214,7 +214,7 @@ function registerDevice()
         });
         }
         catch (e){
-            console.log('error registering: ' + e);
+            alert('error registering: ' + e);
         }
 }
 
@@ -358,13 +358,13 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
 }
 function tokenHandler(result)
 {
-    console.log('device token from registration= ' + result);
+    alert('device token from registration= ' + result);
     window.localStorage.setItem("token", result);
     postNewTokenToServer(result, true, true, true);
  }   
 function errorHandler(error)
 {
-    console.log('error in registering: ' + error);
+    alert('error in registering: ' + error);
 }
 function regsuccessHandler (result) {
     console.log('registration = ' + result);
