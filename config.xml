@@ -32,7 +32,7 @@
     <plugin name="cordova-plugin-device" source="npm" />
     <plugin name="cordova-plugin-file" source="npm" />
     <plugin name="cordova-plugin-file-transfer" source="npm" />
-    <plugin name="cordova-plugin-firebase" spec="0.1.18" />
+    <plugin name="cordova-plugin-firebase" source="npm" />
     <plugin name="phonegap-plugin-push" spec="1.6.0">
         <param name="SENDER_ID" value="12345678" />
      </plugin>
