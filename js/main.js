@@ -167,26 +167,16 @@ function registerDevice()
     alert('registering ' + device.platform);
         try
         {
-         window.FirebasePlugin.grantPermission();
-         window.FirebasePlugin.getToken(function(token) {
-            // save this server-side and use it to push notifications to this device
-            console.log('FirebasePlugin:' + token);
-            tokenHandler(token);
-        }, function(error) {
-            console.error(error);
-        });
-         window.FirebasePlugin.onTokenRefresh(function(token) {
-            // save this server-side and use it to push notifications to this device
-            console.log('FirebasePlugin:' + token);
-            tokenHandler(token);
-        }, function(error) {
-            console.error(error);
-        });
-        window.FirebasePlugin.onNotificationOpen(function(notification) {
-            console.log('FirebaseNotification:' + notification);
-        }, function(error) {
-            console.error('FirebaseNotification:' + error);
-        }); 
+         //FCMPlugin.getToken( successCallback(token), errorCallback(err) );
+        //Keep in mind the function will return null if the token has not been established yet.
+        FCMPlugin.getToken(
+          function(token){
+            alert(token);
+          },
+          function(err){
+            console.log('error retrieving token: ' + err);
+          }
+        )
         var push = PushNotification.init({
             android: {
                 senderID: "12345679"
