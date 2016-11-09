@@ -167,6 +167,26 @@ function registerDevice()
     alert('registering ' + device.platform);
         try
         {
+         window.FirebasePlugin.grantPermission();
+         window.FirebasePlugin.getToken(function(token) {
+            // save this server-side and use it to push notifications to this device
+            console.log('FirebasePlugin:' + token);
+            tokenHandler(token);
+        }, function(error) {
+            console.error(error);
+        });
+         window.FirebasePlugin.onTokenRefresh(function(token) {
+            // save this server-side and use it to push notifications to this device
+            console.log('FirebasePlugin:' + token);
+            tokenHandler(token);
+        }, function(error) {
+            console.error(error);
+        });
+        window.FirebasePlugin.onNotificationOpen(function(notification) {
+            console.log('FirebaseNotification:' + notification);
+        }, function(error) {
+            console.error('FirebaseNotification:' + error);
+        }); 
         var push = PushNotification.init({
             android: {
                 senderID: "12345679"
@@ -195,7 +215,7 @@ function registerDevice()
         });
         
         push.on('registration', function(data) {
-            alert('on registration:' + data);
+            navigator.notification.alert('on registration:' + data);
             tokenHandler(data.registrationId);
         });
 
@@ -214,7 +234,7 @@ function registerDevice()
         });
         }
         catch (e){
-            alert('error registering: ' + e);
+            navigator.notification.alert('error registering: ' + e);
         }
 }
 
