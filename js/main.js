@@ -111,7 +111,7 @@ var app = {
         }
         catch (e)
         {
-            console.log("register device:" + e);
+            navigator.notification.alert("register device:" + e);
         }
         
         
@@ -164,19 +164,10 @@ var app = {
 
 function registerDevice()
 {
-    alert('registering ' + device.platform);
+    navigator.notification.alert('registering ' + device.platform);
         try
         {
-         //FCMPlugin.getToken( successCallback(token), errorCallback(err) );
-        //Keep in mind the function will return null if the token has not been established yet.
-        FCMPlugin.getToken(
-          function(token){
-            alert(token);
-          },
-          function(err){
-            console.log('error retrieving token: ' + err);
-          }
-        )
+        
         var push = PushNotification.init({
             android: {
                 senderID: "12345679"
