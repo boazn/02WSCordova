@@ -27,7 +27,6 @@
     <preference name="EnableViewportScale" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarStyle" value="default" />
-    <plugin name="cordova-plugin-cache" source="npm" />
     <plugin name="cordova-plugin-console" source="npm" />
     <plugin name="cordova-plugin-device" source="npm" />
     <plugin name="cordova-plugin-file" source="npm" />

@@ -233,7 +233,7 @@ function registerDevice()
     }
 
     function clearCache() {
-        navigator.camera.cleanup();
+        //navigator.camera.cleanup();
     }
     // A button will call this function
     //
