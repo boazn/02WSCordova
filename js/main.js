@@ -325,8 +325,6 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
 function tokenHandler(result)
 {
     alert('device token from registration= ' + result);
-    if (result == null)
-        registerDevice();
     window.localStorage.setItem("token", result);
     postNewTokenToServer(result, true, true, true);
  }   

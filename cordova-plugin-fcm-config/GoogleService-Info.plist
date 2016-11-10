@@ -36,5 +36,9 @@
 	<string>1:1056747824588:ios:3812982ffe27d15c</string>
 	<key>DATABASE_URL</key>
 	<string>https://api-project-1056747824588.firebaseio.com</string>
+        <key>UIBackgroundModes</key>
+        <array>
+          <string>remote-notification</string>
+        </array>
 </dict>
 </plist>
