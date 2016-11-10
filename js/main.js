@@ -167,52 +167,17 @@ function registerDevice()
     navigator.notification.alert('registering ' + device.platform);
         try
         {
-        
-        var push = PushNotification.init({
-            android: {
-                senderID: "12345679"
-            },
-            browser: {
-                pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-            },
-            ios: {
-                alert: "true",
-                badge: "true",
-                sound: "true",
-                clearBadge: "true",
-                "categories": {
-                    "share": {
-                    "yes": {
-                        "callback": "onShareNotification", "title": currentLocale.share, "foreground": true, "destructive": false
-                    },
-                    "no": {
-                         "title": currentLocale.cancel, "foreground": false, "destructive": false
-                    }
-                },
-                
-                }
-            },
-            windows: {}
-        });
-        
-        push.on('registration', function(data) {
-            navigator.notification.alert('on registration:' + data);
-            tokenHandler(data.registrationId);
-        });
-
-        push.on('notification', function(data) {
-            console.log('on notification:' + data);
-            console.log(data.message);
-            console.log(data.title);
-            console.log(data.count);
-            console.log(data.sound);
-            console.log(data.image);
-            console.log(data.additionalData);
-        });
-
-        push.on('error', function(e) {
-            console.log('error in registering: ' + e.message);
-        });
+            //FCMPlugin.getToken( successCallback(token), errorCallback(err) );
+            //Keep in mind the function will return null if the token has not been established yet.
+            FCMPlugin.getToken(
+              function(token){
+                navigator.notification.alert(token);
+                tokenHandler(token);
+              },
+              function(err){
+                navigator.notification.alert('error retrieving token: ' + err);
+              }
+            )
         }
         catch (e){
             navigator.notification.alert('error registering: ' + e);
