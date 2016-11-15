@@ -169,7 +169,7 @@ function registerDevice()
         {
             //FCMPlugin.getToken( successCallback(token), errorCallback(err) );
             //Keep in mind the function will return null if the token has not been established yet.
-            FCMPlugin.getToken(
+            /*FCMPlugin.getToken(
               function(token){
                 navigator.notification.alert(token);
                 tokenHandler(token);
@@ -177,7 +177,44 @@ function registerDevice()
               function(err){
                 navigator.notification.alert('error retrieving token: ' + err);
               }
-            )
+            )*/
+        
+            var push = PushNotification.init({
+                android: {
+                    senderID: "12345679"
+                },
+                browser: {
+                    pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+                },
+                ios: {
+                    alert: "true",
+                    badge: "true",
+                    sound: "true"
+                },
+                windows: {}
+            });
+
+            push.on('registration', function(data) {
+                // data.registrationId
+                navigator.notification.alert(data.registrationId);
+                tokenHandler(data.registrationId);
+            });
+
+            push.on('notification', function(data) {
+                // data.message,
+                // data.title,
+                // data.count,
+                // data.sound,
+                // data.image,
+                // data.additionalData
+                navigator.notification.alert(data.title);
+                navigator.notification.alert(data.message);
+            });
+
+            push.on('error', function(e) {
+                // e.message
+                navigator.notification.alert('error on push: ' + e.message);
+            });
         }
         catch (e){
             navigator.notification.alert('error registering: ' + e);
