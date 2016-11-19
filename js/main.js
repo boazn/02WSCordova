@@ -111,7 +111,7 @@ var app = {
         }
         catch (e)
         {
-            navigator.notification.alert("register device:" + e);
+            //navigator.notification.alert("register device:" + e);
         }
         
         
@@ -152,7 +152,7 @@ var app = {
        }
         else
         {
-            alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
+            //alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
             postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
             
             
@@ -164,21 +164,9 @@ var app = {
 
 function registerDevice()
 {
-    navigator.notification.alert('registering ' + device.platform);
+    //navigator.notification.alert('registering ' + device.platform);
         try
         {
-            //FCMPlugin.getToken( successCallback(token), errorCallback(err) );
-            //Keep in mind the function will return null if the token has not been established yet.
-            /*FCMPlugin.getToken(
-              function(token){
-                navigator.notification.alert(token);
-                tokenHandler(token);
-              },
-              function(err){
-                navigator.notification.alert('error retrieving token: ' + err);
-              }
-            )*/
-        
             var push = PushNotification.init({
                 android: {
                     senderID: "12345679"
@@ -187,16 +175,17 @@ function registerDevice()
                     pushServiceURL: 'http://push.api.phonegap.com/v1/push'
                 },
                 ios: {
-                    alert: "true",
-                    badge: "true",
-                    sound: "true"
+                    alert: true,
+                    badge: true,
+                    sound: true,
+                    clearBadge: true
                 },
                 windows: {}
             });
 
             push.on('registration', function(data) {
                 // data.registrationId
-                navigator.notification.alert(data.registrationId);
+                //navigator.notification.alert(data.registrationId);
                 tokenHandler(data.registrationId);
             });
 
@@ -207,17 +196,17 @@ function registerDevice()
                 // data.sound,
                 // data.image,
                 // data.additionalData
-                navigator.notification.alert(data.title);
+                //navigator.notification.alert(data.title);
                 navigator.notification.alert(data.message);
             });
 
             push.on('error', function(e) {
                 // e.message
-                navigator.notification.alert('error on push: ' + e.message);
+                //navigator.notification.alert('error on push: ' + e.message);
             });
         }
         catch (e){
-            navigator.notification.alert('error registering: ' + e);
+            //navigator.notification.alert('error registering: ' + e);
         }
 }
 
@@ -326,7 +315,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
         console.log("Code = " + r.responseCode);
         console.log("Response = " + r.response);
         console.log("Sent = " + r.bytesSent);
-        navigator.notification.alert(currentLocale.sentsuccess);
+        //navigator.notification.alert(currentLocale.sentsuccess);
     }
  
     var fail = function (error) {
@@ -361,13 +350,13 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
 }
 function tokenHandler(result)
 {
-    alert('device token from registration= ' + result);
+    //alert('device token from registration= ' + result);
     window.localStorage.setItem("token", result);
     postNewTokenToServer(result, true, true, true);
  }   
 function errorHandler(error)
 {
-    alert('error in registering: ' + error);
+    //alert('error in registering: ' + error);
 }
 function regsuccessHandler (result) {
     console.log('registration = ' + result);
