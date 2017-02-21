@@ -197,7 +197,8 @@ function registerDevice()
                 // data.image,
                 // data.additionalData
                 //navigator.notification.alert(data.title);
-                navigator.notification.alert(data.message);
+                //navigator.notification.alert(data.message);
+                
             });
 
             push.on('error', function(e) {
@@ -330,6 +331,11 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
             console.log('Ups. Something wrong happens! Code = ' + error.code);
         }
     }
+    if (nameOnPic == "")
+    {
+        app.showAlert('Missing field שכחת משהו','fill your name חסר שם');
+        return false;
+    }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
     var basename = fileURI.substr(fileURI.lastIndexOf('/') + 1);
     var manipulatedName = basename.substr(0,basename.lastIndexOf('.') - 1) + "_" + (new Date()).getTime() + basename.substr(basename.lastIndexOf('.'));
@@ -428,6 +434,18 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         console.log('error on onLanguageChoose: ' + e);
     }
     
+}
+function onAlertClicked()
+{
+        var lang = window.localStorage.getItem("lang");
+        var tempunits = window.localStorage.getItem("tempunit");
+        var iscloth = window.localStorage.getItem("cloth");
+        var isfulltext = window.localStorage.getItem("fulltext");
+        var issound = window.localStorage.getItem("sound");
+        var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + "&section=alerts.php";
+        console.log(url);    
+        $('#02wsframe').attr('src', url);
+        setView(320);
 }
 function onTempUnitsChoose(value)
 {
@@ -646,8 +664,8 @@ $(document).ready(function() {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
     
-    handleExternalURLs();
-    openAllLinksWithBlankTargetInSystemBrowser();
+    //handleExternalURLs();
+    //openAllLinksWithBlankTargetInSystemBrowser();
     
 });
 
