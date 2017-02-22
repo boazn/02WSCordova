@@ -23,7 +23,8 @@ var locales = {
     sendpic:'Send Pic',
     name:'name',
     cancel:'cancel',
-    dailypic:'pic of the day'
+    dailypic:'pic of the day',
+    missing:'missing name'
     
   },
   he: {
@@ -49,7 +50,8 @@ var locales = {
     sendpic:'שליחת תמונה',
     name:'כינוי',
     cancel:'דווקא לא בא לי',
-    dailypic:'תמונת היום'
+    dailypic:'תמונת היום',
+    missing:'חסר שם'
   }
 };
  function bindStrings(){
@@ -63,6 +65,7 @@ var locales = {
      $('#lblcloths').text(currentLocale.cloth);
      $('#lblfulltext').text(currentLocale.fulltext);
      $('#lblsound').text(currentLocale.sound);
+     $('#missing').text(currentLocale.missing);
      $("#btn_takepic").html(currentLocale.takepic);
      $('#btn_choosepic').html(currentLocale.chooselib);
      $('#btn_radar').html(currentLocale.radar);

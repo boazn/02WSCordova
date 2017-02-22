@@ -17,9 +17,10 @@ var app = {
     startup:function(){
         
         var lang = window.localStorage.getItem("lang");
-        if (lang == undefined) {lang = 1;}
+        if (lang == "null") {lang = 1;}
         var tempunits = window.localStorage.getItem("tempunits");
-        if (tempunits == null) {tempunits = '°C';window.localStorage.setItem("tempunits", tempunits);}
+        if (tempunits == "null") {tempunits = '°C';window.localStorage.setItem("tempunits", tempunits);}
+        navigator.notification.alert(tempunits);
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
          $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
         //ini notifications
@@ -28,42 +29,42 @@ var app = {
         {
             isToNotify = true;
         }
-        if (isToNotify)
-        $('#checkbox_notifications').attr('checked', isToNotify);
+        
+        $('#checkbox_notifications').prop('checked', isToNotify);
         //ini shortnotifications
         var isToShortNotify = window.localStorage.getItem("shortnotify");
         if ((isToShortNotify == "null")||(isToShortNotify == undefined)){isToShortNotify = true;};
         window.localStorage.setItem("shortnotify", isToShortNotify);
-        if (isToShortNotify)
-        $('#checkbox_shortnotifications').attr('checked', isToShortNotify);
+        
+        $('#checkbox_shortnotifications').prop('checked', isToShortNotify);
         
         //ini tipsnotifications
         var isToTipsNotify = window.localStorage.getItem("tipsnotify");
         if ((isToTipsNotify == "null")||(isToTipsNotify == undefined)){isToTipsNotify = true;};
         window.localStorage.setItem("tipsnotify", isToTipsNotify);
-        if (isToTipsNotify)
-        $('#checkbox_tipsnotifications').attr('checked', isToTipsNotify);
+        
+        $('#checkbox_tipsnotifications').prop('checked', isToTipsNotify);
         
         //ini cloth
         var iscloth = window.localStorage.getItem("cloth");
         if ((iscloth == "null")||(iscloth == undefined)) {iscloth = true;};
         window.localStorage.setItem("cloth", iscloth);
-        if (iscloth)
-            $('#checkbox_cloth').attr('checked', 'checked');
+        
+            $('#checkbox_cloth').prop('checked', iscloth);
         
         //ini fulltext
         var isfulltext = window.localStorage.getItem("fulltext");
         if ((isfulltext == "null")||(isfulltext == undefined)){isfulltext = false;};
         window.localStorage.setItem("fulltext", isfulltext);
-        if (isfulltext)
-            $('#checkbox_fulltext').attr('checked', 'checked');
+        
+            $('#checkbox_fulltext').prop('checked', isfulltext);
         
         //ini sound
         var issound = window.localStorage.getItem("sound");
         if ((issound == "null")||(issound == undefined)){issound = true;};
         window.localStorage.setItem("sound", issound);
-        if (issound)
-            $('#checkbox_sound').attr('checked', 'checked');
+        
+        $('#checkbox_sound').prop('checked', issound);
         console.log("startup finished");
         onLanguageChoose(lang, window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
     },
@@ -333,7 +334,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     }
     if (nameOnPic == "")
     {
-        navigator.notification.alert('fill your name חסר שם');
+        $('#missing').show();
         return false;
     }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
@@ -421,7 +422,8 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
         var tempunits = window.localStorage.getItem("tempunits");
-        console.log("onLanguageChoose:" + iscloth + isfulltext + issound); 
+        console.log("onLanguageChoose:" + iscloth + isfulltext + issound);
+        navigator.notification.alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
         var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits;
         console.log(url);    
         $('#02wsframe').attr('src', url);
