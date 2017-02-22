@@ -51,7 +51,7 @@ var locales = {
     name:'כינוי',
     cancel:'דווקא לא בא לי',
     dailypic:'תמונת היום',
-    missing:'חסר שם'
+    missing:'חסר שם או כינוי או תיאור'
   }
 };
  function bindStrings(){

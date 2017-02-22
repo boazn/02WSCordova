@@ -17,7 +17,7 @@ var app = {
     startup:function(){
         
         var lang = window.localStorage.getItem("lang");
-        if (lang == "null") {lang = 1;}
+        if (lang == null ){lang = 1;}
         var tempunits = window.localStorage.getItem("tempunits");
         if (tempunits == null) {tempunits = '°C';window.localStorage.setItem("tempunits", tempunits);}
        
@@ -29,7 +29,7 @@ var app = {
         {
             isToNotify = true;
         }
-        alert(window.localStorage.getItem("cloth")+' '+window.localStorage.getItem("fulltext")+' '+window.localStorage.getItem("sound"));
+        //alert(window.localStorage.getItem("cloth")+' '+window.localStorage.getItem("fulltext")+' '+window.localStorage.getItem("sound"));
         $('#checkbox_notifications').prop('checked', isToNotify);
         //ini shortnotifications
         var isToShortNotify = window.localStorage.getItem("shortnotify");
@@ -66,7 +66,7 @@ var app = {
         
         $('#checkbox_sound').prop('checked', issound);
         console.log("startup finished");
-        alert(window.localStorage.getItem("cloth")+' '+window.localStorage.getItem("fulltext")+' '+window.localStorage.getItem("sound"));
+        //alert(window.localStorage.getItem("cloth")+' '+window.localStorage.getItem("fulltext")+' '+window.localStorage.getItem("sound"));
         onLanguageChoose(lang, window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
     },
     // Bind Event Listeners
@@ -308,6 +308,9 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
 function sendPic(){
         
         postNewPictureToServer(imageURI, $('#nameonpic').val(), $('#commentonpic').val(), x, y);
+        if ($('#nameonpic').val().length == 0)
+        $('#missing').show();
+        else
         $('#imagepreviewContainer').hide();
 }
 function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
@@ -335,7 +338,6 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     }
     if (nameOnPic == "")
     {
-        $('#missing').show();
         return false;
     }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
