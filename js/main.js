@@ -19,7 +19,7 @@ var app = {
         var lang = window.localStorage.getItem("lang");
         if (lang == undefined) {lang = 1;}
         var tempunits = window.localStorage.getItem("tempunits");
-        if (tempunits == undefined) {tempunits = '°C';}
+        if (tempunits == null) {tempunits = '°C';window.localStorage.setItem("tempunits", tempunits);}
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
          $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
         //ini notifications
@@ -333,7 +333,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     }
     if (nameOnPic == "")
     {
-        app.showAlert('Missing field שכחת משהו','fill your name חסר שם');
+        navigator.notification.alert('fill your name חסר שם');
         return false;
     }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
@@ -352,7 +352,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     options.params = {name:nameOnPic, comment:comments, x:x, y:y, reg_id:token, picname:options.fileName}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
     ft.upload(fileURI, encodeURI("http://www.02ws.co.il/user_picture_reciever.php"), win, fail, options);
-          
+    navigator.notification.alert(currentLocale.sentsuccess);          
 }
 function tokenHandler(result)
 {

@@ -45,7 +45,7 @@ var locales = {
     home:'עמוד ראשי',
     sharesubject:'מזג-אוויר עכשיו',
     sharemessage:'מתוך אפליקציית ירושמיים',
-    feelslike:'מרגיש כמו',
+    feelslike:'משהו על התמונה',
     sendpic:'שליחת תמונה',
     name:'כינוי',
     cancel:'דווקא לא בא לי',
