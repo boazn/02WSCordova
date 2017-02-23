@@ -180,7 +180,17 @@ function registerDevice()
                     alert: true,
                     badge: true,
                     sound: true,
-                    clearBadge: true
+                    clearBadge: true,
+                    "categories": {
+                    "share": {
+                        "yes": {
+                            "callback": "onShareNotification",
+                            "title": "Share",
+                            "foreground": false,
+                            "destructive": false
+                        }
+                     }
+                    }
                 },
                 windows: {}
             });
@@ -200,7 +210,7 @@ function registerDevice()
                 // data.additionalData
                 //navigator.notification.alert(data.title);
                 //navigator.notification.alert(data.message);
-                
+                onAlertClicked();
             });
 
             push.on('error', function(e) {
@@ -385,11 +395,11 @@ function onRefresh()
     
     document.getElementById('02wsframe').src = document.getElementById('02wsframe').src + (new Date()).getTime();
 }
-function onShareNotification(message)
+function onShareNotification(data)
 {
    // this is the complete list of currently supported params you can pass to the plugin (all optional)
     var options = {
-      message: message,
+      message: data.message,
       subject: currentLocale.sharesubject, // fi. for email
       url: 'https://itunes.apple.com/us/app/yrwsmyym/id925504632?mt=8',
       chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
@@ -410,6 +420,7 @@ function onShareClick()
     window.plugins.socialsharing.shareWithOptions(options, onShareSuccess, onShareError);
     
 }
+
 function onNotificationsCheck(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked)
 {
     app.saveIsToNotify(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked);
@@ -426,7 +437,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         window.localStorage.setItem("sound", issound);
         var tempunits = window.localStorage.getItem("tempunits");
         console.log("onLanguageChoose:" + iscloth + isfulltext + issound);
-        alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
+        //alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
         var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits;
         console.log(url);    
         $('#02wsframe').attr('src', url);
