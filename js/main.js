@@ -188,6 +188,12 @@ function registerDevice()
                             "title": "Share",
                             "foreground": false,
                             "destructive": false
+                        },
+                        "no": {
+                            "callback": "",
+                            "title": "Dismiss",
+                            "foreground": false,
+                            "destructive": false
                         }
                      }
                     }
