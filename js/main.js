@@ -397,7 +397,7 @@ function onShareNotification(data)
 {
    // this is the complete list of currently supported params you can pass to the plugin (all optional)
     var options = {
-      message: currentLocale.appTitle + ' ' + data.message,
+      message: currentLocale.appTitle + ': ' + data.message,
       subject: currentLocale.sharesubject, // fi. for email
       url: 'https://itunes.apple.com/us/app/yrwsmyym/id925504632?mt=8',
       chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
