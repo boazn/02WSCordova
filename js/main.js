@@ -517,28 +517,37 @@ function setView(width){
        else
     viewport.setAttribute('content', 'initial-scale=0.55, minimum-scale=0.55  , maximum-scale=1, width=' + width);
 }
-function navClicked(baseurl){
+function navClicked(baseurl, width){
     lang = window.localStorage.getItem("lang");
     iscloth = window.localStorage.getItem("cloth");
     isfulltext = window.localStorage.getItem("fulltext");
     issound = window.localStorage.getItem("sound");
      var url = baseurl + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
     $('#02wsframe').attr('src', url);
-    setView(570);
+    setView(width);
     $('#navlinkpanel').panel('close');
 }
 function dailypicClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=picoftheday.php&lang=');
+    navClicked('http://www.02ws.co.il/small.php?section=picoftheday.php&lang=', 320);
     $('#campanel').panel('close');
 }
 function radarClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=radar.php&lang=');
+    navClicked('http://www.02ws.co.il/small.php?section=radar.php&lang=', 570);
+}
+function userpicsClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=userPics.php&lang=', 320);
+}
+function contactClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=SendEmailForm.php&lang=', 320);
+}
+function forumClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=chat.php&lang=', 320);
 }
 function tempClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=');
+    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=', 320);
 }
 function humClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=');
+    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=', 320);
 }
 function homeClicked(){
     lang = window.localStorage.getItem("lang");

@@ -18,6 +18,10 @@ var locales = {
     humpage:'hum page',
     radar:'radar',
     home:'home',
+    forum:'forum',
+    picoftheday:'pic of the day',
+    userpics:'users pics',
+    contact:'contact',
     sharesubject:'Weather now',
     sharemessage:'From 02WS App',
     feelslike:'feels like',
@@ -47,6 +51,10 @@ var locales = {
     humpage:'גרף לחות',
     radar:'מכ"ם גשם',
     home:'עמוד ראשי',
+    forum:'פורום',
+    picoftheday:'תמונת היום',
+    userpics:'תמונות הגולשים',
+    contact:'צרו קשר',
     sharesubject:'מזג-אוויר עכשיו',
     sharemessage:'מתוך אפליקציית ירושמיים',
     feelslike:'משהו על התמונה',
@@ -73,8 +81,10 @@ var locales = {
      $("#btn_takepic").html(currentLocale.takepic);
      $('#btn_choosepic').html(currentLocale.chooselib);
      $('#btn_radar').html(currentLocale.radar);
-     $('#btn_temp').html(currentLocale.temppage);
-     $('#btn_hum').html(currentLocale.humpage);
+     $('#btn_forum').html(currentLocale.forum);
+     $('#btn_picoftheday').html(currentLocale.picoftheday);
+     $('#btn_userpics').html(currentLocale.userpics);
+     $('#btn_contact').html(currentLocale.contact);
      $('#btn_home').html(currentLocale.home);
      $('#btn_sendpic').html(currentLocale.sendpic);
      $('#btn_cancel').html(currentLocale.cancel);
