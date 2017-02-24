@@ -13,6 +13,7 @@ var locales = {
     choosealbum:'choose pic from album',
     sentsuccess:'picture sent successfully',
     share:'share this...',
+    clear:'clear',
     temppage:'temp page',
     humpage:'hum page',
     radar:'radar',
@@ -24,7 +25,8 @@ var locales = {
     name:'name',
     cancel:'cancel',
     dailypic:'pic of the day',
-    missing:'missing name'
+    missing:'missing name',
+    appTitle:'02WS'
     
   },
   he: {
@@ -39,7 +41,8 @@ var locales = {
     chooselib:'בחירת תמונה מספריה',
     choosealbum:'בחירת תמונה מאלבום',
     sentsuccess:'התמונה נשלחה בהצלחה. תודה',
-    share:'שיתוף',
+    share:'שיתוף...',
+    clear:'ניקוי',
     temppage:'גרף טמפ',
     humpage:'גרף לחות',
     radar:'מכ"ם גשם',
@@ -51,7 +54,8 @@ var locales = {
     name:'כינוי',
     cancel:'דווקא לא בא לי',
     dailypic:'תמונת היום',
-    missing:'חסר שם או כינוי או תיאור'
+    missing:'חסר שם או כינוי או תיאור',
+    appTitle:'ירושמים'
   }
 };
  function bindStrings(){

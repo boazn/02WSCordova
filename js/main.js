@@ -19,52 +19,44 @@ var app = {
         var lang = window.localStorage.getItem("lang");
         if (lang == null ){lang = 1;}
         var tempunits = window.localStorage.getItem("tempunits");
-        if (tempunits == null) {tempunits = '°C';window.localStorage.setItem("tempunits", tempunits);}
-       
-        $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
-         $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
-        //ini notifications
+        if ((tempunits == null)||(tempunits == undefined)) {tempunits = '°C'; window.localStorage.setItem("tempunits", tempunits);}
+       //ini notifications
         var isToNotify = window.localStorage.getItem("notify");
         if ((isToNotify == null)||(isToNotify == undefined))
         {
             isToNotify = true;
         }
         //alert(window.localStorage.getItem("cloth")+' '+window.localStorage.getItem("fulltext")+' '+window.localStorage.getItem("sound"));
-        $('#checkbox_notifications').prop('checked', isToNotify);
+        
         //ini shortnotifications
         var isToShortNotify = window.localStorage.getItem("shortnotify");
         if ((isToShortNotify == null)||(isToShortNotify == undefined)){isToShortNotify = true;};
         window.localStorage.setItem("shortnotify", isToShortNotify);
-        
-        $('#checkbox_shortnotifications').prop('checked', isToShortNotify);
-        
         //ini tipsnotifications
         var isToTipsNotify = window.localStorage.getItem("tipsnotify");
         if ((isToTipsNotify == null)||(isToTipsNotify == undefined)){isToTipsNotify = true;};
         window.localStorage.setItem("tipsnotify", isToTipsNotify);
-        
-        $('#checkbox_tipsnotifications').prop('checked', isToTipsNotify);
-        
-        //ini cloth
+         //ini cloth
         var iscloth = window.localStorage.getItem("cloth");
         if ((iscloth == null)||(iscloth == undefined)) {iscloth = true;};
         window.localStorage.setItem("cloth", iscloth);
-        
-            $('#checkbox_cloth').prop('checked', iscloth);
-        
-        //ini fulltext
+       //ini fulltext
         var isfulltext = window.localStorage.getItem("fulltext");
         if ((isfulltext == null)||(isfulltext == undefined)){isfulltext = false;};
         window.localStorage.setItem("fulltext", isfulltext);
-        
-            $('#checkbox_fulltext').prop('checked', isfulltext);
-        
         //ini sound
         var issound = window.localStorage.getItem("sound");
         if ((issound == null)||(issound == undefined)){issound = true;};
         window.localStorage.setItem("sound", issound);
         
+        $('#checkbox_notifications').prop('checked', isToNotify);
+        $('#checkbox_shortnotifications').prop('checked', isToShortNotify);
+        $('#checkbox_tipsnotifications').prop('checked', isToTipsNotify);
+        $('#checkbox_cloth').prop('checked', iscloth);
+        $('#checkbox_fulltext').prop('checked', isfulltext);
         $('#checkbox_sound').prop('checked', issound);
+        $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
+        $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
         console.log("startup finished");
         //alert(window.localStorage.getItem("cloth")+' '+window.localStorage.getItem("fulltext")+' '+window.localStorage.getItem("sound"));
         onLanguageChoose(lang, window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
@@ -185,13 +177,13 @@ function registerDevice()
                     "share": {
                         "yes": {
                             "callback": "onShareNotification",
-                            "title": "Share",
-                            "foreground": false,
+                            "title": currentLocale.share,
+                            "foreground": true,
                             "destructive": false
                         },
                         "no": {
                             "callback": "",
-                            "title": "Dismiss",
+                            "title": currentLocale.clear,
                             "foreground": false,
                             "destructive": false
                         }
@@ -397,7 +389,7 @@ function onRefresh()
     var errorclear = function(status) {
         console.log('Errorclear: ' + status);
     } 
-    window.cache.clear( successclear, errorclear );
+    //window.cache.clear( successclear, errorclear );
     
     document.getElementById('02wsframe').src = document.getElementById('02wsframe').src + (new Date()).getTime();
 }
@@ -405,7 +397,7 @@ function onShareNotification(data)
 {
    // this is the complete list of currently supported params you can pass to the plugin (all optional)
     var options = {
-      message: data.message,
+      message: currentLocale.appTitle + ' ' + data.message,
       subject: currentLocale.sharesubject, // fi. for email
       url: 'https://itunes.apple.com/us/app/yrwsmyym/id925504632?mt=8',
       chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
