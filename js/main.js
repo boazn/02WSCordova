@@ -409,10 +409,10 @@ function onShareClick()
 {
     // this is the complete list of currently supported params you can pass to the plugin (all optional)
     var options = {
-      message: currentLocale.sharemessage, // not supported on some apps (Facebook, Instagram)
+      message: document.getElementById('02wsframe').src, // not supported on some apps (Facebook, Instagram)
       subject: currentLocale.sharesubject, // fi. for email
       files: ['http://www.02ws.co.il/02ws_short.png'], // an array of filenames either locally or remotely
-      url: 'https://itunes.apple.com/us/app/yrwsmyym/id925504632?mt=8',
+      url: '',
       chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
     }
     window.plugins.socialsharing.shareWithOptions(options, onShareSuccess, onShareError);
