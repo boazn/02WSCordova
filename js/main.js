@@ -181,12 +181,13 @@ function registerDevice()
                             "foreground": true,
                             "destructive": false
                         },
-                        "no": {
-                            "callback": "",
-                            "title": currentLocale.clear,
+                        "maybe": {
+                            "callback": "onReplyNotification",
+                            "title": currentLocale.reply,
                             "foreground": false,
                             "destructive": false
                         }
+                        
                      }
                     }
                 },
@@ -208,7 +209,7 @@ function registerDevice()
                 // data.additionalData
                 //navigator.notification.alert(data.title);
                 //navigator.notification.alert(data.message);
-                onAlertClicked();
+                onUrlClicked('alerts.php');
             });
 
             push.on('error', function(e) {
@@ -369,8 +370,11 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
 function tokenHandler(result)
 {
     //alert('device token from registration= ' + result);
-    window.localStorage.setItem("token", result);
-    postNewTokenToServer(result, true, true, true);
+    var token = window.localStorage.getItem("token");
+    if (token != result){
+        window.localStorage.setItem("token", result);
+        postNewTokenToServer(result, true, true, true);
+    }
  }   
 function errorHandler(error)
 {
@@ -404,6 +408,15 @@ function onShareNotification(data)
     }
     window.plugins.socialsharing.shareWithOptions(options, onShareSuccess, onShareError); 
     push.finish();
+}
+function onReplyNotification(data)
+{
+      console.log("onReplyNotification:" + data);
+        var lang = window.localStorage.getItem("lang");
+        var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&section=SendEmailForm.php&data="+data;
+        console.log(url);    
+        $('#02wsframe').attr('src', url);
+        setView(320);
 }
 function onShareClick()
 {
@@ -449,14 +462,15 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
     }
     
 }
-function onAlertClicked()
+
+function onUrlClicked(section)
 {
         var lang = window.localStorage.getItem("lang");
         var tempunits = window.localStorage.getItem("tempunit");
         var iscloth = window.localStorage.getItem("cloth");
         var isfulltext = window.localStorage.getItem("fulltext");
         var issound = window.localStorage.getItem("sound");
-        var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + "&section=alerts.php";
+        var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + "&section=" + section;
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);

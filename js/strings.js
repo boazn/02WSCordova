@@ -19,6 +19,9 @@ var locales = {
     radar:'radar',
     home:'home',
     forum:'forum',
+    alerts:'alerts and messages',
+    reply:'Reply',
+    live:'live',
     picoftheday:'pic of the day',
     userpics:'users pics',
     contact:'contact',
@@ -52,6 +55,9 @@ var locales = {
     radar:'מכ"ם גשם',
     home:'עמוד ראשי',
     forum:'פורום',
+    alerts:'הודעות והתראות',
+    live:'תמונה חיה',
+    reply:'יש לי משהו להגיד על זה',
     picoftheday:'תמונת היום',
     userpics:'תמונות הגולשים',
     contact:'צרו קשר',
@@ -89,6 +95,8 @@ var locales = {
      $('#btn_sendpic').html(currentLocale.sendpic);
      $('#btn_cancel').html(currentLocale.cancel);
      $('#btn_dailypic').html(currentLocale.dailypic);
+     $('#btn_alerts').html(currentLocale.alerts);
+     $('#btn_live').html(currentLocale.live);
      $('#nameonpic').attr('placeholder',currentLocale.name);
      $('#commentonpic').attr('placeholder',currentLocale.feelslike);
      if (userLanguage == 'he'){
