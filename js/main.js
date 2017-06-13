@@ -316,11 +316,14 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
 }
 function sendPic(){
         
-        postNewPictureToServer(imageURI, $('#nameonpic').val(), $('#commentonpic').val(), x, y);
-        if ($('#nameonpic').val().length == 0)
+    if ($('#nameonpic').val().length == 0)
         $('#missing').show();
-        else
+    else
+    {
+        postNewPictureToServer(imageURI, $('#nameonpic').val(), $('#commentonpic').val(), x, y);
         $('#imagepreviewContainer').hide();
+        
+    }
 }
 function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
 {
@@ -342,7 +345,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
         } else {
             retries = 0;
             clearCache();
-            console.log('Ups. Something wrong happens! Code = ' + error.code);
+            navigator.notification.alert('Ups. Something wrong happens! Code = ' + error.code);
         }
     }
     if (nameOnPic == "")
@@ -473,7 +476,9 @@ function onUrlClicked(section)
         var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + "&section=" + section;
         console.log(url);    
         $('#02wsframe').attr('src', url);
+        $('#navlinkpanel').panel('close');
         setView(320);
+         
 }
 function onTempUnitsChoose(value)
 {
@@ -555,7 +560,7 @@ function contactClicked(){
     navClicked('http://www.02ws.co.il/small.php?section=SendEmailForm.php&lang=', 320);
 }
 function forumClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=chat.php&lang=', 320);
+    navClicked('http://www.02ws.co.il/small.php?section=chatmobile.php&lang=', 320);
 }
 function tempClicked(){
     navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=', 320);
