@@ -12,6 +12,8 @@ var locales = {
     chooselib:'choose pic from library',
     choosealbum:'choose pic from album',
     sentsuccess:'picture sent successfully',
+    adfreetitle:'Ad Free',
+    adfreetitledesc:'Put here the code that was sent to you to remove ads from app',
     share:'share this...',
     clear:'clear',
     temppage:'temp page',
@@ -33,7 +35,9 @@ var locales = {
     cancel:'cancel',
     dailypic:'pic of the day',
     missing:'missing name',
-    appTitle:'02WS'
+    appTitle:'02WS',
+    ok:'Ok'
+    
     
   },
   he: {
@@ -48,6 +52,8 @@ var locales = {
     chooselib:'בחירת תמונה מספריה',
     choosealbum:'בחירת תמונה מאלבום',
     sentsuccess:'התמונה נשלחה בהצלחה. תודה',
+    adfreetitle:'הסרת פרסומות',
+    adfreetitledesc:'הכניסו כאן את הקוד שנשלח אליכם כדי להסיר את הפרסומות מהאפליקציה',
     share:'שיתוף...',
     clear:'ניקוי',
     temppage:'גרף טמפ',
@@ -69,7 +75,8 @@ var locales = {
     cancel:'דווקא לא בא לי',
     dailypic:'תמונת היום',
     missing:'חסר שם או כינוי או תיאור',
-    appTitle:'ירושמים'
+    appTitle:'ירושמים',
+    ok:'Ok'
   }
 };
  function bindStrings(){
@@ -97,8 +104,10 @@ var locales = {
      $('#btn_dailypic').html(currentLocale.dailypic);
      $('#btn_alerts').html(currentLocale.alerts);
      $('#btn_live').html(currentLocale.live);
+     $('#btn_putcode').html(currentLocale.ok);
      $('#nameonpic').attr('placeholder',currentLocale.name);
      $('#commentonpic').attr('placeholder',currentLocale.feelslike);
+     $('#adfreecodedesc').text(currentLocale.adfreetitledesc);
      if (userLanguage == 'he'){
          $('#nameonpic').css('direction','rtl');
          $('#commentonpic').css('direction','rtl');

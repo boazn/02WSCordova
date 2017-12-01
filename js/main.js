@@ -314,6 +314,36 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
        });
           
 }
+function postNewAdFreeCodeToServer(token, guid)
+{
+    
+    $.ajax({
+              
+        url:'http://www.02ws.co.il/subscription_reciever.php',
+        type:'POST',
+        data:{guid:guid, regId: token, action:'updateregid'},
+        crossDomain:true,
+        success: function(data){
+        console.log('AdFreeCode sent token successfully: ' + data);
+        }
+       });
+          
+}
+function putCode(){
+    window.localStorage.setItem("guid", $('#adfreecode').val());
+    var token = window.localStorage.getItem("token");
+    postNewAdFreeCodeToServer(token, $('#adfreecode').val());
+    onUrlClicked('');
+    $('#AdFreeContainer').hide();
+    
+}
+function openAdFreeCon(){
+    $('#adfreecode').text(window.localStorage.getItem("guid"));
+    if( $('#navpanel').hasClass("ui-panel-open") == true ){
+         $('#navpanel').panel('close');
+        }
+    $('#AdFreeContainer').show();
+}
 function sendPic(){
         
     if ($('#nameonpic').val().length == 0)
@@ -449,10 +479,12 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         window.localStorage.setItem("cloth", iscloth);
         window.localStorage.setItem("fulltext", isfulltext);
         window.localStorage.setItem("sound", issound);
+        var guid = window.localStorage.getItem("guid");
+        var token  = window.localStorage.getItem("token");
         var tempunits = window.localStorage.getItem("tempunits");
         console.log("onLanguageChoose:" + iscloth + isfulltext + issound);
         //alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
-        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits;
+        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + (guid != "" ? "&reg_id=" + token : ''); 
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
@@ -468,34 +500,16 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 
 function onUrlClicked(section)
 {
-        var lang = window.localStorage.getItem("lang");
-        var tempunits = window.localStorage.getItem("tempunit");
-        var iscloth = window.localStorage.getItem("cloth");
-        var isfulltext = window.localStorage.getItem("fulltext");
-        var issound = window.localStorage.getItem("sound");
-        var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + "&section=" + section;
-        console.log(url);    
-        $('#02wsframe').attr('src', url);
-        $('#navlinkpanel').panel('close');
-        setView(320);
+    navClicked("http://www.02ws.co.il/small.php?lang=", 320);
          
 }
 function onTempUnitsChoose(value)
 {
     try {
-        var iscloth = window.localStorage.getItem("cloth");
-        var isfulltext = window.localStorage.getItem("fulltext");
-        var issound = window.localStorage.getItem("sound");
-        var lang = window.localStorage.getItem("lang");
+        
         window.localStorage.setItem("tempunits", value);
         console.log("onTempUnitsChoose:" + value); 
-        var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0) + "&tempunit=" + value;
-        console.log(url);    
-        $('#02wsframe').attr('src', url);
-        setView(320);
-        if( $('#navpanel').hasClass("ui-panel-open") == true ){
-         $('#navpanel').panel('close');
-        }
+        onUrlClicked('');
    }
      catch (e) {
         console.log('error on onTempUnitsChoose: ' + e);
@@ -541,10 +555,17 @@ function navClicked(baseurl, width){
     iscloth = window.localStorage.getItem("cloth");
     isfulltext = window.localStorage.getItem("fulltext");
     issound = window.localStorage.getItem("sound");
-     var url = baseurl + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
+    var guid = window.localStorage.getItem("guid");
+    var token  = window.localStorage.getItem("token");
+     var url = baseurl + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0) + (guid != "" ? "&reg_id=" + token : ''); ;
     $('#02wsframe').attr('src', url);
     setView(width);
-    $('#navlinkpanel').panel('close');
+    if( $('#navlinkpanel').hasClass("ui-panel-open") == true ){
+         $('#navlinkpanel').panel('close');
+    }
+    if( $('#navpanel').hasClass("ui-panel-open") == true ){
+         $('#navpanel').panel('close');
+    }
 }
 function dailypicClicked(){
     navClicked('http://www.02ws.co.il/small.php?section=picoftheday.php&lang=', 320);
