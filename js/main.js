@@ -97,6 +97,7 @@ var app = {
         destinationType=navigator.camera.DestinationType;
         //console.log('file plugin: ' + cordova.file.applicationDirectory);
         bindStrings();
+        StatusBar.styleDefault();
         var token = window.localStorage.getItem("token");
         console.log("token from storage:" + token);
         
