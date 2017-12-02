@@ -174,7 +174,8 @@ h2 {
         margin:0px;
     }
     #applicationContainer{
-        padding:0
+        padding-top:25px;
+        
     }
     #logo{
         margin:2px 20px;
@@ -198,6 +199,10 @@ h2 {
         margin:0 auto;
         text-align: center;
         background-color: #fff;
+    }
+    #adfreecodedesc{
+        margin:5px;
+        padding: 5px
     }
     #btn_okclosepanel{
       margin:20px 0;   
