@@ -24,6 +24,9 @@
     <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="CameraUsesGeolocation" value="false" />
     <preference name="EnableViewportScale" value="false" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#9ac3ce" />
+    <preference name="StatusBarStyle" value="blackopaque" />
     <preference name="deployment-target" value="8.3" />
     <plugin name="cordova-plugin-console" source="npm" />
     <plugin name="cordova-plugin-device" source="npm" />
