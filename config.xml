@@ -13,7 +13,6 @@
     <preference name="orientation" value="default"/>
     <preference name="target-device" value="universal"/>
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="fullscreen" value="false"/>
     <preference name="prerendered-icon" value="true"/>
     <preference name="detect-data-types" value="true"/>
     <preference name="exit-on-suspend" value="false"/>
@@ -21,12 +20,13 @@
     <preference name="auto-hide-splash-screen" value="true"/>
     <preference name="SplashScreen" value="Default.png" />
     <preference name="AutoHideSplashScreen" value="false" />
-    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashScreenDelay" value="2500" />
     <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="CameraUsesGeolocation" value="false" />
     <preference name="EnableViewportScale" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarStyle" value="default" />
+    <preference name="StatusBarBackgroundColor" value="#9ac3ce" />
+    <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="deployment-target" value="8.3" />
     <plugin name="cordova-plugin-console" source="npm" />
     <plugin name="cordova-plugin-device" source="npm" />

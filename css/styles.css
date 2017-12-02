@@ -189,7 +189,7 @@ h2 {
         text-align:center;
 
     }
-    #imagepreviewContainer{
+    #imagepreviewContainer, #AdFreeContainer{
         position:absolute;
         top:0;
         left:0;

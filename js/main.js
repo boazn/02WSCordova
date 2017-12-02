@@ -428,7 +428,7 @@ function onRefresh()
     } 
     //window.cache.clear( successclear, errorclear );
     
-    document.getElementById('02wsframe').src = document.getElementById('02wsframe').src + (new Date()).getTime();
+    document.getElementById('02wsframe').src = document.getElementById('02wsframe').src + '&' +(new Date()).getTime();
 }
 function onShareNotification(data)
 {

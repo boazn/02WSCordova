@@ -104,6 +104,7 @@ var locales = {
      $('#btn_dailypic').html(currentLocale.dailypic);
      $('#btn_alerts').html(currentLocale.alerts);
      $('#btn_live').html(currentLocale.live);
+     $('#btn_adfree').html(currentLocale.adfreetitle);
      $('#btn_putcode').html(currentLocale.ok);
      $('#nameonpic').attr('placeholder',currentLocale.name);
      $('#commentonpic').attr('placeholder',currentLocale.feelslike);
