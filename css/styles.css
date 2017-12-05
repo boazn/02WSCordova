@@ -12,6 +12,8 @@ body {
     overflow: hidden;
     position: relative;
     text-transform: none;
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
 }
 
 .header {
@@ -175,7 +177,6 @@ h2 {
     }
     #applicationContainer{
         padding:0;
-        padding-top:20px;
         
     }
     #logo{

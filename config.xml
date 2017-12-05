@@ -18,15 +18,11 @@
     <preference name="exit-on-suspend" value="false"/>
     <preference name="show-splash-screen-spinner" value="true"/>
     <preference name="auto-hide-splash-screen" value="true"/>
-    <preference name="SplashScreen" value="Default.png" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="SplashScreenDelay" value="2500" />
     <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="CameraUsesGeolocation" value="false" />
-    <preference name="EnableViewportScale" value="false" />
-    <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarBackgroundColor" value="#9ac3ce" />
-    <preference name="StatusBarStyle" value="default" />
+    <preference name="EnableViewportScale" value="true" />
     <preference name="deployment-target" value="9.0" />
     <plugin name="cordova-plugin-console" source="npm" />
     <plugin name="cordova-plugin-device" source="npm" />
@@ -49,7 +45,9 @@
     <feature name="SocialSharing">
         <param name="ios-package" value="SocialSharing" />
     </feature>
-       
+    <feature name="StatusBar">
+            <param name="ios-package" value="CDVStatusBar" onload="true" />
+    </feature>   
     <icon gap:platform="ios" src="res/icon/ios/icon-57.png" width="57" height="57" />
     <icon gap:platform="ios" src="res/icon/ios/icon-29.png" width="29" height="29" />
     <icon gap:platform="ios" src="res/icon/ios/icon-58.png" width="58" height="58" />
@@ -72,19 +70,16 @@
     <splash src="Default-568h@2x.png" platform="ios"     width="640" height="1136" />
     <splash src="res/screen/ios/screen-iphone-portrait.png"          platform="ios"     width="320" height="480" />
     <splash src="res/screen/ios/screen-iphone-portrait-2x.png"       platform="ios"     width="640" height="960" />
-    <splash src="res/screen/ios/screen-iphone-landscape.png"         platform="ios"     width="480" height="320" />
-    <splash src="res/screen/ios/screen-iphone-landscape-2x.png"      platform="ios"     width="960" height="640" />
-    <splash src="res/screen/ios/screen-ipad-portrait.png"            platform="ios"     width="768" height="1024" />
-    <splash src="res/screen/ios/screen-ipad-portrait-2x.png"         platform="ios"     width="1536" height="2008" />
-    <splash src="res/screen/ios/screen-ipad-landscape.png"           platform="ios"     width="1024" height="768" />
-    <splash src="res/screen/ios/screen-ipad-landscape-2x.png"        platform="ios"     width="2048" height="1496" />
-    <splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png"  platform="ios"     width="640"  height="1136" />
+    
     <!-- Retina iPad -->
     <splash src="Default-Portrait@2x.png" platform="ios" width="1536" height="2048" />
     <splash src="Default-Landscape@2x.png" platform="ios" width="2048" height="1536" />
     <!-- iPhone 6 -->
-    
-    <splash src="res/screen/ios/Default-Portrait-736h@3x.png" width="1242" height="2208"/>
-    <splash src="res/screen/ios/Default-Landscape-736h@3x.png" width="2208" height="1242"/>
     <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
+    <splash src="res/screen/ios/Default@2x~iphone~anyany.png" />
+    <splash src="res/screen/ios/Default@2x~iphone~comany.png" />
+    <splash src="res/screen/ios/Default@2x~iphone~comcom.png" />
+    <splash src="res/screen/ios/Default@3x~iphone~anyany.png" />
+    <splash src="res/screen/ios/Default@3x~iphone~anycom.png" />
+    <splash src="res/screen/ios/Default@3x~iphone~comany.png" />
 </widget>

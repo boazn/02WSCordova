@@ -91,12 +91,13 @@ var app = {
          console.log('device ready: ' + device.platform + ' ' +  device.uuid);
           setTimeout(function() {
                 navigator.splashscreen.hide();
-          }, 3000);
+          }, 2500);
         
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
         //console.log('file plugin: ' + cordova.file.applicationDirectory);
         bindStrings();
+        StatusBar.overlaysWebView(false);
         StatusBar.styleDefault();
         var token = window.localStorage.getItem("token");
         console.log("token from storage:" + token);
@@ -547,9 +548,9 @@ function setView(width){
     var viewportScale = 1 / window.devicePixelRatio;
     viewport = document.querySelector("meta[name=viewport]");
     if (width == 320)
-     viewport.setAttribute('content', 'user-scalable=no, width=' + width);
+     viewport.setAttribute('content', 'initial-scale=1, user-scalable=no, viewport-fit=cover, width=device-width' );
        else
-    viewport.setAttribute('content', 'initial-scale=0.55, minimum-scale=0.55  , maximum-scale=1, width=' + width);
+    viewport.setAttribute('content', 'initial-scale=0.55, minimum-scale=0.55, maximum-scale=1, viewport-fit=cover,  width=' + width);
 }
 function navClicked(baseurl, width){
     lang = window.localStorage.getItem("lang");
