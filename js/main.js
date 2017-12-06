@@ -502,7 +502,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 
 function onUrlClicked(section)
 {
-    navClicked("http://www.02ws.co.il/small.php?lang=", 320);
+    navClicked("http://www.02ws.co.il/small.php?section=" + section + "&lang=", 320);
          
 }
 function onTempUnitsChoose(value)
