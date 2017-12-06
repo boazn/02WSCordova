@@ -548,7 +548,7 @@ function setView(width){
     var viewportScale = 1 / window.devicePixelRatio;
     viewport = document.querySelector("meta[name=viewport]");
     if (width == 320)
-     viewport.setAttribute('content', 'initial-scale=1, user-scalable=no, viewport-fit=cover, width=device-width' );
+     viewport.setAttribute('content', 'user-scalable=no, viewport-fit=cover, width=' + width );
        else
     viewport.setAttribute('content', 'initial-scale=0.55, minimum-scale=0.55, maximum-scale=1, viewport-fit=cover,  width=' + width);
 }
