@@ -13,7 +13,10 @@ var locales = {
     choosealbum:'choose pic from album',
     sentsuccess:'picture sent successfully',
     adfreetitle:'Ad Free',
-    adfreetitledesc:'Put here the code that was sent to you to remove ads from app',
+    adfreetitledesc:'choose to remove ads',
+    shorttermdesc:'Short term alerts such as rain start-stop',
+    dailyforecastdesc:'daily forecast in every morning',
+    dailyforecasttitle:'daily forecast',
     share:'share this...',
     clear:'clear',
     temppage:'temp page',
@@ -36,10 +39,18 @@ var locales = {
     dailypic:'pic of the day',
     missing:'missing name',
     appTitle:'02WS',
-    ok:'Ok'
+    ok:'Ok',
+    monthly:'monthly',
+    yearly:'yearly',
+    combinedwithadfree:'combined with ad free',
+    snowinjlm:'snow in Jerusalem',
+    worldforecast:'world forecast',
+    israelforecast:'Israel forecast',
+    youtube02ws:'02WS Youtube'
     
     
   },
+  
   he: {
     hello: 'שלום',
     LongTermsNotifications:'התראה לימים הבאים - תחזית ועוד',
@@ -53,7 +64,10 @@ var locales = {
     choosealbum:'בחירת תמונה מאלבום',
     sentsuccess:'התמונה נשלחה בהצלחה ותבדק לפני עלייה לאוויר. תודה',
     adfreetitle:'הסרת פרסומות',
-    adfreetitledesc:'הכניסו כאן את הקוד שנשלח אליכם כדי להסיר את הפרסומות מהאפליקציה',
+    adfreetitledesc:'בחרו כדי להוריד פרסומות',
+    shorttermdesc:'התראות לטווח קצר כמו גשם בא-הולך או כל דבר לשעות הקרובות',
+    dailyforecastdesc:'תחזית יומית מפורטת לנייד בכל בוקר',
+    dailyforecasttitle:'תחזית יומית',
     share:'שיתוף...',
     clear:'ניקוי',
     temppage:'גרף טמפ',
@@ -76,7 +90,14 @@ var locales = {
     dailypic:'תמונת היום',
     missing:'חסר שם או כינוי או תיאור',
     appTitle:'ירושמים',
-    ok:'Ok'
+    ok:'Ok',
+    monthly:'חודשי',
+    yearly:'שנתי',
+    combinedwithadfree:'משולב עם ניקוי פרסומות',
+    snowinjlm:'שלג בירושלים',
+    worldforecast:'תחזית לחו"ל',
+    israelforecast:'תחזית בארץ',
+    youtube02ws:'ירושמיים Youtube'
   }
 };
  function bindStrings(){
@@ -90,7 +111,12 @@ var locales = {
      $('#lblcloths').text(currentLocale.cloth);
      $('#lblfulltext').text(currentLocale.fulltext);
      $('#lblsound').text(currentLocale.sound);
+     $('#lblcombined').text(currentLocale.combinedwithadfree);
+     $('#lbladfreetitle').text(currentLocale.adfreetitle);
+     $('#lbldailyforecasttitle').text(currentLocale.dailyforecasttitle);
      $('#missing').text(currentLocale.missing);
+     $('.monthly').text(currentLocale.monthly);
+     $('.yearly').text(currentLocale.yearly);
      $("#btn_takepic").html(currentLocale.takepic);
      $('#btn_choosepic').html(currentLocale.chooselib);
      $('#btn_radar').html(currentLocale.radar);
@@ -98,6 +124,10 @@ var locales = {
      $('#btn_picoftheday').html(currentLocale.picoftheday);
      $('#btn_userpics').html(currentLocale.userpics);
      $('#btn_contact').html(currentLocale.contact);
+     $('#btn_snow').html(currentLocale.snowinjlm);
+     $('#btn_forecastisr').html(currentLocale.israelforecast);
+     $('#btn_forecastabroad').html(currentLocale.worldforecast);
+     $('#btn_youtube').html(currentLocale.youtube02ws);
      $('#btn_home').html(currentLocale.home);
      $('#btn_sendpic').html(currentLocale.sendpic);
      $('#btn_cancel').html(currentLocale.cancel);
@@ -109,6 +139,9 @@ var locales = {
      $('#nameonpic').attr('placeholder',currentLocale.name);
      $('#commentonpic').attr('placeholder',currentLocale.feelslike);
      $('#adfreecodedesc').text(currentLocale.adfreetitledesc);
+     $('#shorttermdesc').text(currentLocale.shorttermdesc);
+     $('#dailyforecastdesc').text(currentLocale.shorttermdesc);
+     
      if (userLanguage == 'he'){
          $('#nameonpic').css('direction','rtl');
          $('#commentonpic').css('direction','rtl');

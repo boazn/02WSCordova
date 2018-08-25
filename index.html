@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/styles.css"/>
         <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/jqm-icon-pack-fa.css" />
         <script type="text/javascript" src="lib/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="lib/jquery.mobile-1.4.5.min.js"></script>s
         <script type="text/javascript" src="cordova.js"></script>
@@ -18,25 +19,32 @@
             <div id="header" data-role="footer" data-theme="c" data-position="fixed">
                 <div data-role="navbar">
                     <ul>
+                        <li><a id="navpanel-button" data-icon="bars" data-rel="panel"  data-role="button" href="#navlinkpanel" data-iconpos="notext" class="header-button"></a></li>
                         <li><a id="refresh-button" data-icon="refresh" data-role="button" href="javascript:onRefresh()" data-iconpos="notext" class="header-button"></a></li>
-                        <li><a id="navpanel-button" data-rel="panel" data-icon="cloud" data-role="button"  href="#navlinkpanel" data-iconpos="notext" class="header-button"></a></li>
                         <li><a id="camera-button" data-icon="camera" data-role="button" href="#campanel" data-iconpos="notext" class="header-button"></a></li>
                         <li><a id="share-button" data-icon="action" data-role="button" href="javascript:onShareClick()" data-iconpos="notext" class="header-button"></a></li>
-                        <li><a id="bars-button" data-icon="bars" data-role="button" href="#navpanel" data-iconpos="notext" class="header-button"></a></li>
+                        <li><a id="bars-button" data-icon="gear" data-role="button" href="#navpanel" onclick="navlinkCLicked()" data-iconpos="notext" class="header-button"></a></li>
                     </ul>
                 </div>
              </div>
             
             <div data-role="panel" id="navlinkpanel" data-overlay-theme="a" class="ui-content" data-display="overlay" data-position="left">
+                    <!--<a href="index.html" data-role="button" data-icon="refresh" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-hover-c ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text">My button</span><span class="ui-icon ui-icon-refresh ui-icon-shadow">&nbsp;</span></span></a>-->
                 <ul data-role="listview" class="ui-content" data-overlay-theme="a">
-                        <li><a id="btn_alerts" href="javascript:void()" onclick="onUrlClicked('alerts.php')"></a></li>
-                        <li><a id="btn_live" href="javascript:void()" onclick="onUrlClicked('smallwebcam.php')"></a></li>
-                        <li><a id="btn_radar" href="javascript:void()" onclick="radarClicked()"></a></li>
-                        <li><a id="btn_forum" href="javascript:void()" onclick="forumClicked()"></a></li>
-                        <li><a id="btn_picoftheday" href="javascript:void()" onclick="dailypicClicked()"></a></li>
-                        <li><a id="btn_userpics" href="javascript:void()" onclick="userpicsClicked()"></a></li>
-                        <li><a id="btn_contact" href="javascript:void()" onclick="contactClicked()"></a></li>
-                        <li data-icon="home"><a id="btn_home" onclick="homeClicked()"></a></li>
+                        <!--<li ><a  id="btn_alerts" href="javascript:void()" onclick="onUrlClicked('alerts.php')" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-c">
+                                <span  class="ui-btn-inner"><span class="ui-icon ui-icon-alert ui-icon-shadow">&nbsp;</span><span class="ui-btn-text">Alerts</span></span>
+                        </a></li>-->
+                        <li data-icon="picture-o"><a id="btn_live" href="javascript:void()" onclick="onUrlClicked('smallwebcam.php')"></a></li>
+                        <li data-icon="cloud"><a id="btn_radar" href="javascript:void()" onclick="radarClicked()"></a></li>
+                        <li data-icon="comments"><a id="btn_forum" href="javascript:void()" onclick="forumClicked()"></a></li>
+                        <li data-icon="camera-retro"><a id="btn_picoftheday" href="javascript:void()" onclick="dailypicClicked()"></a></li>
+                        <li data-icon="camera-retro"><a id="btn_userpics" href="javascript:void()" onclick="userpicsClicked()"></a></li>
+                        <li data-icon="envelope-o"><a id="btn_contact" href="javascript:void()" onclick="contactClicked()"></a></li>
+                        <li data-icon="bolt"><a id="btn_snow" href="javascript:void()" onclick="onUrlClicked('snow.php')"></a></li>
+                        <li data-icon="globe"><a id="btn_forecastisr" href="javascript:void()" onclick="onUrlClicked('forecast/getForecast.php&region=isr')"></a></li>
+                        <li data-icon="globe"><a id="btn_forecastabroad" href="javascript:void()" onclick="onUrlClicked('forecast/getForecast.php')"></a></li>
+                        <li data-icon="video"><a id="btn_youtube" href="javascript:void()" onclick="youtubeClicked()"></a></li>
+                        <li data-icon="home"><a data-icon="home" id="btn_home" onclick="homeClicked()"></a></li>
                 </ul>
             </div>
             <div data-role="panel" id="campanel" data-theme="a"
@@ -45,8 +53,54 @@
                 <button type="button" id="btn_choosepic"  ></button>
                 <button type="button" id="btn_dailypic"  ></button>
             </div>
+            <div data-role="content" style="display: none" id="shorttermpanel" data-theme="a"
+                 data-display="overlay" data-position="right">
+                    <label id="shorttermdesc"></label>
+                        <div class="float">
+                            <label for="checkbox_shortterm_monthly" class="monthly"></label>
+                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortterm_monthly" name="checkbox_shortterm_monthly">
+                        </div>
+                        <div class="float">
+                            <label for="checkbox_shortterm_yearly" class="yearly"></label>
+                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortterm_yearly" name="checkbox_shortterm_yearly">
+                        </div>
+                        <div class="float">
+                            <label for="checkbox_shortterm_combined" id="lblcombined"></label>
+                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortterm_combined" name="checkbox_shortterm_combined">
+                         </div>
+                         <button type="button" id="btn_okcloseshortterm" >Ok</button>  
+            </div>
+            <div data-role="content" style="display: none" id="dailyforecastpanel" data-theme="a"
+                 data-display="overlay" data-position="right">
+                    <label id="dailyforecastdesc"></label>
+                        <div class="float">
+                            <label for="checkbox_dailyforecast_monthly" class="monthly"></label>
+                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_dailyforecast_monthly" name="checkbox_dailyforecast_monthly">
+                        </div>
+                        <div class="float">
+                            <label for="checkbox_dailyforecast_yearly" class="yearly"></label>
+                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_dailyforecast_yearly" name="checkbox_dailyforecast_yearly">
+                        </div>
+                        <div data-role="controlgroup" data-corners="false">
+                           <label for="radio-choice-df5">05:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df5" value="5">
+                           <label for="radio-choice-df6">06:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df6" value="6">
+                           <label for="radio-choice-df7">07:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df7" value="7">
+                           <label for="radio-choice-df8">08:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df8" value="8">
+                           <label for="radio-choice-df9">09:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df9" value="9">
+                           <label for="radio-choice-df10">10:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df10" value="10">
+                        </div>
+                        <button type="button" id="btn_okclosedfpanel" >Ok</button>    
+                        
+            </div>
             <div data-role="panel" id="navpanel" data-theme="a"
                  data-display="overlay" data-position="right">
+                 
                 <div data-role="controlgroup" data-corners="false">
                     <div data-role="controlgroup" data-corners="false">
                     <label>
@@ -68,7 +122,7 @@
                     </div>
                     <div class="float">
                     <label for="checkbox_shortnotifications" id="lblshortterm"></label> 
-                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortnotifications" name="checkbox_shortnotifications">
+                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortnotifications" name="checkbox_shortnotifications" onclick="openShortnotifications()">
                     </div>
                     <div class="float">
                     <label for="checkbox_tipsnotifications" id="lbltips"></label>
@@ -86,12 +140,16 @@
                     <label for="checkbox_sound" id="lblsound"></label>
                     <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_sound" name="checkbox_sound">
                     </div>
-                    <div>
-                        <label id="lbladfree" ></label>
-                        <button type="button" id="btn_adfree" onclick="openAdFreeCon()" ></button>
+                    <div class="float">
+                        <label id="lbladfreetitle" ></label>
+                        <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_adfree" name="checkbox_adfree">
+                    </div>
+                    <div class="float">
+                        <label id="lbldailyforecasttitle" ></label>
+                        <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_dailyforecast" name="checkbox_dailyforecast">
                     </div>
                     </form>
-                    <button type="button" id="btn_okclosepanel"  data-position="fixed" data-role="footer">OK</button>
+                    <button type="button" id="btn_okclosepanel"  data-position="fixed" data-role="footer">Ok</button>
                 </div>
             </div>
 
@@ -115,10 +173,15 @@
             </div>
             <div id="AdFreeContainer" data-role="content" style="display: none">
                 <label id="adfreecodedesc"></label>
-                <br />
-                <input type="text" id="adfreecode" name="adfreecode" value="" data-wrapper-class="imageinput" placeholder="Code" data-mini="true" />
-                <button type="button" data-theme="a" id="btn_putcode" data-wrapper-class="imageinput" class="ui-btn ui-shadow ui-corner-all"  onclick="putCode()"></button>
-                
+                <div class="float">
+                        <label for="checkbox_AdFree_monthly" class="monthly"></label>
+                        <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_AdFree_monthly" name="checkbox_AdFree_monthly">
+                    </div>
+                    <div class="float">
+                        <label for="checkbox_AdFree_yearly" class="yearly"></label>
+                        <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_AdFree_yearly" name="checkbox_AdFree_yearly">
+                    </div>
+                    <button type="button" id="btn_okcloseadfree" >Ok</button>  
                 
             </div>    
         </div>
