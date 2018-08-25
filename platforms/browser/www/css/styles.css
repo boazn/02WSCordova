@@ -12,6 +12,8 @@ body {
     overflow: hidden;
     position: relative;
     text-transform: none;
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
 }
 
 .header {
@@ -67,22 +69,8 @@ ul {
 
 li {
     display: block;
-    border-top: 1px solid #c0c0c0;
-    padding: 10px;
-}
-
-ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    background-color: #fff;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-li {
-    display: block;
-    border-top: 1px solid #e0e0e0;
-    padding: 10px;
+    border-top: 0px solid #c0c0c0;
+    padding: 8px;
 }
 
 li {
@@ -174,7 +162,8 @@ h2 {
         margin:0px;
     }
     #applicationContainer{
-        padding:0
+        padding:0;
+        
     }
     #logo{
         margin:2px 20px;
@@ -189,7 +178,7 @@ h2 {
         text-align:center;
 
     }
-    #imagepreviewContainer{
+    #imagepreviewContainer, #AdFreeContainer{
         position:absolute;
         top:0;
         left:0;
@@ -198,6 +187,10 @@ h2 {
         margin:0 auto;
         text-align: center;
         background-color: #fff;
+    }
+    #adfreecodedesc{
+        margin:5px;
+        padding: 5px
     }
     #btn_okclosepanel{
       margin:20px 0;   
@@ -229,3 +222,7 @@ h2 {
         margin:0.3em auto;
         
     }
+    #missing{
+        color:#FF0000;
+    }
+    

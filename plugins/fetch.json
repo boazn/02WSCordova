@@ -16,7 +16,7 @@
     "org.apache.cordova.statusbar": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-statusbar"
+            "id": "cordova-plugin-statusbar@2.4.2"
         },
         "is_top_level": true,
         "variables": {}
