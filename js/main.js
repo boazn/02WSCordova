@@ -171,6 +171,7 @@ var app = {
     },
     showAlert: function (message, title) {
             if (navigator.notification) {
+                navigator.notification.alert(title ? (title + ": " + message) : message);
                 navigator.notification.console.log(message, null, title, 'OK');
             } else {
                 console.log(title ? (title + ": " + message) : message);
@@ -493,6 +494,7 @@ var app = {
     log('store refresh ');
     store.refresh();
     log('store refresh DONE');
+    alert('store refresh DONE');
     },
     renderIAP:function(p) {
 
@@ -990,15 +992,26 @@ function shorttermMonthlyClicked(checked){
 }
 function okcloseadfreeClicked(){
     log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
-    if ($('#checkbox_AdFree_monthly').is(':checked'))
+    $('#AdFreeContainer').hide();
+    $('#navpanel').panel('close');
+    try{
+        if ($('#checkbox_AdFree_monthly').is(':checked'))
         store.order(SUB_ADFREE_MONTHLY);
     if ($('#checkbox_AdFree_yearly').is(':checked'))
         store.order(SUB_ADFREE_YEARLY);
-    $('#AdFreeContainer').hide();
-    $('#navpanel').panel('close');
+    
+    }
+    catch (e)
+   {
+       log(e);
+   }
+    
 }
 function okcloseshorttermClicked(){
     log('okcloseshorttermClicked: checkbox_shortterm_monthly=' + $('#checkbox_shortterm_monthly').is(':checked') + ' checkbox_shortterm_yearly='+$('#checkbox_shortterm_yearly').is(':checked'));
+    $('#shorttermpanel').hide();
+    $('#navpanel').panel('close');
+    try{
     if ($('#checkbox_shortterm_monthly').is(':checked'))
         store.order(SUB_SHORTTERM_MONTHLY);
     if ($('#checkbox_shortterm_yearly').is(':checked'))
@@ -1007,19 +1020,23 @@ function okcloseshorttermClicked(){
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
         apps.updateUserParams();
     }
-       
-    $('#shorttermpanel').hide();
-    $('#navpanel').panel('close');
+    }
+    catch (e)
+    {
+    log(e);
+    }
+    
 }
 
 function okclosedfpanelClicked(){
     log('okclosedfpanelClicked: checkbox_dailyforecast_monthly=' + $('#checkbox_dailyforecast_monthly').is(':checked') + ' checkbox_dailyforecast_yearly='+$('#checkbox_dailyforecast_yearly').is(':checked'));
+    $('#dailyforecastpanel').hide();
     try{
         if ($('#checkbox_dailyforecast_monthly').is(':checked'))
         store.order(SUB_DAILYFORECAST_MONTHLY);
         if ($('#checkbox_dailyforecast_yearly').is(':checked'))
             store.order(SUB_DAILYFORECAST_YEARLY);
-        $('#dailyforecastpanel').hide();
+        
         //$('#navpanel').panel('close');
         
     }
@@ -1132,6 +1149,7 @@ $(document).ready(function() {
         adfreeYearlyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_dailyforecast_monthly').on('change', function() {
+        log('checkbox_dailyforecast_monthlyClicked');
         if  ($(this).is(':checked'))
             $('#checkbox_dailyforecast_yearly').prop('checked', false);
         

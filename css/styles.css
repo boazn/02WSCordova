@@ -178,11 +178,11 @@ h2 {
         text-align:center;
 
     }
-    #imagepreviewContainer, #AdFreeContainer{
+    #imagepreviewContainer, #AdFreeContainer, #shorttermpanel, #dailyforecastpanel{
         position:absolute;
         top:0;
         left:0;
-        width:310px;
+        width:288px;
         z-index:1000;
         margin:0 auto;
         text-align: center;
