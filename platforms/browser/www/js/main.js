@@ -7,6 +7,25 @@ var x;
 var y;
 var retries = 0;
 var viewport;
+var LOC_LANG = 'lang';
+var LOC_NOTIFICATIONS = 'notify';
+var LOC_SHORT_NOTIFICATIONS = 'shortnotify';
+var LOC_TIPS_NOTIFICATIONS = 'tipsnotify';
+var LOC_CLOTH = 'cloth';
+var LOC_FULLTEXT = 'FULLTEXT';
+var LOC_ADFREE = 'adfree';
+var LOC_SOUND = 'sound';
+var LOC_TOKEN = 'token';
+var LOC_DAILYFORECAST = 'dailyforecast';
+var LOC_DAILYFORECAST_HOUR = "dailyforecasthour";
+var LOC_APPROVED = "approved";
+var LOC_ACTIVE_SUB = "active_sub";
+var SUB_DAILYFORECAST_MONTHLY = 'Daily_forecast_monthly';
+var SUB_DAILYFORECAST_YEARLY = 'Daily_forecast_yearly';
+var SUB_SHORTTERM_MONTHLY = 'short_term_monthly';
+var SUB_SHORTTERM_YEARLY = 'Short_term_alerts_yearly';
+var SUB_ADFREE_MONTHLY = 'Ad_free_monthly';
+var SUB_ADFREE_YEARLY = 'Ad_free_yearly';
 var app = {
         // Application Constructor
     initialize: function() {
@@ -16,53 +35,78 @@ var app = {
      },
     startup:function(){
         
-        var lang = window.localStorage.getItem("lang");
-        if (lang == undefined) {lang = 1;}
-        $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
-        //ini notifications
-        var isToNotify = window.localStorage.getItem("notify");
-        if ((isToNotify == "null")||(isToNotify == undefined))
+        var lang = window.localStorage.getItem(LOC_LANG);
+        if (lang == null ){lang = 1;}
+        var tempunits = window.localStorage.getItem("tempunits");
+        if ((tempunits == null)||(tempunits == undefined)) {tempunits = '°C'; window.localStorage.setItem("tempunits", tempunits);}
+       //ini notifications
+        var isToNotify = window.localStorage.getItem(LOC_NOTIFICATIONS);
+        if ((isToNotify == null)||(isToNotify == undefined))
         {
             isToNotify = true;
         }
-        if (isToNotify)
-        $('#checkbox_notifications').attr('checked', isToNotify);
+        //alert(window.localStorage.getItem(LOC_CLOTH)+' '+window.localStorage.getItem(LOC_FULLTEXT)+' '+window.localStorage.getItem(LOC_SOUND));
+        
         //ini shortnotifications
-        var isToShortNotify = window.localStorage.getItem("shortnotify");
-        if ((isToShortNotify == "null")||(isToShortNotify == undefined)){isToShortNotify = true;};
-        window.localStorage.setItem("shortnotify", isToShortNotify);
-        if (isToShortNotify)
-        $('#checkbox_shortnotifications').attr('checked', isToShortNotify);
-        
+        var isToShortNotify = window.localStorage.getItem(LOC_SHORT_NOTIFICATIONS);
+        if ((isToShortNotify == null)||(isToShortNotify == undefined)){isToShortNotify = true;};
+        window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, isToShortNotify);
+        var isToShortNotifymonthly = window.localStorage.getItem(SUB_SHORTTERM_MONTHLY);
+        if ((isToShortNotifymonthly == null)||(isToShortNotifymonthly == undefined)){isToShortNotifymonthly = true;};
+        window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, isToShortNotifymonthly);
+        var isToShortNotifyyearly = window.localStorage.getItem(SUB_SHORTTERM_YEARLY);
+        if ((isToShortNotifyyearly == null)||(isToShortNotifyyearly == undefined)){isToShortNotifyyearly = true;};
+        window.localStorage.setItem(SUB_SHORTTERM_YEARLY, isToShortNotifyyearly);
         //ini tipsnotifications
-        var isToTipsNotify = window.localStorage.getItem("tipsnotify");
-        if ((isToTipsNotify == "null")||(isToTipsNotify == undefined)){isToTipsNotify = true;};
-        window.localStorage.setItem("tipsnotify", isToTipsNotify);
-        if (isToTipsNotify)
-        $('#checkbox_tipsnotifications').attr('checked', isToTipsNotify);
-        
-        //ini cloth
-        var iscloth = window.localStorage.getItem("cloth");
-        if ((iscloth == "null")||(iscloth == undefined)) {iscloth = true;};
-        window.localStorage.setItem("cloth", iscloth);
-        if (iscloth)
-            $('#checkbox_cloth').attr('checked', 'checked');
-        
-        //ini fulltext
-        var isfulltext = window.localStorage.getItem("fulltext");
-        if ((isfulltext == "null")||(isfulltext == undefined)){isfulltext = false;};
-        window.localStorage.setItem("fulltext", isfulltext);
-        if (isfulltext)
-            $('#checkbox_fulltext').attr('checked', 'checked');
-        
+        var isToTipsNotify = window.localStorage.getItem(LOC_TIPS_NOTIFICATIONS);
+        if ((isToTipsNotify == null)||(isToTipsNotify == undefined)){isToTipsNotify = true;};
+        window.localStorage.setItem(LOC_TIPS_NOTIFICATIONS, isToTipsNotify);
+         //ini cloth
+        var iscloth = window.localStorage.getItem(LOC_CLOTH);
+        if ((iscloth == null)||(iscloth == undefined)) {iscloth = true;};
+        window.localStorage.setItem(LOC_CLOTH, iscloth);
+       //ini fulltext
+        var isfulltext = window.localStorage.getItem(LOC_FULLTEXT);
+        if ((isfulltext == null)||(isfulltext == undefined)){isfulltext = false;};
+        window.localStorage.setItem(LOC_FULLTEXT, isfulltext);
         //ini sound
-        var issound = window.localStorage.getItem("sound");
-        if ((issound == "null")||(issound == undefined)){issound = true;};
-        window.localStorage.setItem("sound", issound);
-        if (issound)
-            $('#checkbox_sound').attr('checked', 'checked');
+        var issound = window.localStorage.getItem(LOC_SOUND);
+        if ((issound == null)||(issound == undefined)){issound = true;};
+        window.localStorage.setItem(LOC_SOUND, issound);
+        //ini dailyforecast
+        var isdailyforecast = window.localStorage.getItem(LOC_DAILYFORECAST);
+        if ((isdailyforecast == null)||(isdailyforecast == undefined)){isdailyforecast = false;};
+        window.localStorage.setItem(LOC_DAILYFORECAST, isdailyforecast);
+        var isdailyforecastmonthly = window.localStorage.getItem(SUB_DAILYFORECAST_MONTHLY);
+        if ((isdailyforecastmonthly == null)||(isdailyforecastmonthly == undefined)){isdailyforecastmonthly = false;};
+        window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, isdailyforecastmonthly);
+        var isdailyforecastyearly = window.localStorage.getItem(SUB_DAILYFORECAST_YEARLY);
+        if ((isdailyforecastyearly == null)||(isdailyforecastyearly == undefined)){isdailyforecastyearly = false;};
+        window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, isdailyforecast);
+        //ini isadfree
+        var isadfree = window.localStorage.getItem(LOC_ADFREE);
+        if ((isadfree == null)||(isadfree == undefined)){isadfree = false;};
+        window.localStorage.setItem(LOC_ADFREE, isadfree);
+        var isadfreemonthly = window.localStorage.getItem(SUB_ADFREE_MONTHLY);
+        if ((isadfreemonthly == null)||(isadfreemonthly == undefined)){isadfreemonthly = false;};
+        window.localStorage.setItem(SUB_ADFREE_MONTHLY, isadfreemonthly);
+        var isadfreeyearly = window.localStorage.getItem(SUB_ADFREE_YEARLY);
+        if ((isadfreeyearly == null)||(isadfreeyearly == undefined)){isadfreeyearly = false;};
+        window.localStorage.setItem(SUB_ADFREE_YEARLY, isadfreeyearly);
+        
+        $('#checkbox_notifications').prop('checked', isToNotify);
+        $('#checkbox_shortnotifications').prop('checked', isToShortNotify);
+        $('#checkbox_tipsnotifications').prop('checked', isToTipsNotify);
+        $('#checkbox_cloth').prop('checked', iscloth);
+        $('#checkbox_fulltext').prop('checked', isfulltext);
+        $('#checkbox_sound').prop('checked', issound);
+        $('#checkbox_dailyforecast').prop('checked', isdailyforecast);
+        $('#checkbox_adfree').prop('checked', isadfree);
+        $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
+        $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
         console.log("startup finished");
-        onLanguageChoose(lang, window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
+        //alert(window.localStorage.getItem(LOC_CLOTH)+' '+window.localStorage.getItem(LOC_FULLTEXT)+' '+window.localStorage.getItem(LOC_SOUND));
+        onLanguageChoose(lang, window.localStorage.getItem(LOC_CLOTH)=== "true", window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
     },
     // Bind Event Listeners
     //
@@ -78,8 +122,8 @@ var app = {
     onResume: function(){
         setTimeout(function() {
              $('#loading').show();
-             window.localStorage.getItem("sound");
-             onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
+             window.localStorage.getItem(LOC_SOUND);
+             onLanguageChoose(window.localStorage.getItem(LOC_LANG), window.localStorage.getItem(LOC_CLOTH)=== "true", window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
              $('#loading').hide();
             
         }, 0);
@@ -94,13 +138,15 @@ var app = {
          console.log('device ready: ' + device.platform + ' ' +  device.uuid);
           setTimeout(function() {
                 navigator.splashscreen.hide();
-          }, 3000);
+          }, 2500);
         
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
         //console.log('file plugin: ' + cordova.file.applicationDirectory);
         bindStrings();
-        var token = window.localStorage.getItem("token");
+        StatusBar.overlaysWebView(false);
+        StatusBar.styleDefault();
+        var token = window.localStorage.getItem(LOC_TOKEN);
         console.log("token from storage:" + token);
         
         try {
@@ -108,7 +154,7 @@ var app = {
         }
         catch (e)
         {
-            console.log("register device:" + e);
+            //navigator.notification.alert("register device:" + e);
         }
         
         
@@ -133,73 +179,415 @@ var app = {
    
     saveLang:function(lang){
         console.log('saved lang=' + lang);
-        window.localStorage.setItem("lang", lang);
+        window.localStorage.setItem(LOC_LANG, lang);
     }
     ,
-    saveIsToNotify:function(longNotify, shortNotify, tipsNotify){
-        window.localStorage.setItem("notify", longNotify);
-        window.localStorage.setItem("shortnotify", shortNotify);
-        window.localStorage.setItem("tipsnotify", tipsNotify);
-        var token = window.localStorage.getItem("token");
+    updateUserParams:function(){
+
         
-        if (token == undefined)
+        var isdailyforecast = window.localStorage.getItem(LOC_DAILYFORECAST);
+        var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR);
+        var token = window.localStorage.getItem(LOC_TOKEN);
+        var isToShortNotify = window.localStorage.getItem(LOC_SHORT_NOTIFICATIONS);
+        var isToTipsNotify = window.localStorage.getItem(LOC_TIPS_NOTIFICATIONS);
+        var isToNotify = window.localStorage.getItem(LOC_NOTIFICATIONS);
+        log('updateUserParams:' + ' isToNotify:' + isToNotify+' isToShortNotify:' + isToShortNotify+ ' isToTipsNotify:' + isToTipsNotify +  ' isdailyforecast:' + isdailyforecast+ ' dailyforecasthour:' + dailyforecasthour);
+        postNewTokenToServer(token, isToNotify, isToShortNotify, isToTipsNotify, isdailyforecast, dailyforecasthour);
+    },
+    saveIsToNotify:function(longNotify, shortNotify, tipsNotify){
+        window.localStorage.setItem(LOC_NOTIFICATIONS, longNotify);
+        window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, shortNotify);
+        window.localStorage.setItem(LOC_TIPS_NOTIFICATIONS, tipsNotify);
+        var isdailyforecast = window.localStorage.getItem(LOC_DAILYFORECAST);
+        var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR);
+        var token = window.localStorage.getItem(LOC_TOKEN);
+        var approved = window.localStorage.getItem(LOC_APPROVED);
+        
+        if ((token == undefined) || (token == null))
         {
             console.log(" saveIsToNotify: token undefined");
-            //registerDevice();
+            registerDevice();
        }
         else
         {
             //alert(" posting:" + token + " " + longNotify + " " + shortNotify + " " + tipsNotify);
-            postNewTokenToServer(token, longNotify, shortNotify, tipsNotify);
+            postNewTokenToServer(token, longNotify, shortNotify, tipsNotify, isdailyforecast, dailyforecasthour, approved);
             
             
         }
         
+    },
+    // initialize the purchase plugin if available
+    initStore:function() {
+
+    if (!window.store) {
+        log('Store not available');
+        return;
+    }
+
+    app.platform = device.platform.toLowerCase();
+    //document.getElementsByTagName('body')[0].className = app.platform;
+
+    // Enable maximum logging level
+    store.verbosity = store.DEBUG;
+
+    // Enable remote receipt validation
+    store.validator = "https://api.fovea.cc:1982/check-purchase";
+
+    // Inform the store of your products
+    log('registerProducts');
+    
+
+    store.register({
+        id:    SUB_SHORTTERM_MONTHLY, // id without package name!
+        alias: SUB_SHORTTERM_MONTHLY,
+        type:  store.PAID_SUBSCRIPTION
+    });
+
+    store.register({
+        id:    SUB_SHORTTERM_YEARLY, 
+        alias: SUB_SHORTTERM_YEARLY,
+        type:  store.PAID_SUBSCRIPTION
+    });
+
+    store.register({
+        id:    SUB_ADFREE_MONTHLY, 
+        alias: SUB_ADFREE_MONTHLY,
+        type:  store.PAID_SUBSCRIPTION
+    });
+
+    store.register({
+        id:    SUB_ADFREE_YEARLY, 
+        alias: SUB_ADFREE_YEARLY,
+        type:  store.PAID_SUBSCRIPTION
+    });
+
+    store.register({
+        id:    SUB_DAILYFORECAST_MONTHLY, 
+        alias: SUB_DAILYFORECAST_MONTHLY,
+        type:  store.PAID_SUBSCRIPTION
+    });
+
+    store.register({
+        id:    SUB_DAILYFORECAST_YEARLYY, 
+        alias: SUB_DAILYFORECAST_YEARLYY,
+        type:  store.PAID_SUBSCRIPTION
+    });
+   
+    // When any product gets updated, refresh the HTML.
+    store.when("product").updated(function (p) {
+        //app.renderIAP(p);
+    });
+
+    store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
+        log("verify subscription");
+        p.verify();
+    });
+    store.when(SUB_SHORTTERM_MONTHLY).verified(function(p) {
+        log("subscription verified");
+        p.finish();
+        window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+        window.localStorage.setItem(LOC_APPROVED, true);
+        app.updateUserParams();
+    });
+    store.when(SUB_SHORTTERM_MONTHLY).unverified(function(p) {
+        log("subscription unverified");
+    });
+    store.when(SUB_SHORTTERM_MONTHLY).updated(function(p) {
+        if (p.owned) {
+            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, true);
+            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+            window.localStorage.setItem(LOC_APPROVED, true);
+            app.updateUserParams();
+            app.showAlert('You are a lucky ' + SUB_SHORTTERM_MONTHLY + ' subscriber!');
+        }
+        else {
+            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
+            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
+            window.localStorage.setItem(LOC_APPROVED, false);
+            app.updateUserParams();
+            app.showAlert('You are not subscribed');
+        }
+    });
+
+    store.when(SUB_SHORTTERM_YEARLY).approved(function(p) {
+        log(SUB_SHORTTERM_YEARLY + ": verify subscription");
+        p.verify();
+    });
+    store.when(SUB_SHORTTERM_YEARLY).verified(function(p) {
+        log(SUB_SHORTTERM_YEARLY + ": subscription verified");
+        p.finish();
+        window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+        window.localStorage.setItem(LOC_APPROVED, true);
+        app.updateUserParams();
+    });
+    store.when(SUB_SHORTTERM_YEARLY).unverified(function(p) {
+        log(SUB_SHORTTERM_YEARLY + ": subscription unverified");
+    });
+    store.when(SUB_SHORTTERM_YEARLY).updated(function(p) {
+        if (p.owned) {
+            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, true);
+            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, isShortTermSubscribed());
+            window.localStorage.setItem(LOC_APPROVED, true);
+            app.updateUserParams();
+            app.showAlert('You are a lucky ' + SUB_SHORTTERM_YEARLY + ' subscriber!');
+        }
+        else {
+            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
+            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, isShortTermSubscribed());
+            window.localStorage.setItem(LOC_APPROVED, false);
+            app.updateUserParams();
+            app.showAlert('You are not subscribed');
+        }
+    });
+
+    store.when(SUB_ADFREE_MONTHLY).approved(function(p) {
+        log(SUB_ADFREE_MONTHLY + ": verify subscription");
+        p.verify();
+    });
+    store.when(SUB_ADFREE_MONTHLY).verified(function(p) {
+        log(SUB_ADFREE_MONTHLY + ": subscription verified");
+        p.finish();
+        window.localStorage.setItem(LOC_ADFREE, true);
+        putCode(1);
+    });
+    store.when(SUB_ADFREE_MONTHLY).unverified(function(p) {
+        log(SUB_ADFREE_MONTHLY + ": subscription unverified");
+    });
+    store.when(SUB_ADFREE_MONTHLY).updated(function(p) {
+        if (p.owned) {
+            window.localStorage.setItem(SUB_ADFREE_MONTHLY, true);
+            window.localStorage.setItem(LOC_ADFREE, isAdFreeSubscribed());
+            putCode(1);
+            app.showAlert('You are a lucky ' + SUB_ADFREE_MONTHLY + ' subscriber!');
+        }
+        else {
+            window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
+            window.localStorage.setItem(LOC_ADFREE, isAdFreeSubscribed());
+            putCode(0);
+            app.showAlert('You are not subscribed');
+        }
+    });
+
+    store.when(SUB_ADFREE_YEARLY).approved(function(p) {
+        log(SUB_ADFREE_YEARLY + ": verify subscription");
+        p.verify();
+    });
+    store.when(SUB_ADFREE_YEARLY).verified(function(p) {
+        log(SUB_ADFREE_YEARLY + ": subscription verified");
+        p.finish();
+        window.localStorage.setItem(LOC_ADFREE, true);
+        putCode(1);
+    });
+    store.when(SUB_ADFREE_YEARLY).unverified(function(p) {
+        log(SUB_ADFREE_YEARLY + ": subscription unverified");
+    });
+    store.when(SUB_ADFREE_YEARLY).updated(function(p) {
+        if (p.owned) {
+            window.localStorage.setItem(SUB_ADFREE_YEARLY, true);
+            window.localStorage.setItem(LOC_ADFREE, isAdFreeSubscribed());
+            putCode(1);
+            app.showAlert('You are a lucky ' + SUB_ADFREE_YEARLY + ' subscriber!');
+        }
+        else {
+            window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
+            window.localStorage.setItem(LOC_ADFREE, isAdFreeSubscribed());
+            putCode(0);
+            app.showAlert('You are not subscribed');
+        }
+    });
+
+    store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
+        log(SUB_DAILYFORECAST_MONTHLY + ": verify subscription");
+        p.verify();
+    });
+    store.when(SUB_DAILYFORECAST_MONTHLY).verified(function(p) {
+        log(SUB_DAILYFORECAST_MONTHLY + ": subscription verified");
+        p.finish();
+        window.localStorage.setItem(LOC_DAILYFORECAST, true);
+        app.updateUserParams();
+    });
+    store.when(SUB_DAILYFORECAST_MONTHLY).unverified(function(p) {
+        log(SUB_DAILYFORECAST_MONTHLY + ": subscription unverified");
+    });
+    store.when(SUB_DAILYFORECAST_MONTHLY).updated(function(p) {
+        if (p.owned) {
+            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, true);
+            window.localStorage.setItem(LOC_DAILYFORECAST, isDFSubscribed());
+            app.updateUserParams();
+            app.showAlert('You are a lucky ' + SUB_DAILYFORECAST_MONTHLY + ' subscriber!');
+        }
+        else {
+            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
+            window.localStorage.setItem(LOC_DAILYFORECAST, isDFSubscribed());
+            app.updateUserParams();
+            app.showAlert('You are not subscribed');
+        }
+    });
+
+    store.when(SUB_DAILYFORECAST_YEARLY).approved(function(p) {
+        log(SUB_DAILYFORECAST_YEARLY + ": verify subscription");
+        p.verify();
+    });
+    store.when(SUB_DAILYFORECAST_YEARLY).verified(function(p) {
+        log(SUB_DAILYFORECAST_YEARLY + ": subscription verified");
+        p.finish();
+        window.localStorage.setItem(LOC_DAILYFORECAST, true);
+        app.updateUserParams();
+    });
+    store.when(SUB_DAILYFORECAST_YEARLY).unverified(function(p) {
+        log(SUB_DAILYFORECAST_YEARLY + ": subscription unverified");
+    });
+    store.when(SUB_DAILYFORECAST_YEARLY).updated(function(p) {
+        if (p.owned) {
+            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, true);
+            window.localStorage.setItem(LOC_DAILYFORECAST, isDFSubscribed());
+            app.updateUserParams();
+            app.showAlert('You are a lucky ' + SUB_DAILYFORECAST_YEARLY + ' subscriber!');
+        }
+        else {
+            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
+            window.localStorage.setItem(LOC_DAILYFORECAST, isDFSubscribed());
+            app.updateUserParams();
+            app.showAlert('You are not ' + SUB_DAILYFORECAST_YEARLY + ' subscribed');
+        }
+    });
+
+
+    // Log all errors
+    store.error(function(error) {
+        log('ERROR ' + error.code + ': ' + error.message);
+    });
+  
+    // When the store is ready (i.e. all products are loaded and in their "final"
+    // state), we hide the "loading" indicator.
+    //
+    // Note that the "ready" function will be called immediately if the store
+    // is already ready.
+    
+    // When store is ready, activate the "refresh" button;
+    store.ready(function() {
+        var el = document.getElementById('refresh-button');
+        if (el) {
+            el.style.display = 'block';
+            el.onclick = function(ev) {
+                store.refresh();
+            };
+        }
+        if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
+            // access the awesome feature
+        }
+        else {
+            // display an alert
+        }
+        
+    });
+  
+    // Refresh the store.
+    //
+    // This will contact the server to check all registered products
+    // validity and ownership status.
+    //
+    // It's fine to do this only at application startup, as it could be
+    // pretty expensive.
+    log('store refresh ');
+    store.refresh();
+    log('store refresh DONE');
+    },
+    renderIAP:function(p) {
+
+        var parts = p.id.split(".");
+        var elId = parts[parts.length-1];
+    
+        var el = document.getElementById(elId + '-purchase');
+        if (!el) return;
+    
+        if (!p.loaded) {
+            el.innerHTML = '<h3>...</h3>';
+        }
+        else if (!p.valid) {
+            el.innerHTML = '<h3>' + p.alias + ' Invalid</h3>';
+        }
+        else if (p.valid) {
+            var html = "<h3>" + p.title + "</h3>" + "<p>" + p.description + "</p>";
+            if (p.canPurchase) {
+                html += "<div class='button' id='buy-" + p.id + "' productId='" + p.id + "' type='button'>" + p.price + "</div>";
+            }
+            el.innerHTML = html;
+            if (p.canPurchase) {
+                document.getElementById("buy-" + p.id).onclick = function (event) {
+                    var pid = this.getAttribute("productId");
+                    store.order(pid);
+                };
+            }
+        }
     }
 };
 
 
 function registerDevice()
 {
-    console.log('registering ' + device.platform);
+    //navigator.notification.alert('registering ' + device.platform);
         try
         {
-        push = PushNotification.init({
-            android: {
-                senderID: "12345679"
-            },
-            browser: {
-                pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-            },
-            ios: {
-                alert: "true",
-                badge: "true",
-                sound: "true"
-            },
-            windows: {}
-        });
-        
-        push.on('registration', function(data) {
-            console.log('onregistration:' + data);
-            tokenHandler(data.registrationId);
-        });
+            var push = PushNotification.init({
+                android: {
+                    senderID: "12345679"
+                },
+                browser: {
+                    pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+                },
+                ios: {
+                    alert: true,
+                    badge: true,
+                    sound: true,
+                    clearBadge: true,
+                    "categories": {
+                    "share": {
+                        "yes": {
+                            "callback": "onShareNotification",
+                            "title": currentLocale.share,
+                            "foreground": true,
+                            "destructive": false
+                        },
+                        "maybe": {
+                            "callback": "onReplyNotification",
+                            "title": currentLocale.reply,
+                            "foreground": false,
+                            "destructive": false
+                        }
+                        
+                     }
+                    }
+                },
+                windows: {}
+            });
 
-        push.on('notification', function(data) {
+            push.on('registration', function(data) {
+                // data.registrationId
+                //navigator.notification.alert(data.registrationId);
+                tokenHandler(data.registrationId);
+            });
 
-            console.log(data.message);
-            console.log(data.title);
-            console.log(data.count);
-            console.log(data.sound);
-            console.log(data.image);
-            console.log(data.additionalData);
-        });
+            push.on('notification', function(data) {
+                // data.message,
+                // data.title,
+                // data.count,
+                // data.sound,
+                // data.image,
+                // data.additionalData
+                //navigator.notification.alert(data.title);
+                //navigator.notification.alert(data.message);
+                onUrlClicked('alerts.php');
+            });
 
-        push.on('error', function(e) {
-            console.log('error in registering: ' + e.message);
-        });
+            push.on('error', function(e) {
+                // e.message
+                //navigator.notification.alert('error on push: ' + e.message);
+            });
         }
         catch (e){
-            console.log('error registering: ' + e);
+            //navigator.notification.alert('error registering: ' + e);
         }
 }
 
@@ -252,13 +640,13 @@ function registerDevice()
     }
 
     function clearCache() {
-        navigator.camera.cleanup();
+        //navigator.camera.cleanup();
     }
     // A button will call this function
     //
     function capturePhotoEdit() {
      clearCache();
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 80, allowEdit: true,
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 95, allowEdit: true,
         destinationType: destinationType.FILE_URI,saveToPhotoAlbum:true });
     }
 
@@ -267,7 +655,7 @@ function registerDevice()
     function getPhoto(source) {
      clearCache();
       // Retrieve image file location from specified source
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 80,
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 95,
         destinationType: destinationType.FILE_URI,
         sourceType: source });
     }
@@ -280,14 +668,14 @@ function registerDevice()
         }, 0);
      
     }
-function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
+function postNewTokenToServer(token, islongactive, isshortactive, istipsactive, isdailyforecast, dailyforecasthour, p_approved)
 {
     
     $.ajax({
               
         url:'http://www.02ws.co.il/apn_register.php',
         type:'POST',
-        data:{name:device.model, email:device.uuid, regId: token, lang: window.localStorage.getItem("lang"), active:(islongactive ? 1 : 0), active_rain_etc:(isshortactive ? 1 : 0), active_tips:(istipsactive ? 1 : 0)},
+        data:{name:device.model, approved:p_approved, dailyforecast:(isdailyforecast?dailyforecasthour:null), email:device.uuid, regId:token, lang:window.localStorage.getItem(LOC_LANG), active:(islongactive ? 1 : 0), active_rain_etc:(isshortactive ? 1 : 0), active_tips:(istipsactive ? 1 : 0)},
         crossDomain:true,
         success: function(data){
         console.log('device sent token successfully: ' + data);
@@ -295,10 +683,64 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive)
        });
           
 }
+function postNewAdFreeCodeToServer(token, p_email, p_status)
+{
+    
+    $.ajax({
+              
+        url:'http://www.02ws.co.il/subscription_reciever.php',
+        type:'POST',
+        data:{email:p_email, status:p_status, regId: token, action:'storeSub'},
+        crossDomain:true,
+        success: function(data){
+        console.log('AdFreeCode sent token successfully: ' + data);
+        }
+       });
+          
+}
+function putCode(status){
+    
+    var token = window.localStorage.getItem(LOC_TOKEN);
+    postNewAdFreeCodeToServer(token, '', status);
+    onUrlClicked('');
+    $('#AdFreeContainer').hide();
+    
+}
+function openAdFreeCon(){
+    
+    if( $('#navpanel').hasClass("ui-panel-open") == true ){
+         $('#navpanel').panel('close');
+        }
+    $('#AdFreeContainer').show();
+}
+function openShortNotifyCon(){
+    
+    if( $('#navpanel').hasClass("ui-panel-open") == true ){
+         $('#navpanel').panel('close');
+        }
+    $('#shorttermpanel').show();
+}
+function opendailyForecastCon(){
+    
+    if( $('#navpanel').hasClass("ui-panel-open") == true ){
+         $('#navpanel').panel('close');
+        }
+    var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR); 
+    if ((dailyforecasthour == null)||(dailyforecasthour == undefined)){dailyforecasthour = 7;};
+    log('set forecasthour radio to ' + dailyforecasthour);
+    $('[name="radio-choice-df"][value=' + dailyforecasthour + ']').prop('checked',true); 
+    $('#dailyforecastpanel').show();
+}
 function sendPic(){
         
+    if ($('#nameonpic').val().length == 0)
+        $('#missing').show();
+    else
+    {
         postNewPictureToServer(imageURI, $('#nameonpic').val(), $('#commentonpic').val(), x, y);
         $('#imagepreviewContainer').hide();
+        
+    }
 }
 function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
 {
@@ -308,7 +750,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
         console.log("Code = " + r.responseCode);
         console.log("Response = " + r.response);
         console.log("Sent = " + r.bytesSent);
-        navigator.notification.alert(currentLocale.sentsuccess);
+        //navigator.notification.alert(currentLocale.sentsuccess);
     }
  
     var fail = function (error) {
@@ -320,12 +762,17 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
         } else {
             retries = 0;
             clearCache();
-            console.log('Ups. Something wrong happens! Code = ' + error.code);
+            navigator.notification.alert('Ups. Something wrong happens! Code = ' + error.code);
         }
+    }
+    if (nameOnPic == "")
+    {
+        return false;
     }
     //navigator.notification.alert("postNewPictureToServer: "+fileURI);
     var basename = fileURI.substr(fileURI.lastIndexOf('/') + 1);
     var manipulatedName = basename.substr(0,basename.lastIndexOf('.') - 1) + "_" + (new Date()).getTime() + basename.substr(basename.lastIndexOf('.'));
+    var token = window.localStorage.getItem(LOC_TOKEN);
     //navigator.notification.alert(manipulatedName);
     var options = new FileUploadOptions();
     options.fileKey = "pic";
@@ -335,20 +782,25 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     options.headers = {
     Connection: "close"
     };
-    options.params = {name:nameOnPic, comment:comments, x:x, y:y, picname:options.fileName}; // if we need to send parameters to the server request
+    options.params = {name:nameOnPic, comment:comments, x:x, y:y, reg_id:token, picname:options.fileName}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
     ft.upload(fileURI, encodeURI("http://www.02ws.co.il/user_picture_reciever.php"), win, fail, options);
-          
+    navigator.notification.alert(currentLocale.sentsuccess);          
 }
 function tokenHandler(result)
 {
-    console.log('device token from registration= ' + result);
-    window.localStorage.setItem("token", result);
-    postNewTokenToServer(result, true, true, true);
+    //alert('device token from registration= ' + result);
+    var token = window.localStorage.getItem(LOC_TOKEN);
+    var isdailyforecast = window.localStorage.getItem(LOC_DAILYFORECAST);
+    var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR);
+    if (token != result){
+        window.localStorage.setItem(LOC_TOKEN, result);
+        postNewTokenToServer(result, true, false, true, isdailyforecast, dailyforecasthour);
+    }
  }   
 function errorHandler(error)
 {
-    console.log('error in registering: ' + error);
+    //alert('error in registering: ' + error);
 }
 function regsuccessHandler (result) {
     console.log('registration = ' + result);
@@ -363,22 +815,52 @@ function onRefresh()
     var errorclear = function(status) {
         console.log('Errorclear: ' + status);
     } 
-    window.cache.clear( successclear, errorclear );
+    //window.cache.clear( successclear, errorclear );
     
-    document.getElementById('02wsframe').src = document.getElementById('02wsframe').src + (new Date()).getTime();
+    document.getElementById('02wsframe').src = document.getElementById('02wsframe').src + '&' +(new Date()).getTime();
+}
+function onShareNotification(data)
+{
+   // this is the complete list of currently supported params you can pass to the plugin (all optional)
+    var options = {
+      message: currentLocale.appTitle + ': ' + data.message,
+      subject: currentLocale.sharesubject, // fi. for email
+      url: 'https://itunes.apple.com/us/app/yrwsmyym/id925504632?mt=8',
+      chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
+    }
+    window.plugins.socialsharing.shareWithOptions(options, onShareSuccess, onShareError); 
+    push.finish();
+}
+function onReplyNotification(data)
+{
+      console.log("onReplyNotification:" + data);
+        var lang = window.localStorage.getItem(LOC_LANG);
+        var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&section=SendEmailForm.php&data="+data;
+        console.log(url);    
+        $('#02wsframe').attr('src', url);
+        setView(320);
 }
 function onShareClick()
 {
     // this is the complete list of currently supported params you can pass to the plugin (all optional)
     var options = {
-      message: currentLocale.sharemessage, // not supported on some apps (Facebook, Instagram)
+      message: document.getElementById('02wsframe').src, // not supported on some apps (Facebook, Instagram)
       subject: currentLocale.sharesubject, // fi. for email
       files: ['http://www.02ws.co.il/02ws_short.png'], // an array of filenames either locally or remotely
-      url: 'https://itunes.apple.com/us/app/yrwsmyym/id925504632?mt=8',
+      url: '',
       chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
     }
     window.plugins.socialsharing.shareWithOptions(options, onShareSuccess, onShareError);
     
+}
+function isDFSubscribed(){
+    return (window.localStorage.getItem(SUB_DAILYFORECAST_MONTHLY)||window.localStorage.getItem(SUB_DAILYFORECAST_YEARLY));
+}
+function isAdFreeSubscribed(){
+    return (window.localStorage.getItem(SUB_ADFREE_MONTHLY)||window.localStorage.getItem(SUB_ADFREE_YEARLY));
+}
+function isShortTermSubscribed(){
+    return (window.localStorage.getItem(SUB_SHORTTERM_MONTHLY)||window.localStorage.getItem(SUB_SHORTTERM_YEARLY));
 }
 function onNotificationsCheck(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked)
 {
@@ -391,11 +873,15 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 {
     try {
         app.saveLang(value);
-        window.localStorage.setItem("cloth", iscloth);
-        window.localStorage.setItem("fulltext", isfulltext);
-        window.localStorage.setItem("sound", issound);
-        console.log("onLanguageChoose:" + iscloth + isfulltext + issound); 
-        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0);
+        window.localStorage.setItem(LOC_CLOTH, iscloth);
+        window.localStorage.setItem(LOC_FULLTEXT, isfulltext);
+        window.localStorage.setItem(LOC_SOUND, issound);
+        var token  = window.localStorage.getItem(LOC_TOKEN);
+        var tempunits = window.localStorage.getItem("tempunits");
+        var active_sub = window.localStorage.getItem(LOC_ACTIVE_SUB);
+        console.log("onLanguageChoose:" + iscloth + isfulltext + issound);
+        //alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
+        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + (active_sub != "" ? "&reg_id=" + token : ''); 
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
@@ -405,6 +891,29 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
    }
      catch (e) {
         console.log('error on onLanguageChoose: ' + e);
+    }
+    
+}
+
+function onUrlClicked(section)
+{
+    navClicked("http://www.02ws.co.il/small.php?section=" + section + "&lang=", 320);
+         
+}
+function onDailyForecastHourChoose(value)
+{
+    window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, value);
+}
+function onTempUnitsChoose(value)
+{
+    try {
+        
+        window.localStorage.setItem("tempunits", value);
+        console.log("onTempUnitsChoose:" + value); 
+        onUrlClicked('');
+   }
+     catch (e) {
+        console.log('error on onTempUnitsChoose: ' + e);
     }
     
 }
@@ -421,7 +930,10 @@ var onShareError = function(msg) {
   
 }
 
-
+function log(msg){
+    //console.log(msg);
+    app.showAlert(msg, '');
+}
 function successIconBadgeNumberHandler(){
    console.log("successIconBadgeNumber"); 
 }
@@ -438,38 +950,115 @@ function setView(width){
     var viewportScale = 1 / window.devicePixelRatio;
     viewport = document.querySelector("meta[name=viewport]");
     if (width == 320)
-     viewport.setAttribute('content', 'user-scalable=no, width=' + width);
+     viewport.setAttribute('content', 'user-scalable=no, viewport-fit=cover, width=' + width );
        else
-    viewport.setAttribute('content', 'initial-scale=0.55, minimum-scale=0.55  , maximum-scale=1, width=' + width);
+    viewport.setAttribute('content', 'initial-scale=0.55, minimum-scale=0.55, maximum-scale=1, viewport-fit=cover,  width=' + width);
 }
-function navClicked(baseurl){
-    lang = window.localStorage.getItem("lang");
-    iscloth = window.localStorage.getItem("cloth");
-    isfulltext = window.localStorage.getItem("fulltext");
-    issound = window.localStorage.getItem("sound");
-     var url = baseurl + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0); ;
+function navClicked(baseurl, width){
+    lang = window.localStorage.getItem(LOC_LANG);
+    iscloth = window.localStorage.getItem(LOC_CLOTH);
+    isfulltext = window.localStorage.getItem(LOC_FULLTEXT);
+    issound = window.localStorage.getItem(LOC_SOUND);
+    var token  = window.localStorage.getItem(LOC_TOKEN);
+    var active_sub = window.localStorage.getItem(LOC_ACTIVE_SUB);
+    console.log("active_sub="+active_sub+"token="+token); 
+    var url = baseurl + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0) + (active_sub != "" ? "&reg_id=" + token : ''); ;
     $('#02wsframe').attr('src', url);
-    setView(570);
-    $('#navlinkpanel').panel('close');
+    setView(width);
+    if( $('#navlinkpanel').hasClass("ui-panel-open") == true ){
+         $('#navlinkpanel').panel('close');
+    }
+    if( $('#navpanel').hasClass("ui-panel-open") == true ){
+         $('#navpanel').panel('close');
+    }
+}
+function navlinkCLicked(){
+    console.log('navlinkCLicked');
+    app.initStore();
+}
+function adfreeYearlyClicked(checked){
+    
+}
+function adfreeMonthyClicked(checked){
+    
+}
+function shorttermYearlyClicked(checked){
+    
+}
+function shorttermMonthlyClicked(checked){
+   
+}
+function okcloseadfreeClicked(){
+    log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
+    if ($('#checkbox_AdFree_monthly').is(':checked'))
+        store.order(SUB_ADFREE_MONTHLY);
+    if ($('#checkbox_AdFree_yearly').is(':checked'))
+        store.order(SUB_ADFREE_YEARLY);
+    $('#AdFreeContainer').hide();
+    $('#navpanel').panel('close');
+}
+function okcloseshorttermClicked(){
+    log('okcloseshorttermClicked: checkbox_shortterm_monthly=' + $('#checkbox_shortterm_monthly').is(':checked') + ' checkbox_shortterm_yearly='+$('#checkbox_shortterm_yearly').is(':checked'));
+    if ($('#checkbox_shortterm_monthly').is(':checked'))
+        store.order(SUB_SHORTTERM_MONTHLY);
+    if ($('#checkbox_shortterm_yearly').is(':checked'))
+        store.order(SUB_SHORTTERM_YEARLY);
+    if (!$('#checkbox_shortterm_combined').is(':checked')){
+        window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
+        apps.updateUserParams();
+    }
+       
+    $('#shorttermpanel').hide();
+    $('#navpanel').panel('close');
+}
+
+function okclosedfpanelClicked(){
+    log('okclosedfpanelClicked: checkbox_dailyforecast_monthly=' + $('#checkbox_dailyforecast_monthly').is(':checked') + ' checkbox_dailyforecast_yearly='+$('#checkbox_dailyforecast_yearly').is(':checked'));
+    try{
+        if ($('#checkbox_dailyforecast_monthly').is(':checked'))
+        store.order(SUB_DAILYFORECAST_MONTHLY);
+        if ($('#checkbox_dailyforecast_yearly').is(':checked'))
+            store.order(SUB_DAILYFORECAST_YEARLY);
+        $('#dailyforecastpanel').hide();
+        //$('#navpanel').panel('close');
+        
+    }
+    catch (e){
+        log(e);
+    }
+    
+}
+
+function youtubeClicked(){
+    navClicked('https://m.youtube.com/channel/UCcFdTuHfckfOsCy7MwbY9vQ', 320);
 }
 function dailypicClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=picoftheday.php&lang=');
+    navClicked('http://www.02ws.co.il/small.php?section=picoftheday.php&lang=', 320);
     $('#campanel').panel('close');
 }
 function radarClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=radar.php&lang=');
+    navClicked('http://www.02ws.co.il/small.php?section=radar.php&lang=', 570);
+}
+function userpicsClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=userPics.php&lang=', 320);
+}
+function contactClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=SendEmailForm.php&lang=', 320);
+}
+function forumClicked(){
+    navClicked('http://www.02ws.co.il/small.php?section=chatmobile.php&lang=', 320);
 }
 function tempClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=');
+    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=', 320);
 }
 function humClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=');
+    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=', 320);
 }
 function homeClicked(){
-    lang = window.localStorage.getItem("lang");
-    iscloth = window.localStorage.getItem("cloth");
-    isfulltext = window.localStorage.getItem("fulltext");
-    issound = window.localStorage.getItem("sound");
+    lang = window.localStorage.getItem(LOC_LANG);
+    iscloth = window.localStorage.getItem(LOC_CLOTH);
+    isfulltext = window.localStorage.getItem(LOC_FULLTEXT);
+    issound = window.localStorage.getItem(LOC_SOUND);
     onLanguageChoose(lang, iscloth, isfulltext, issound);
     $('#navlinkpanel').panel('close');
         
@@ -518,30 +1107,85 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
  }
 $(document).ready(function() {
     $("[name='radio-choice-lang']").on('change mousedown',function(event) { 
-        onLanguageChoose(this.value, window.localStorage.getItem("cloth")=== "true" , window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
+        onLanguageChoose(this.value, window.localStorage.getItem(LOC_CLOTH)=== "true" , window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
     });
     
-    
+    $("[name='radio-choice-temp']").on('change mousedown',function(event) { 
+        onTempUnitsChoose(this.value);
+    });
+    $("[name='radio-choice-df']").on('change mousedown',function(event) { 
+        onDailyForecastHourChoose(this.value);
+    });
+    $('#checkbox_adfree').on('change', function() {
+        openAdFreeCon();
+    }); 
+    $('#checkbox_AdFree_monthly').on('change', function() {
+        log('checkbox_AdFree_monthlyClicked');
+       if  ($(this).is(':checked'))
+            $('#checkbox_AdFree_yearly').prop('checked', false);
+        adfreeMonthyClicked($(this).is(':checked'));
+    }); 
+    $('#checkbox_AdFree_yearly').on('change', function() {
+        log('checkbox_AdFree_yearlyClicked');
+        if  ($(this).is(':checked'))
+            $('#checkbox_AdFree_monthly').prop('checked', false);
+        adfreeYearlyClicked($(this).is(':checked'));
+    }); 
+    $('#checkbox_dailyforecast_monthly').on('change', function() {
+        if  ($(this).is(':checked'))
+            $('#checkbox_dailyforecast_yearly').prop('checked', false);
+        
+    }); 
+    $('#checkbox_dailyforecast_yearly').on('change', function() {
+        log('checkbox_dailyforecast_yearlyClicked');
+        if  ($(this).is(':checked'))
+            $('#checkbox_dailyforecast_monthly').prop('checked', false);
+        
+    });
+
+    $('#checkbox_shortterm_monthly').on('change', function() {
+        log('checkbox_shortterm_monthlyClicked');
+        if  ($(this).is(':checked'))
+            $('#checkbox_shortterm_yearly').prop('checked', false);
+        shorttermMonthlyClicked($(this).is(':checked'));
+    }); 
+    $('#checkbox_shortterm_yearly').on('change', function() {
+        log('checkbox_shortterm_yearlyClicked');
+        if  ($(this).is(':checked'))
+            $('#checkbox_shortterm_monthly').prop('checked', false);
+        shorttermYearlyClicked($(this).is(':checked'));
+    }); 
+    $('#checkbox_shortterm_combined').on('change', function() {
+        
+    });  
+    $('#checkbox_dailyforecast').on('change', function() {
+        opendailyForecastCon();
+    }); 
     $('#checkbox_notifications').on('change', function() {
         
         onNotificationsCheck($(this).is(':checked'), $("[name='checkbox_shortnotifications']").is(":checked"), $("[name='checkbox_tipsnotifications']").is(":checked"));
     }); 
     $('#checkbox_shortnotifications').on('change', function() {
-        
-        onNotificationsCheck($("[name='checkbox_notifications']").is(":checked"), $(this).is(':checked'), $("[name='checkbox_tipsnotifications']").is(":checked"));
-    }); 
+        openShortNotifyCon();
+     }); 
      $('#checkbox_tipsnotifications').on('change', function() { 
          
         onNotificationsCheck($("[name='checkbox_notifications']").is(":checked"), $("[name='checkbox_shortnotifications']").is(":checked"), $(this).is(':checked'));
     }); 
     $("[name='checkbox_cloth']").on('change', function() { 
-        onLanguageChoose(window.localStorage.getItem("lang"), $(this).is(':checked'), window.localStorage.getItem("fulltext")=== "true", window.localStorage.getItem("sound")=== "true");
+        onLanguageChoose(window.localStorage.getItem(LOC_LANG), $(this).is(':checked'), window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
     });
     $("[name='checkbox_fulltext']").on('change', function() { 
-        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", $(this).is(':checked'), window.localStorage.getItem("sound")=== "true");
+        onLanguageChoose(window.localStorage.getItem(LOC_LANG), window.localStorage.getItem(LOC_CLOTH)=== "true", $(this).is(':checked'), window.localStorage.getItem(LOC_SOUND)=== "true");
     });
     $("[name='checkbox_sound']").on('change', function() { 
-        onLanguageChoose(window.localStorage.getItem("lang"), window.localStorage.getItem("cloth")=== "true", window.localStorage.getItem("fulltext")=== "true", $(this).is(':checked'));
+        onLanguageChoose(window.localStorage.getItem(LOC_LANG), window.localStorage.getItem(LOC_CLOTH)=== "true", window.localStorage.getItem(LOC_FULLTEXT)=== "true", $(this).is(':checked'));
+    });
+    $("[id='btn_okcloseadfree']").on('click',function(event) { 
+        okcloseadfreeClicked();
+    });
+    $("[id='btn_okcloseshortterm']").on('click',function(event) { 
+        okcloseshorttermClicked();
     });
     $("[id='btn_takepic']").on('click',function(event) { 
         capturePhotoEdit();
@@ -559,6 +1203,10 @@ $(document).ready(function() {
     $("[id='btn_okclosepanel']").on('click',function(event) {
         $('#navpanel').panel('close');
        
+    });
+    $("[id='btn_okclosedfpanel']").on('click',function(event) {
+        okclosedfpanelClicked();
+        
     });
     $("[id='btn_radar']").on('click',function(event) {
        radarClicked(); 
@@ -598,9 +1246,9 @@ $(document).ready(function() {
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
     });
-    
-    handleExternalURLs();
-    openAllLinksWithBlankTargetInSystemBrowser();
+    //app.initStore();
+    //handleExternalURLs();
+    //openAllLinksWithBlankTargetInSystemBrowser();
     
 });
 
