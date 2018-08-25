@@ -50,6 +50,7 @@ var locales = {
     
     
   },
+  
   he: {
     hello: 'שלום',
     LongTermsNotifications:'התראה לימים הבאים - תחזית ועוד',
