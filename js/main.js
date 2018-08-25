@@ -468,33 +468,31 @@ var app = {
     
     // When store is ready, activate the "refresh" button;
     store.ready(function() {
-        var el = document.getElementById('refresh-button');
-        if (el) {
-            el.style.display = 'block';
-            el.onclick = function(ev) {
-                store.refresh();
-            };
-        }
+        
+        // Refresh the store.
+        //
+        // This will contact the server to check all registered products
+        // validity and ownership status.
+        //
+        // It's fine to do this only at application startup, as it could be
+        // pretty expensive.
+        log('store refresh ');
+        store.refresh();
+        log('store refresh DONE');
+        
+
         if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
-            // access the awesome feature
+            log(SUB_SHORTTERM_MONTHLY + ' owned');
         }
         else {
-            // display an alert
+            log(SUB_SHORTTERM_MONTHLY + ' not owned');
         }
         
     });
+
+    // initstore - refresh?
   
-    // Refresh the store.
-    //
-    // This will contact the server to check all registered products
-    // validity and ownership status.
-    //
-    // It's fine to do this only at application startup, as it could be
-    // pretty expensive.
-    log('store refresh ');
-    store.refresh();
-    log('store refresh DONE');
-    alert('store refresh DONE');
+    
     },
     renderIAP:function(p) {
 
@@ -993,8 +991,8 @@ function shorttermMonthlyClicked(checked){
 function okcloseadfreeClicked(){
     log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
     $('#AdFreeContainer').hide();
-    $('#navpanel').panel('close');
-    try{
+    
+   /* try{
         if ($('#checkbox_AdFree_monthly').is(':checked'))
         store.order(SUB_ADFREE_MONTHLY);
     if ($('#checkbox_AdFree_yearly').is(':checked'))
@@ -1004,13 +1002,13 @@ function okcloseadfreeClicked(){
     catch (e)
    {
        log(e);
-   }
+   }*/
     
 }
 function okcloseshorttermClicked(){
     log('okcloseshorttermClicked: checkbox_shortterm_monthly=' + $('#checkbox_shortterm_monthly').is(':checked') + ' checkbox_shortterm_yearly='+$('#checkbox_shortterm_yearly').is(':checked'));
     $('#shorttermpanel').hide();
-    $('#navpanel').panel('close');
+    
     try{
     if ($('#checkbox_shortterm_monthly').is(':checked'))
         store.order(SUB_SHORTTERM_MONTHLY);
@@ -1123,6 +1121,12 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
     });
  }
 $(document).ready(function() {
+    const {HijackWebviewLinkClick} = window.cordova.plugins;
+ 
+    HijackWebviewLinkClick.listen((url) => {
+        log(url);
+        //window.open(url, '_blank');
+    });
     $("[name='radio-choice-lang']").on('change mousedown',function(event) { 
         onLanguageChoose(this.value, window.localStorage.getItem(LOC_CLOTH)=== "true" , window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
     });
