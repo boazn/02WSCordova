@@ -235,8 +235,7 @@ var app = {
     // Enable remote receipt validation
     store.validator = "https://api.fovea.cc:1982/check-purchase";
 
-    // Inform the store of your products
-    log('registerProducts');
+   
     
 
     store.register({
@@ -278,6 +277,7 @@ var app = {
     // When any product gets updated, refresh the HTML.
     store.when("product").updated(function (p) {
         //app.renderIAP(p);
+        log(p + " updated");
     });
 
     store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
@@ -476,10 +476,7 @@ var app = {
         //
         // It's fine to do this only at application startup, as it could be
         // pretty expensive.
-        log('store refresh ');
-        store.refresh();
-        log('store refresh DONE');
-        
+             
 
         if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
             log(SUB_SHORTTERM_MONTHLY + ' owned');
@@ -491,7 +488,9 @@ var app = {
     });
 
     // initstore - refresh?
-  
+    log('store refresh ');
+    store.refresh();
+    log('store refresh DONE');
     
     },
     renderIAP:function(p) {
@@ -728,8 +727,12 @@ function opendailyForecastCon(){
     var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR); 
     if ((dailyforecasthour == null)||(dailyforecasthour == undefined)){dailyforecasthour = 7;};
     log('set forecasthour radio to ' + dailyforecasthour);
-    $('[name="radio-choice-df"][value=' + dailyforecasthour + ']').prop('checked',true); 
+    $('[name="radio-choice-df"][value=' + dailyforecasthour + ']').attr('checked',true); 
     $('#dailyforecastpanel').show();
+    $("input[type='radio']").checkboxradio();
+    $("input[type='radio']").checkboxradio("refresh");
+    $("input[type='checkbox']").checkboxradio();
+    $("input[type='checkbox']").checkboxradio("refresh");
 }
 function sendPic(){
         
@@ -975,6 +978,8 @@ function navClicked(baseurl, width){
 function navlinkCLicked(){
     console.log('navlinkCLicked');
     app.initStore();
+    $("input[type='radio']").checkboxradio();
+    $("input[type='radio']").checkboxradio("refresh");
 }
 function adfreeYearlyClicked(checked){
     
@@ -989,10 +994,10 @@ function shorttermMonthlyClicked(checked){
    
 }
 function okcloseadfreeClicked(){
-    log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
     $('#AdFreeContainer').hide();
+    log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
     
-   /* try{
+    try{
         if ($('#checkbox_AdFree_monthly').is(':checked'))
         store.order(SUB_ADFREE_MONTHLY);
     if ($('#checkbox_AdFree_yearly').is(':checked'))
@@ -1002,7 +1007,7 @@ function okcloseadfreeClicked(){
     catch (e)
    {
        log(e);
-   }*/
+   }
     
 }
 function okcloseshorttermClicked(){
@@ -1121,12 +1126,8 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
     });
  }
 $(document).ready(function() {
-    const {HijackWebviewLinkClick} = window.cordova.plugins;
- 
-    HijackWebviewLinkClick.listen((url) => {
-        log(url);
-        //window.open(url, '_blank');
-    });
+    $("input[type='radio']").checkboxradio();
+    $("input[type='radio']").checkboxradio("refresh");
     $("[name='radio-choice-lang']").on('change mousedown',function(event) { 
         onLanguageChoose(this.value, window.localStorage.getItem(LOC_CLOTH)=== "true" , window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
     });
@@ -1138,49 +1139,66 @@ $(document).ready(function() {
         onDailyForecastHourChoose(this.value);
     });
     $('#checkbox_adfree').on('change', function() {
+        if  ($(this).is(':checked')){
+            $(this).prop("checked", false).checkboxradio("refresh");
+        }
+        else
+        $(this).prop("checked", true).checkboxradio("refresh");
         openAdFreeCon();
     }); 
     $('#checkbox_AdFree_monthly').on('change', function() {
         log('checkbox_AdFree_monthlyClicked');
        if  ($(this).is(':checked'))
-            $('#checkbox_AdFree_yearly').prop('checked', false);
+            $('#checkbox_AdFree_yearly').prop('checked', false).checkboxradio("refresh");
         adfreeMonthyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_AdFree_yearly').on('change', function() {
         log('checkbox_AdFree_yearlyClicked');
         if  ($(this).is(':checked'))
-            $('#checkbox_AdFree_monthly').prop('checked', false);
+            $('#checkbox_AdFree_monthly').prop('checked', false).checkboxradio("refresh");
         adfreeYearlyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_dailyforecast_monthly').on('change', function() {
         log('checkbox_dailyforecast_monthlyClicked');
-        if  ($(this).is(':checked'))
-            $('#checkbox_dailyforecast_yearly').prop('checked', false);
+        if  ($(this).is(':checked')){
+            $('#checkbox_dailyforecast_yearly').prop("checked", false).checkboxradio("refresh");
+            
+            log('checkbox_dailyforecast_yearly set to ' + $('#checkbox_dailyforecast_yearly').is(':checked'));
+        }
+       
+            
         
     }); 
     $('#checkbox_dailyforecast_yearly').on('change', function() {
         log('checkbox_dailyforecast_yearlyClicked');
-        if  ($(this).is(':checked'))
-            $('#checkbox_dailyforecast_monthly').prop('checked', false);
-        
-    });
-
+        if  ($(this).is(':checked')){
+            
+            $('#checkbox_dailyforecast_monthly').prop("checked", false).checkboxradio("refresh");
+            log('checkbox_dailyforecast_monthly set to ' + $('#checkbox_dailyforecast_monthly').is(':checked'));
+        }
+            
+    }); 
     $('#checkbox_shortterm_monthly').on('change', function() {
         log('checkbox_shortterm_monthlyClicked');
         if  ($(this).is(':checked'))
-            $('#checkbox_shortterm_yearly').prop('checked', false);
+            $('#checkbox_shortterm_yearly').prop('checked', false).checkboxradio("refresh");
         shorttermMonthlyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_shortterm_yearly').on('change', function() {
         log('checkbox_shortterm_yearlyClicked');
         if  ($(this).is(':checked'))
-            $('#checkbox_shortterm_monthly').prop('checked', false);
+            $('#checkbox_shortterm_monthly').prop('checked', false).checkboxradio("refresh");
         shorttermYearlyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_shortterm_combined').on('change', function() {
         
     });  
     $('#checkbox_dailyforecast').on('change', function() {
+        if  ($(this).is(':checked')){
+            $(this).prop("checked", false).checkboxradio("refresh");
+        }
+        else
+        $(this).prop("checked", true).checkboxradio("refresh");
         opendailyForecastCon();
     }); 
     $('#checkbox_notifications').on('change', function() {
@@ -1188,6 +1206,11 @@ $(document).ready(function() {
         onNotificationsCheck($(this).is(':checked'), $("[name='checkbox_shortnotifications']").is(":checked"), $("[name='checkbox_tipsnotifications']").is(":checked"));
     }); 
     $('#checkbox_shortnotifications').on('change', function() {
+        if  ($(this).is(':checked')){
+            $(this).prop("checked", false).checkboxradio("refresh");
+        }
+        else
+        $(this).prop("checked", true).checkboxradio("refresh");
         openShortNotifyCon();
      }); 
      $('#checkbox_tipsnotifications').on('change', function() { 
@@ -1241,7 +1264,9 @@ $(document).ready(function() {
     });
     $("[id='btn_home']").on('click',function(event) {
         homeClicked()();
-    });   
+    });
+    
+     
    $('#02wsframe').load(function(){
         console.log('frame has (re)loaded: ' + this.contentWindow.location);
         var allAsBlank = $('#02wsframe').contents().find("a[target=_blank]");
@@ -1267,6 +1292,15 @@ $(document).ready(function() {
     });
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
+    });
+    const {HijackWebviewLinkClick} = window.cordova.plugins;
+ 
+    HijackWebviewLinkClick.listen((url) => {
+        //log(url);
+        if (url.includes("opensettings"))
+            navlinkCLicked();
+        if (url.includes("googleads"))
+            window.open(url, '_blank');
     });
     //app.initStore();
     //handleExternalURLs();
