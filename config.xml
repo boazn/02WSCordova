@@ -19,7 +19,7 @@
     <preference name="show-splash-screen-spinner" value="true"/>
     <preference name="auto-hide-splash-screen" value="true"/>
     <preference name="AutoHideSplashScreen" value="false" />
-    <preference name="SplashScreenDelay" value="0" />
+    <preference name="SplashScreenDelay" value="500" />
     <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="CameraUsesGeolocation" value="false" />
     <preference name="EnableViewportScale" value="true" />
