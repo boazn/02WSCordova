@@ -235,7 +235,10 @@ var app = {
     // Enable remote receipt validation
     store.validator = "https://api.fovea.cc:1982/check-purchase";
 
-   
+     // Log all errors
+     store.error(function(error) {
+        log('ERROR ' + error.code + ': ' + error.message);
+    });
     
 
     store.register({
@@ -274,6 +277,7 @@ var app = {
         type:  store.PAID_SUBSCRIPTION
     });
    
+    log('Pruducts registered');
     // When any product gets updated, refresh the HTML.
     store.when("product").updated(function (p) {
         //app.renderIAP(p);
@@ -455,10 +459,7 @@ var app = {
     });
 
 
-    // Log all errors
-    store.error(function(error) {
-        log('ERROR ' + error.code + ': ' + error.message);
-    });
+  
   
     // When the store is ready (i.e. all products are loaded and in their "final"
     // state), we hide the "loading" indicator.
@@ -993,6 +994,9 @@ function shorttermYearlyClicked(checked){
 function shorttermMonthlyClicked(checked){
    
 }
+function shorttermCombinedClicked(checked){
+
+}
 function okcloseadfreeClicked(){
     $('#AdFreeContainer').hide();
     log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
@@ -1011,9 +1015,8 @@ function okcloseadfreeClicked(){
     
 }
 function okcloseshorttermClicked(){
-    log('okcloseshorttermClicked: checkbox_shortterm_monthly=' + $('#checkbox_shortterm_monthly').is(':checked') + ' checkbox_shortterm_yearly='+$('#checkbox_shortterm_yearly').is(':checked'));
     $('#shorttermpanel').hide();
-    
+    log('okcloseshorttermClicked: checkbox_shortterm_monthly=' + $('#checkbox_shortterm_monthly').is(':checked') + ' checkbox_shortterm_yearly='+$('#checkbox_shortterm_yearly').is(':checked'));
     try{
     if ($('#checkbox_shortterm_monthly').is(':checked'))
         store.order(SUB_SHORTTERM_MONTHLY);
@@ -1032,8 +1035,9 @@ function okcloseshorttermClicked(){
 }
 
 function okclosedfpanelClicked(){
-    log('okclosedfpanelClicked: checkbox_dailyforecast_monthly=' + $('#checkbox_dailyforecast_monthly').is(':checked') + ' checkbox_dailyforecast_yearly='+$('#checkbox_dailyforecast_yearly').is(':checked'));
     $('#dailyforecastpanel').hide();
+    log('okclosedfpanelClicked: checkbox_dailyforecast_monthly=' + $('#checkbox_dailyforecast_monthly').is(':checked') + ' checkbox_dailyforecast_yearly='+$('#checkbox_dailyforecast_yearly').is(':checked'));
+    
     try{
         if ($('#checkbox_dailyforecast_monthly').is(':checked'))
         store.order(SUB_DAILYFORECAST_MONTHLY);
@@ -1147,52 +1151,50 @@ $(document).ready(function() {
         openAdFreeCon();
     }); 
     $('#checkbox_AdFree_monthly').on('change', function() {
-        log('checkbox_AdFree_monthlyClicked');
+        
        if  ($(this).is(':checked'))
             $('#checkbox_AdFree_yearly').prop('checked', false).checkboxradio("refresh");
         adfreeMonthyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_AdFree_yearly').on('change', function() {
-        log('checkbox_AdFree_yearlyClicked');
+       
         if  ($(this).is(':checked'))
             $('#checkbox_AdFree_monthly').prop('checked', false).checkboxradio("refresh");
         adfreeYearlyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_dailyforecast_monthly').on('change', function() {
-        log('checkbox_dailyforecast_monthlyClicked');
+        
         if  ($(this).is(':checked')){
             $('#checkbox_dailyforecast_yearly').prop("checked", false).checkboxradio("refresh");
             
-            log('checkbox_dailyforecast_yearly set to ' + $('#checkbox_dailyforecast_yearly').is(':checked'));
+            //log('checkbox_dailyforecast_yearly set to ' + $('#checkbox_dailyforecast_yearly').is(':checked'));
         }
        
             
         
     }); 
     $('#checkbox_dailyforecast_yearly').on('change', function() {
-        log('checkbox_dailyforecast_yearlyClicked');
+        
         if  ($(this).is(':checked')){
             
             $('#checkbox_dailyforecast_monthly').prop("checked", false).checkboxradio("refresh");
-            log('checkbox_dailyforecast_monthly set to ' + $('#checkbox_dailyforecast_monthly').is(':checked'));
+         //   log('checkbox_dailyforecast_monthly set to ' + $('#checkbox_dailyforecast_monthly').is(':checked'));
         }
             
     }); 
     $('#checkbox_shortterm_monthly').on('change', function() {
-        log('checkbox_shortterm_monthlyClicked');
+        
         if  ($(this).is(':checked'))
             $('#checkbox_shortterm_yearly').prop('checked', false).checkboxradio("refresh");
         shorttermMonthlyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_shortterm_yearly').on('change', function() {
-        log('checkbox_shortterm_yearlyClicked');
+        
         if  ($(this).is(':checked'))
             $('#checkbox_shortterm_monthly').prop('checked', false).checkboxradio("refresh");
         shorttermYearlyClicked($(this).is(':checked'));
     }); 
-    $('#checkbox_shortterm_combined').on('change', function() {
-        
-    });  
+    
     $('#checkbox_dailyforecast').on('change', function() {
         if  ($(this).is(':checked')){
             $(this).prop("checked", false).checkboxradio("refresh");
@@ -1299,8 +1301,10 @@ $(document).ready(function() {
         //log(url);
         if (url.includes("opensettings"))
             navlinkCLicked();
-        if (url.includes("googleads"))
+        else if (url.includes("googleads"))
             window.open(url, '_blank');
+        else 
+        l   og(url);
     });
     //app.initStore();
     //handleExternalURLs();
