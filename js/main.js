@@ -1304,7 +1304,7 @@ $(document).ready(function() {
         else if (url.includes("googleads"))
             window.open(url, '_blank');
         else 
-        l   og(url);
+        log(url);
     });
     //app.initStore();
     //handleExternalURLs();
