@@ -233,8 +233,22 @@ var app = {
     store.verbosity = store.DEBUG;
 
     // Enable remote receipt validation
-    store.validator = "https://api.fovea.cc:1982/check-purchase";
+    store.validator = function(product, callback) {
+        //callback(true, { ... transaction details ... }); // success!
 
+        // OR
+        /*callback(false, {
+            code: store.PURCHASE_EXPIRED,
+            error: {
+                message: "XYZ"
+            }
+        });*/
+        // OR
+        //callback(false, "Impossible to proceed with validation");
+
+        //send product.transaction.transactionReceipt to the your server to validate as in above docs.
+     
+     }
      // Log all errors
      store.error(function(error) {
         log('ERROR ' + error.code + ': ' + error.message);
@@ -721,19 +735,18 @@ function openShortNotifyCon(){
     $('#shorttermpanel').show();
 }
 function opendailyForecastCon(){
-    
+    $('#dailyforecastpanel').show();
     if( $('#navpanel').hasClass("ui-panel-open") == true ){
          $('#navpanel').panel('close');
         }
     var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR); 
     if ((dailyforecasthour == null)||(dailyforecasthour == undefined)){dailyforecasthour = 7;};
     log('set forecasthour radio to ' + dailyforecasthour);
-    $('[name="radio-choice-df"][value=' + dailyforecasthour + ']').attr('checked',true); 
-    $('#dailyforecastpanel').show();
+   /* $('[name="radio-choice-df"][value=' + dailyforecasthour + ']').attr('checked',true); 
     $("input[type='radio']").checkboxradio();
     $("input[type='radio']").checkboxradio("refresh");
     $("input[type='checkbox']").checkboxradio();
-    $("input[type='checkbox']").checkboxradio("refresh");
+    $("input[type='checkbox']").checkboxradio("refresh");*/
 }
 function sendPic(){
         
