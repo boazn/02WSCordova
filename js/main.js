@@ -232,23 +232,6 @@ var app = {
     // Enable maximum logging level
     store.verbosity = store.DEBUG;
 
-    // Enable remote receipt validation
-    store.validator = function(product, callback) {
-        //callback(true, { ... transaction details ... }); // success!
-
-        // OR
-        /*callback(false, {
-            code: store.PURCHASE_EXPIRED,
-            error: {
-                message: "XYZ"
-            }
-        });*/
-        // OR
-        //callback(false, "Impossible to proceed with validation");
-
-        //send product.transaction.transactionReceipt to the your server to validate as in above docs.
-     
-     }
      // Log all errors
      store.error(function(error) {
         log('ERROR ' + error.code + ': ' + error.message);
@@ -299,15 +282,15 @@ var app = {
     });
 
     store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
-        log("verify subscription");
-        p.verify();
-    });
-    store.when(SUB_SHORTTERM_MONTHLY).verified(function(p) {
-        log("subscription verified");
+        log(SUB_SHORTTERM_MONTHLY + " approved");
         p.finish();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
+    });
+    store.when(SUB_SHORTTERM_MONTHLY).verified(function(p) {
+        log("subscription verified");
+       
     });
     store.when(SUB_SHORTTERM_MONTHLY).unverified(function(p) {
         log("subscription unverified");
@@ -330,8 +313,11 @@ var app = {
     });
 
     store.when(SUB_SHORTTERM_YEARLY).approved(function(p) {
-        log(SUB_SHORTTERM_YEARLY + ": verify subscription");
-        p.verify();
+        log(SUB_SHORTTERM_YEARLY + "approved");
+        p.finish();
+        window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+        window.localStorage.setItem(LOC_APPROVED, true);
+        app.updateUserParams();
     });
     store.when(SUB_SHORTTERM_YEARLY).verified(function(p) {
         log(SUB_SHORTTERM_YEARLY + ": subscription verified");
@@ -361,8 +347,10 @@ var app = {
     });
 
     store.when(SUB_ADFREE_MONTHLY).approved(function(p) {
-        log(SUB_ADFREE_MONTHLY + ": verify subscription");
-        p.verify();
+        log(SUB_ADFREE_MONTHLY + ": approved");
+        p.finish();
+        window.localStorage.setItem(LOC_ADFREE, true);
+        putCode(1);
     });
     store.when(SUB_ADFREE_MONTHLY).verified(function(p) {
         log(SUB_ADFREE_MONTHLY + ": subscription verified");
@@ -389,8 +377,10 @@ var app = {
     });
 
     store.when(SUB_ADFREE_YEARLY).approved(function(p) {
-        log(SUB_ADFREE_YEARLY + ": verify subscription");
-        p.verify();
+        log(SUB_ADFREE_YEARLY + ": approved");
+        p.finish();
+        window.localStorage.setItem(LOC_ADFREE, true);
+        putCode(1);
     });
     store.when(SUB_ADFREE_YEARLY).verified(function(p) {
         log(SUB_ADFREE_YEARLY + ": subscription verified");
@@ -417,8 +407,10 @@ var app = {
     });
 
     store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
-        log(SUB_DAILYFORECAST_MONTHLY + ": verify subscription");
-        p.verify();
+        log(SUB_DAILYFORECAST_MONTHLY + ": approved");
+        p.finish();
+        window.localStorage.setItem(LOC_DAILYFORECAST, true);
+        app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_MONTHLY).verified(function(p) {
         log(SUB_DAILYFORECAST_MONTHLY + ": subscription verified");
@@ -445,8 +437,10 @@ var app = {
     });
 
     store.when(SUB_DAILYFORECAST_YEARLY).approved(function(p) {
-        log(SUB_DAILYFORECAST_YEARLY + ": verify subscription");
-        p.verify();
+        log(SUB_DAILYFORECAST_YEARLY + ": approved");
+        p.finish();
+        window.localStorage.setItem(LOC_DAILYFORECAST, true);
+        app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_YEARLY).verified(function(p) {
         log(SUB_DAILYFORECAST_YEARLY + ": subscription verified");
@@ -492,14 +486,15 @@ var app = {
         // It's fine to do this only at application startup, as it could be
         // pretty expensive.
              
-
-        if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
+        log('store is ready')
+        store.refresh();
+        log('store refresh DONE');
+        /*if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
             log(SUB_SHORTTERM_MONTHLY + ' owned');
         }
         else {
             log(SUB_SHORTTERM_MONTHLY + ' not owned');
-        }
-        
+        }*/
     });
 
     // initstore - refresh?
