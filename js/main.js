@@ -225,13 +225,13 @@ var app = {
         log('Store not available');
         return;
     }
-
+    app.log('initStore');
     app.platform = device.platform.toLowerCase();
     //document.getElementsByTagName('body')[0].className = app.platform;
 
     // Enable maximum logging level
     store.verbosity = store.DEBUG;
-
+    store.validator = "http://www.02ws.co.il/receipt_validator.php";
      // Log all errors
      store.error(function(error) {
         log('ERROR ' + error.code + ': ' + error.message);
@@ -274,11 +274,11 @@ var app = {
         type:  store.PAID_SUBSCRIPTION
     });
    
-    log('Pruducts registered');
+    app.log('Pruducts registered');
     // When any product gets updated, refresh the HTML.
     store.when("product").updated(function (p) {
         //app.renderIAP(p);
-        log(p + " updated");
+        app.log(p + " updated");
     });
 
     store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
@@ -498,9 +498,9 @@ var app = {
     });
 
     // initstore - refresh?
-    log('store refresh ');
+    app.log('store refresh ');
     store.refresh();
-    log('store refresh DONE');
+    app.log('store refresh DONE');
     
     },
     renderIAP:function(p) {
