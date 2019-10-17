@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, viewport-fit=cover" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/styles.css"/>
         <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
@@ -58,46 +58,19 @@
                     <label id="shorttermdesc"></label>
                         <div class="float">
                             <label for="checkbox_shortterm_monthly" class="monthly"></label>
-                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortterm_monthly" name="checkbox_shortterm_monthly">
+                            <input type="checkbox" id="checkbox_shortterm_monthly" name="checkbox_shortterm_monthly">
                         </div>
                         <div class="float">
                             <label for="checkbox_shortterm_yearly" class="yearly"></label>
-                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortterm_yearly" name="checkbox_shortterm_yearly">
+                            <input type="checkbox" id="checkbox_shortterm_yearly" name="checkbox_shortterm_yearly">
                         </div>
                         <div class="float">
                             <label for="checkbox_shortterm_combined" id="lblcombined"></label>
-                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortterm_combined" name="checkbox_shortterm_combined">
+                            <input type="checkbox" id="checkbox_shortterm_combined" name="checkbox_shortterm_combined">
                          </div>
                          <button type="button" id="btn_okcloseshortterm" >Ok</button>  
             </div>
-            <div data-role="content" style="display: none" id="dailyforecastpanel" data-theme="a"
-                 data-display="overlay" data-position="right">
-                    <label id="dailyforecastdesc"></label>
-                        <div class="float">
-                            <label for="checkbox_dailyforecast_monthly" class="monthly"></label>
-                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_dailyforecast_monthly" name="checkbox_dailyforecast_monthly">
-                        </div>
-                        <div class="float">
-                            <label for="checkbox_dailyforecast_yearly" class="yearly"></label>
-                            <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_dailyforecast_yearly" name="checkbox_dailyforecast_yearly">
-                        </div>
-                        <div data-role="controlgroup" data-corners="false">
-                           <label for="radio-choice-df5">05:00</label>
-                           <input type="radio" name="radio-choice-df" id="radio-choice-df5" value="5">
-                           <label for="radio-choice-df6">06:00</label>
-                           <input type="radio" name="radio-choice-df" id="radio-choice-df6" value="6">
-                           <label for="radio-choice-df7">07:00</label>
-                           <input type="radio" name="radio-choice-df" id="radio-choice-df7" value="7">
-                           <label for="radio-choice-df8">08:00</label>
-                           <input type="radio" name="radio-choice-df" id="radio-choice-df8" value="8">
-                           <label for="radio-choice-df9">09:00</label>
-                           <input type="radio" name="radio-choice-df" id="radio-choice-df9" value="9">
-                           <label for="radio-choice-df10">10:00</label>
-                           <input type="radio" name="radio-choice-df" id="radio-choice-df10" value="10">
-                        </div>
-                        <button type="button" id="btn_okclosedfpanel" >Ok</button>    
-                        
-            </div>
+            
             <div data-role="panel" id="navpanel" data-theme="a"
                  data-display="overlay" data-position="right">
                  
@@ -116,40 +89,44 @@
                    <input type="radio" name="radio-choice-temp" id="radio-choice-tempb" class="custom" value="°F">
                    </div>    
                     <form>
-                    <div class="float">
+                    <div >
+                    <label for="checkbox_choosestartpage" id="lblchoosestartpage"></label>
+                    <input type="checkbox"  id="checkbox_choosestartpage" name="checkbox_choosestartpage"  data-mini="true">
+                    </div>
+                    <div >
                     <label for="checkbox_notifications" id="lbllongterm"></label>
-                    <input type="checkbox"  id="checkbox_notifications" name="checkbox_notifications" data-role="flipswitch" data-mini="true">
+                    <input type="checkbox"  id="checkbox_notifications" name="checkbox_notifications"  data-mini="true">
                     </div>
-                    <div class="float">
+                    <div >
                     <label for="checkbox_shortnotifications" id="lblshortterm"></label> 
-                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_shortnotifications" name="checkbox_shortnotifications" onclick="openShortnotifications()">
+                    <input type="checkbox" data-mini="true" id="checkbox_shortnotifications" name="checkbox_shortnotifications" onclick="openShortnotifications()">
                     </div>
-                    <div class="float">
+                    <div >
                     <label for="checkbox_tipsnotifications" id="lbltips"></label>
-                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_tipsnotifications" name="checkbox_tipsnotifications">
+                    <input type="checkbox" data-mini="true" id="checkbox_tipsnotifications" name="checkbox_tipsnotifications">
                     </div>
-                    <div class="float">
+                    <div >
                     <label for="checkbox_cloth" id="lblcloths"></label>
-                     <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_cloth" name="checkbox_cloth">
+                     <input type="checkbox" data-mini="true" id="checkbox_cloth" name="checkbox_cloth">
                     </div>
-                    <div class="float">
+                    <div >
                     <label for="checkbox_fulltext" id="lblfulltext"></label>
-                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_fulltext" name="checkbox_fulltext">
+                    <input type="checkbox" data-mini="true" id="checkbox_fulltext" name="checkbox_fulltext">
                      </div>
-                    <div class="float">
+                    <div >
                     <label for="checkbox_sound" id="lblsound"></label>
-                    <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_sound" name="checkbox_sound">
+                    <input type="checkbox" data-mini="true" id="checkbox_sound" name="checkbox_sound">
                     </div>
-                    <div class="float">
-                        <label id="lbladfreetitle" ></label>
-                        <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_adfree" name="checkbox_adfree">
+                    <div style="display:none">
+                    <label id="lbladfreetitle" for="checkbox_adfree"></label>
+                    <input type="checkbox" data-mini="true" id="checkbox_adfree" name="checkbox_adfree">
                     </div>
-                    <div class="float">
-                        <label id="lbldailyforecasttitle" ></label>
-                        <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_dailyforecast" name="checkbox_dailyforecast">
+                    <div style="display:none">
+                    <label id="lbldailyforecasttitle" for="checkbox_dailyforecast"></label>
+                    <input type="checkbox" data-mini="true" id="checkbox_dailyforecast" name="checkbox_dailyforecast">
                     </div>
                     </form>
-                    <button type="button" id="btn_okclosepanel"  data-position="fixed" data-role="footer">Ok</button>
+                    <button type="button" id="btn_okclosepanel"  data-position="fixed">Ok</button>
                 </div>
             </div>
 
@@ -175,14 +152,41 @@
                 <label id="adfreecodedesc"></label>
                 <div class="float">
                         <label for="checkbox_AdFree_monthly" class="monthly"></label>
-                        <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_AdFree_monthly" name="checkbox_AdFree_monthly">
+                        <input type="checkbox" id="checkbox_AdFree_monthly" name="checkbox_AdFree_monthly">
                     </div>
                     <div class="float">
                         <label for="checkbox_AdFree_yearly" class="yearly"></label>
-                        <input type="checkbox" data-role="flipswitch" data-mini="true" id="checkbox_AdFree_yearly" name="checkbox_AdFree_yearly">
+                        <input type="checkbox" id="checkbox_AdFree_yearly" name="checkbox_AdFree_yearly">
                     </div>
                     <button type="button" id="btn_okcloseadfree" >Ok</button>  
                 
+            </div>
+            <div data-role="content" style="display: none" id="dailyforecastpanel" >
+                    <label id="dailyforecastdesc"></label>
+                        <div class="float">
+                            <label for="checkbox_dailyforecast_monthly" class="monthly"></label>
+                            <input type="checkbox" id="checkbox_dailyforecast_monthly" name="checkbox_dailyforecast_monthly" />
+                        </div>
+                        <div class="float">
+                            <label for="checkbox_dailyforecast_yearly" class="yearly"></label>
+                            <input type="checkbox" id="checkbox_dailyforecast_yearly" name="checkbox_dailyforecast_yearly" />
+                        </div>
+                        <div data-role="controlgroup" data-corners="false">
+                           <label for="radio-choice-df5">05:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df5" value="5">
+                           <label for="radio-choice-df6">06:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df6" value="6">
+                           <label for="radio-choice-df7">07:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df7" value="7">
+                           <label for="radio-choice-df8">08:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df8" value="8">
+                           <label for="radio-choice-df9">09:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df9" value="9">
+                           <label for="radio-choice-df10">10:00</label>
+                           <input type="radio" name="radio-choice-df" id="radio-choice-df10" value="10">
+                        </div>
+                        <button type="button" id="btn_okclosedfpanel" >Ok</button>    
+                        
             </div>    
         </div>
         

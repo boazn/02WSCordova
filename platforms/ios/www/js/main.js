@@ -49,13 +49,13 @@ var app = {
         
         //ini shortnotifications
         var isToShortNotify = window.localStorage.getItem(LOC_SHORT_NOTIFICATIONS);
-        if ((isToShortNotify == null)||(isToShortNotify == undefined)){isToShortNotify = true;};
+        if ((isToShortNotify == null)||(isToShortNotify == undefined)){isToShortNotify = false;};
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, isToShortNotify);
         var isToShortNotifymonthly = window.localStorage.getItem(SUB_SHORTTERM_MONTHLY);
-        if ((isToShortNotifymonthly == null)||(isToShortNotifymonthly == undefined)){isToShortNotifymonthly = true;};
+        if ((isToShortNotifymonthly == null)||(isToShortNotifymonthly == undefined)){isToShortNotifymonthly = false;};
         window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, isToShortNotifymonthly);
         var isToShortNotifyyearly = window.localStorage.getItem(SUB_SHORTTERM_YEARLY);
-        if ((isToShortNotifyyearly == null)||(isToShortNotifyyearly == undefined)){isToShortNotifyyearly = true;};
+        if ((isToShortNotifyyearly == null)||(isToShortNotifyyearly == undefined)){isToShortNotifyyearly = false;};
         window.localStorage.setItem(SUB_SHORTTERM_YEARLY, isToShortNotifyyearly);
         //ini tipsnotifications
         var isToTipsNotify = window.localStorage.getItem(LOC_TIPS_NOTIFICATIONS);
@@ -148,7 +148,7 @@ var app = {
         StatusBar.styleDefault();
         var token = window.localStorage.getItem(LOC_TOKEN);
         console.log("token from storage:" + token);
-        
+        this.initStore();
         try {
            registerDevice();
         }
@@ -171,6 +171,7 @@ var app = {
     },
     showAlert: function (message, title) {
             if (navigator.notification) {
+                navigator.notification.alert(title ? (title + ": " + message) : message);
                 navigator.notification.console.log(message, null, title, 'OK');
             } else {
                 console.log(title ? (title + ": " + message) : message);
@@ -220,75 +221,41 @@ var app = {
     // initialize the purchase plugin if available
     initStore:function() {
 
-    if (!window.store) {
-        log('Store not available');
-        return;
-    }
-
+    console.log('initStore');
     app.platform = device.platform.toLowerCase();
     //document.getElementsByTagName('body')[0].className = app.platform;
-
-    // Enable maximum logging level
-    store.verbosity = store.DEBUG;
-
-    // Enable remote receipt validation
-    store.validator = "https://api.fovea.cc:1982/check-purchase";
-
-    // Inform the store of your products
-    log('registerProducts');
+    inAppPurchase
+    .getProducts([SUB_SHORTTERM_MONTHLY, SUB_SHORTTERM_YEARLY, SUB_ADFREE_MONTHLY, SUB_ADFREE_YEARLY, SUB_DAILYFORECAST_MONTHLY, SUB_DAILYFORECAST_YEARLYY])
+    .then(function (products) {
+        console.log(products);
+        /*
+        [{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' }, ...]
+        */
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
     
 
-    store.register({
-        id:    SUB_SHORTTERM_MONTHLY, // id without package name!
-        alias: SUB_SHORTTERM_MONTHLY,
-        type:  store.PAID_SUBSCRIPTION
-    });
-
-    store.register({
-        id:    SUB_SHORTTERM_YEARLY, 
-        alias: SUB_SHORTTERM_YEARLY,
-        type:  store.PAID_SUBSCRIPTION
-    });
-
-    store.register({
-        id:    SUB_ADFREE_MONTHLY, 
-        alias: SUB_ADFREE_MONTHLY,
-        type:  store.PAID_SUBSCRIPTION
-    });
-
-    store.register({
-        id:    SUB_ADFREE_YEARLY, 
-        alias: SUB_ADFREE_YEARLY,
-        type:  store.PAID_SUBSCRIPTION
-    });
-
-    store.register({
-        id:    SUB_DAILYFORECAST_MONTHLY, 
-        alias: SUB_DAILYFORECAST_MONTHLY,
-        type:  store.PAID_SUBSCRIPTION
-    });
-
-    store.register({
-        id:    SUB_DAILYFORECAST_YEARLYY, 
-        alias: SUB_DAILYFORECAST_YEARLYY,
-        type:  store.PAID_SUBSCRIPTION
-    });
+    inAppPurchase
+    .restorePurchases()
+    .then((purchases) => {
+        purchases.forEach(purchase => console.log(purchase.productId + ' should be restored') );
+        // unlock the relevant feature based on this product id
+    })
+    .catch(err => console.log(err) );
    
-    // When any product gets updated, refresh the HTML.
-    store.when("product").updated(function (p) {
-        //app.renderIAP(p);
-    });
 
-    store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
-        log("verify subscription");
-        p.verify();
-    });
-    store.when(SUB_SHORTTERM_MONTHLY).verified(function(p) {
-        log("subscription verified");
+    /*store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
+        log(SUB_SHORTTERM_MONTHLY + " approved");
         p.finish();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
+    });
+    store.when(SUB_SHORTTERM_MONTHLY).verified(function(p) {
+        log("subscription verified");
+       
     });
     store.when(SUB_SHORTTERM_MONTHLY).unverified(function(p) {
         log("subscription unverified");
@@ -308,191 +275,8 @@ var app = {
             app.updateUserParams();
             app.showAlert('You are not subscribed');
         }
-    });
-
-    store.when(SUB_SHORTTERM_YEARLY).approved(function(p) {
-        log(SUB_SHORTTERM_YEARLY + ": verify subscription");
-        p.verify();
-    });
-    store.when(SUB_SHORTTERM_YEARLY).verified(function(p) {
-        log(SUB_SHORTTERM_YEARLY + ": subscription verified");
-        p.finish();
-        window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
-        window.localStorage.setItem(LOC_APPROVED, true);
-        app.updateUserParams();
-    });
-    store.when(SUB_SHORTTERM_YEARLY).unverified(function(p) {
-        log(SUB_SHORTTERM_YEARLY + ": subscription unverified");
-    });
-    store.when(SUB_SHORTTERM_YEARLY).updated(function(p) {
-        if (p.owned) {
-            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, true);
-            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, isShortTermSubscribed());
-            window.localStorage.setItem(LOC_APPROVED, true);
-            app.updateUserParams();
-            app.showAlert('You are a lucky ' + SUB_SHORTTERM_YEARLY + ' subscriber!');
-        }
-        else {
-            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
-            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, isShortTermSubscribed());
-            window.localStorage.setItem(LOC_APPROVED, false);
-            app.updateUserParams();
-            app.showAlert('You are not subscribed');
-        }
-    });
-
-    store.when(SUB_ADFREE_MONTHLY).approved(function(p) {
-        log(SUB_ADFREE_MONTHLY + ": verify subscription");
-        p.verify();
-    });
-    store.when(SUB_ADFREE_MONTHLY).verified(function(p) {
-        log(SUB_ADFREE_MONTHLY + ": subscription verified");
-        p.finish();
-        window.localStorage.setItem(LOC_ADFREE, true);
-        putCode(1);
-    });
-    store.when(SUB_ADFREE_MONTHLY).unverified(function(p) {
-        log(SUB_ADFREE_MONTHLY + ": subscription unverified");
-    });
-    store.when(SUB_ADFREE_MONTHLY).updated(function(p) {
-        if (p.owned) {
-            window.localStorage.setItem(SUB_ADFREE_MONTHLY, true);
-            window.localStorage.setItem(LOC_ADFREE, isAdFreeSubscribed());
-            putCode(1);
-            app.showAlert('You are a lucky ' + SUB_ADFREE_MONTHLY + ' subscriber!');
-        }
-        else {
-            window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
-            window.localStorage.setItem(LOC_ADFREE, isAdFreeSubscribed());
-            putCode(0);
-            app.showAlert('You are not subscribed');
-        }
-    });
-
-    store.when(SUB_ADFREE_YEARLY).approved(function(p) {
-        log(SUB_ADFREE_YEARLY + ": verify subscription");
-        p.verify();
-    });
-    store.when(SUB_ADFREE_YEARLY).verified(function(p) {
-        log(SUB_ADFREE_YEARLY + ": subscription verified");
-        p.finish();
-        window.localStorage.setItem(LOC_ADFREE, true);
-        putCode(1);
-    });
-    store.when(SUB_ADFREE_YEARLY).unverified(function(p) {
-        log(SUB_ADFREE_YEARLY + ": subscription unverified");
-    });
-    store.when(SUB_ADFREE_YEARLY).updated(function(p) {
-        if (p.owned) {
-            window.localStorage.setItem(SUB_ADFREE_YEARLY, true);
-            window.localStorage.setItem(LOC_ADFREE, isAdFreeSubscribed());
-            putCode(1);
-            app.showAlert('You are a lucky ' + SUB_ADFREE_YEARLY + ' subscriber!');
-        }
-        else {
-            window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
-            window.localStorage.setItem(LOC_ADFREE, isAdFreeSubscribed());
-            putCode(0);
-            app.showAlert('You are not subscribed');
-        }
-    });
-
-    store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
-        log(SUB_DAILYFORECAST_MONTHLY + ": verify subscription");
-        p.verify();
-    });
-    store.when(SUB_DAILYFORECAST_MONTHLY).verified(function(p) {
-        log(SUB_DAILYFORECAST_MONTHLY + ": subscription verified");
-        p.finish();
-        window.localStorage.setItem(LOC_DAILYFORECAST, true);
-        app.updateUserParams();
-    });
-    store.when(SUB_DAILYFORECAST_MONTHLY).unverified(function(p) {
-        log(SUB_DAILYFORECAST_MONTHLY + ": subscription unverified");
-    });
-    store.when(SUB_DAILYFORECAST_MONTHLY).updated(function(p) {
-        if (p.owned) {
-            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, true);
-            window.localStorage.setItem(LOC_DAILYFORECAST, isDFSubscribed());
-            app.updateUserParams();
-            app.showAlert('You are a lucky ' + SUB_DAILYFORECAST_MONTHLY + ' subscriber!');
-        }
-        else {
-            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
-            window.localStorage.setItem(LOC_DAILYFORECAST, isDFSubscribed());
-            app.updateUserParams();
-            app.showAlert('You are not subscribed');
-        }
-    });
-
-    store.when(SUB_DAILYFORECAST_YEARLY).approved(function(p) {
-        log(SUB_DAILYFORECAST_YEARLY + ": verify subscription");
-        p.verify();
-    });
-    store.when(SUB_DAILYFORECAST_YEARLY).verified(function(p) {
-        log(SUB_DAILYFORECAST_YEARLY + ": subscription verified");
-        p.finish();
-        window.localStorage.setItem(LOC_DAILYFORECAST, true);
-        app.updateUserParams();
-    });
-    store.when(SUB_DAILYFORECAST_YEARLY).unverified(function(p) {
-        log(SUB_DAILYFORECAST_YEARLY + ": subscription unverified");
-    });
-    store.when(SUB_DAILYFORECAST_YEARLY).updated(function(p) {
-        if (p.owned) {
-            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, true);
-            window.localStorage.setItem(LOC_DAILYFORECAST, isDFSubscribed());
-            app.updateUserParams();
-            app.showAlert('You are a lucky ' + SUB_DAILYFORECAST_YEARLY + ' subscriber!');
-        }
-        else {
-            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
-            window.localStorage.setItem(LOC_DAILYFORECAST, isDFSubscribed());
-            app.updateUserParams();
-            app.showAlert('You are not ' + SUB_DAILYFORECAST_YEARLY + ' subscribed');
-        }
-    });
-
-
-    // Log all errors
-    store.error(function(error) {
-        log('ERROR ' + error.code + ': ' + error.message);
-    });
-  
-    // When the store is ready (i.e. all products are loaded and in their "final"
-    // state), we hide the "loading" indicator.
-    //
-    // Note that the "ready" function will be called immediately if the store
-    // is already ready.
-    
-    // When store is ready, activate the "refresh" button;
-    store.ready(function() {
-        var el = document.getElementById('refresh-button');
-        if (el) {
-            el.style.display = 'block';
-            el.onclick = function(ev) {
-                store.refresh();
-            };
-        }
-        if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
-            // access the awesome feature
-        }
-        else {
-            // display an alert
-        }
-        
-    });
-  
-    // Refresh the store.
-    //
-    // This will contact the server to check all registered products
-    // validity and ownership status.
-    //
-    // It's fine to do this only at application startup, as it could be
-    // pretty expensive.
-    log('store refresh ');
-    store.refresh();
-    log('store refresh DONE');
+    });*/
+    console.log('initStore done');
     },
     renderIAP:function(p) {
 
@@ -673,7 +457,7 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive, 
     
     $.ajax({
               
-        url:'http://www.02ws.co.il/apn_register.php',
+        url:'https://www.02ws.co.il/apn_register.php',
         type:'POST',
         data:{name:device.model, approved:p_approved, dailyforecast:(isdailyforecast?dailyforecasthour:null), email:device.uuid, regId:token, lang:window.localStorage.getItem(LOC_LANG), active:(islongactive ? 1 : 0), active_rain_etc:(isshortactive ? 1 : 0), active_tips:(istipsactive ? 1 : 0)},
         crossDomain:true,
@@ -688,7 +472,7 @@ function postNewAdFreeCodeToServer(token, p_email, p_status)
     
     $.ajax({
               
-        url:'http://www.02ws.co.il/subscription_reciever.php',
+        url:'https://www.02ws.co.il/subscription_reciever.php',
         type:'POST',
         data:{email:p_email, status:p_status, regId: token, action:'storeSub'},
         crossDomain:true,
@@ -721,15 +505,18 @@ function openShortNotifyCon(){
     $('#shorttermpanel').show();
 }
 function opendailyForecastCon(){
-    
+    $('#dailyforecastpanel').show();
     if( $('#navpanel').hasClass("ui-panel-open") == true ){
          $('#navpanel').panel('close');
         }
     var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR); 
     if ((dailyforecasthour == null)||(dailyforecasthour == undefined)){dailyforecasthour = 7;};
     log('set forecasthour radio to ' + dailyforecasthour);
-    $('[name="radio-choice-df"][value=' + dailyforecasthour + ']').prop('checked',true); 
-    $('#dailyforecastpanel').show();
+    $('[name="radio-choice-df"][value="' + dailyforecasthour + '"]').attr('checked',true); 
+    $("input[type='radio']").checkboxradio();
+    $("input[type='radio']").checkboxradio("refresh");
+    //$("input[type='checkbox']").checkboxradio();
+    //$("input[type='checkbox']").checkboxradio("refresh");
 }
 function sendPic(){
         
@@ -784,7 +571,7 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     };
     options.params = {name:nameOnPic, comment:comments, x:x, y:y, reg_id:token, picname:options.fileName}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
-    ft.upload(fileURI, encodeURI("http://www.02ws.co.il/user_picture_reciever.php"), win, fail, options);
+    ft.upload(fileURI, encodeURI("https://www.02ws.co.il/user_picture_reciever.php"), win, fail, options);
     navigator.notification.alert(currentLocale.sentsuccess);          
 }
 function tokenHandler(result)
@@ -835,7 +622,7 @@ function onReplyNotification(data)
 {
       console.log("onReplyNotification:" + data);
         var lang = window.localStorage.getItem(LOC_LANG);
-        var url = "http://www.02ws.co.il/small.php?lang=" + lang + "&section=SendEmailForm.php&data="+data;
+        var url = "https://www.02ws.co.il/small.php?lang=" + lang + "&section=SendEmailForm.php&data="+data;
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
@@ -846,7 +633,7 @@ function onShareClick()
     var options = {
       message: document.getElementById('02wsframe').src, // not supported on some apps (Facebook, Instagram)
       subject: currentLocale.sharesubject, // fi. for email
-      files: ['http://www.02ws.co.il/02ws_short.png'], // an array of filenames either locally or remotely
+      files: ['https://www.02ws.co.il/02ws_short.png'], // an array of filenames either locally or remotely
       url: '',
       chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
     }
@@ -868,7 +655,18 @@ function onNotificationsCheck(longNotifyIsChecked, shortNotifyIsChecked, tipsNot
     $('#navpanel').panel('close');
    
 }
-
+function onStartPageChoose(value)
+{
+    lang = window.localStorage.getItem(LOC_LANG);
+    iscloth = window.localStorage.getItem(LOC_CLOTH);
+    isfulltext = window.localStorage.getItem(LOC_FULLTEXT);
+    issound = window.localStorage.getItem(LOC_SOUND);
+    var token  = window.localStorage.getItem(LOC_TOKEN);
+    var active_sub = window.localStorage.getItem(LOC_ACTIVE_SUB);
+    console.log("active_sub="+active_sub+"token="+token); 
+    var url = "https://www.02ws.co.il/small.php?lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0) + "&startpage=" + (value ? 1 : 0) + (active_sub != null ? "&reg_id=" + token : ''); ;
+    $('#02wsframe').attr('src', url);
+}
 function onLanguageChoose(value, iscloth, isfulltext, issound)
 {
     try {
@@ -881,7 +679,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         var active_sub = window.localStorage.getItem(LOC_ACTIVE_SUB);
         console.log("onLanguageChoose:" + iscloth + isfulltext + issound);
         //alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
-        var url = "http://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + (active_sub != "" ? "&reg_id=" + token : ''); 
+        var url = "https://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + (active_sub != null ? "&reg_id=" + token : ''); 
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
@@ -897,7 +695,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 
 function onUrlClicked(section)
 {
-    navClicked("http://www.02ws.co.il/small.php?section=" + section + "&lang=", 320);
+    navClicked("https://www.02ws.co.il/small.php?section=" + section + "&lang=", 320);
          
 }
 function onDailyForecastHourChoose(value)
@@ -962,7 +760,7 @@ function navClicked(baseurl, width){
     var token  = window.localStorage.getItem(LOC_TOKEN);
     var active_sub = window.localStorage.getItem(LOC_ACTIVE_SUB);
     console.log("active_sub="+active_sub+"token="+token); 
-    var url = baseurl + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0) + (active_sub != "" ? "&reg_id=" + token : ''); ;
+    var url = baseurl + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0) + (active_sub != null ? "&reg_id=" + token : ''); ;
     $('#02wsframe').attr('src', url);
     setView(width);
     if( $('#navlinkpanel').hasClass("ui-panel-open") == true ){
@@ -975,6 +773,8 @@ function navClicked(baseurl, width){
 function navlinkCLicked(){
     console.log('navlinkCLicked');
     app.initStore();
+    $("input[type='radio']").checkboxradio();
+    $("input[type='radio']").checkboxradio("refresh");
 }
 function adfreeYearlyClicked(checked){
     
@@ -988,40 +788,150 @@ function shorttermYearlyClicked(checked){
 function shorttermMonthlyClicked(checked){
    
 }
+function shorttermCombinedClicked(checked){
+
+}
 function okcloseadfreeClicked(){
-    log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
-    if ($('#checkbox_AdFree_monthly').is(':checked'))
-        store.order(SUB_ADFREE_MONTHLY);
-    if ($('#checkbox_AdFree_yearly').is(':checked'))
-        store.order(SUB_ADFREE_YEARLY);
     $('#AdFreeContainer').hide();
-    $('#navpanel').panel('close');
+    log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
+    try{
+        if ($('#checkbox_AdFree_monthly').is(':checked'))
+        inAppPurchase
+        .subscribe(SUB_ADFREE_MONTHLY)
+        .then(function (data) {
+            console.log(data);
+            /*
+            {
+                transactionId: ...
+                receipt: ...
+                signature: ...
+            }
+            */
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+        
+    if ($('#checkbox_AdFree_yearly').is(':checked'))
+        inAppPurchase
+        .subscribe(SUB_ADFREE_YEARLY)
+        .then(function (data) {
+            console.log(data);
+            /*
+            {
+                transactionId: ...
+                receipt: ...
+                signature: ...
+            }
+            */
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+        
+    
+        $('#checkbox_adfree').prop('checked', isAdFreeSubscribed());
+    }
+    catch (e)
+   {
+       log(e);
+   }
+    
 }
 function okcloseshorttermClicked(){
+    $('#shorttermpanel').hide();
     log('okcloseshorttermClicked: checkbox_shortterm_monthly=' + $('#checkbox_shortterm_monthly').is(':checked') + ' checkbox_shortterm_yearly='+$('#checkbox_shortterm_yearly').is(':checked'));
+    
+    try{
     if ($('#checkbox_shortterm_monthly').is(':checked'))
-        store.order(SUB_SHORTTERM_MONTHLY);
+    inAppPurchase
+    .subscribe(SUB_SHORTTERM_MONTHLY)
+    .then(function (data) {
+        console.log(data);
+        /*
+        {
+            transactionId: ...
+            receipt: ...
+            signature: ...
+        }
+        */
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
+      
     if ($('#checkbox_shortterm_yearly').is(':checked'))
-        store.order(SUB_SHORTTERM_YEARLY);
+        inAppPurchase
+        .subscribe(SUB_SHORTTERM_YEARLY)
+        .then(function (data) {
+            console.log(data);
+            /*
+            {
+                transactionId: ...
+                receipt: ...
+                signature: ...
+            }
+            */
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+        
     if (!$('#checkbox_shortterm_combined').is(':checked')){
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
         apps.updateUserParams();
     }
-       
-    $('#shorttermpanel').hide();
-    $('#navpanel').panel('close');
+    $('#checkbox_shortnotifications').prop('checked', isShortTermSubscribed());
+    }
+    catch (e)
+    {
+    log(e);
+    }
+    
 }
 
 function okclosedfpanelClicked(){
+    $('#dailyforecastpanel').hide();
     log('okclosedfpanelClicked: checkbox_dailyforecast_monthly=' + $('#checkbox_dailyforecast_monthly').is(':checked') + ' checkbox_dailyforecast_yearly='+$('#checkbox_dailyforecast_yearly').is(':checked'));
+    
     try{
         if ($('#checkbox_dailyforecast_monthly').is(':checked'))
-        store.order(SUB_DAILYFORECAST_MONTHLY);
-        if ($('#checkbox_dailyforecast_yearly').is(':checked'))
-            store.order(SUB_DAILYFORECAST_YEARLY);
-        $('#dailyforecastpanel').hide();
-        //$('#navpanel').panel('close');
+        inAppPurchase
+        .subscribe(SUB_DAILYFORECAST_MONTHLY)
+        .then(function (data) {
+            console.log(data);
+            /*
+            {
+                transactionId: ...
+                receipt: ...
+                signature: ...
+            }
+            */
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
         
+        if ($('#checkbox_dailyforecast_yearly').is(':checked'))
+        inAppPurchase
+        .subscribe(SUB_DAILYFORECAST_YEARLY)
+        .then(function (data) {
+            console.log(data);
+            /*
+            {
+                transactionId: ...
+                receipt: ...
+                signature: ...
+            }
+            */
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+            
+        
+        //$('#navpanel').panel('close');
+        $('#checkbox_dailyforecast').prop('checked', isDFSubscribed());
     }
     catch (e){
         log(e);
@@ -1033,26 +943,26 @@ function youtubeClicked(){
     navClicked('https://m.youtube.com/channel/UCcFdTuHfckfOsCy7MwbY9vQ', 320);
 }
 function dailypicClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=picoftheday.php&lang=', 320);
+    navClicked('https://www.02ws.co.il/small.php?section=picoftheday.php&lang=', 320);
     $('#campanel').panel('close');
 }
 function radarClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=radar.php&lang=', 570);
+    navClicked('https://www.02ws.co.il/small.php?section=radar.php&lang=', 570);
 }
 function userpicsClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=userPics.php&lang=', 320);
+    navClicked('https://www.02ws.co.il/small.php?section=userPics.php&lang=', 320);
 }
 function contactClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=SendEmailForm.php&lang=', 320);
+    navClicked('https://www.02ws.co.il/small.php?section=SendEmailForm.php&lang=', 320);
 }
 function forumClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=chatmobile.php&lang=', 320);
+    navClicked('https://www.02ws.co.il/small.php?section=chatmobile.php&lang=', 320);
 }
 function tempClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=', 320);
+    navClicked('https://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=', 320);
 }
 function humClicked(){
-    navClicked('http://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=', 320);
+    navClicked('https://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=', 320);
 }
 function homeClicked(){
     lang = window.localStorage.getItem(LOC_LANG);
@@ -1106,6 +1016,8 @@ function openAllLinksWithBlankTargetInSystemBrowser() {
     });
  }
 $(document).ready(function() {
+    $("input[type='radio']").checkboxradio();
+    $("input[type='radio']").checkboxradio("refresh");
     $("[name='radio-choice-lang']").on('change mousedown',function(event) { 
         onLanguageChoose(this.value, window.localStorage.getItem(LOC_CLOTH)=== "true" , window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
     });
@@ -1117,48 +1029,64 @@ $(document).ready(function() {
         onDailyForecastHourChoose(this.value);
     });
     $('#checkbox_adfree').on('change', function() {
+        if  ($(this).is(':checked')){
+            $(this).prop("checked", false).checkboxradio("refresh");
+        }
+        else
+        $(this).prop("checked", true).checkboxradio("refresh");
         openAdFreeCon();
     }); 
     $('#checkbox_AdFree_monthly').on('change', function() {
-        log('checkbox_AdFree_monthlyClicked');
+        
        if  ($(this).is(':checked'))
-            $('#checkbox_AdFree_yearly').prop('checked', false);
+            $('#checkbox_AdFree_yearly').prop('checked', false).checkboxradio("refresh");
         adfreeMonthyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_AdFree_yearly').on('change', function() {
-        log('checkbox_AdFree_yearlyClicked');
+       
         if  ($(this).is(':checked'))
-            $('#checkbox_AdFree_monthly').prop('checked', false);
+            $('#checkbox_AdFree_monthly').prop('checked', false).checkboxradio("refresh");
         adfreeYearlyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_dailyforecast_monthly').on('change', function() {
-        if  ($(this).is(':checked'))
-            $('#checkbox_dailyforecast_yearly').prop('checked', false);
+        
+        if  ($(this).is(':checked')){
+            $('#checkbox_dailyforecast_yearly').prop("checked", false).checkboxradio("refresh");
+            
+            //log('checkbox_dailyforecast_yearly set to ' + $('#checkbox_dailyforecast_yearly').is(':checked'));
+        }
+       
+            
         
     }); 
     $('#checkbox_dailyforecast_yearly').on('change', function() {
-        log('checkbox_dailyforecast_yearlyClicked');
-        if  ($(this).is(':checked'))
-            $('#checkbox_dailyforecast_monthly').prop('checked', false);
         
-    });
-
+        if  ($(this).is(':checked')){
+            
+            $('#checkbox_dailyforecast_monthly').prop("checked", false).checkboxradio("refresh");
+        
+        }
+            
+    }); 
     $('#checkbox_shortterm_monthly').on('change', function() {
-        log('checkbox_shortterm_monthlyClicked');
+        
         if  ($(this).is(':checked'))
-            $('#checkbox_shortterm_yearly').prop('checked', false);
+            $('#checkbox_shortterm_yearly').prop('checked', false).checkboxradio("refresh");
         shorttermMonthlyClicked($(this).is(':checked'));
     }); 
     $('#checkbox_shortterm_yearly').on('change', function() {
-        log('checkbox_shortterm_yearlyClicked');
+        
         if  ($(this).is(':checked'))
-            $('#checkbox_shortterm_monthly').prop('checked', false);
+            $('#checkbox_shortterm_monthly').prop('checked', false).checkboxradio("refresh");
         shorttermYearlyClicked($(this).is(':checked'));
     }); 
-    $('#checkbox_shortterm_combined').on('change', function() {
-        
-    });  
+    
     $('#checkbox_dailyforecast').on('change', function() {
+        if  ($(this).is(':checked')){
+            $(this).prop("checked", false).checkboxradio("refresh");
+        }
+        else
+        $(this).prop("checked", true).checkboxradio("refresh");
         opendailyForecastCon();
     }); 
     $('#checkbox_notifications').on('change', function() {
@@ -1166,6 +1094,11 @@ $(document).ready(function() {
         onNotificationsCheck($(this).is(':checked'), $("[name='checkbox_shortnotifications']").is(":checked"), $("[name='checkbox_tipsnotifications']").is(":checked"));
     }); 
     $('#checkbox_shortnotifications').on('change', function() {
+        if  ($(this).is(':checked')){
+            $(this).prop("checked", false).checkboxradio("refresh");
+        }
+        else
+        $(this).prop("checked", true).checkboxradio("refresh");
         openShortNotifyCon();
      }); 
      $('#checkbox_tipsnotifications').on('change', function() { 
@@ -1174,6 +1107,9 @@ $(document).ready(function() {
     }); 
     $("[name='checkbox_cloth']").on('change', function() { 
         onLanguageChoose(window.localStorage.getItem(LOC_LANG), $(this).is(':checked'), window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
+    });
+    $("[name='checkbox_choosestartpage']").on('change', function() { 
+        onStartPageChoose($(this).is(':checked'));
     });
     $("[name='checkbox_fulltext']").on('change', function() { 
         onLanguageChoose(window.localStorage.getItem(LOC_LANG), window.localStorage.getItem(LOC_CLOTH)=== "true", $(this).is(':checked'), window.localStorage.getItem(LOC_SOUND)=== "true");
@@ -1219,7 +1155,9 @@ $(document).ready(function() {
     });
     $("[id='btn_home']").on('click',function(event) {
         homeClicked()();
-    });   
+    });
+    
+     
    $('#02wsframe').load(function(){
         console.log('frame has (re)loaded: ' + this.contentWindow.location);
         var allAsBlank = $('#02wsframe').contents().find("a[target=_blank]");
@@ -1245,6 +1183,17 @@ $(document).ready(function() {
     });
     $('img').each(function(i, el) {
         $(el).attr('src', $(el).attr('src')+'?pizza='+(new Date()).getTime());
+    });
+    const {HijackWebviewLinkClick} = window.cordova.plugins;
+ 
+    HijackWebviewLinkClick.listen((url) => {
+        //log(url);
+        if (url.includes("opensettings"))
+            navlinkCLicked();
+        else if (url.includes("googleads"))
+            window.open(url, '_blank');
+        else 
+        log(url);
     });
     //app.initStore();
     //handleExternalURLs();

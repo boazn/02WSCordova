@@ -46,7 +46,8 @@ var locales = {
     snowinjlm:'snow in Jerusalem',
     worldforecast:'world forecast',
     israelforecast:'Israel forecast',
-    youtube02ws:'02WS Youtube'
+    youtube02ws:'02WS Youtube',
+    choosestartpage:'choose start page'
     
     
   },
@@ -97,7 +98,8 @@ var locales = {
     snowinjlm:'שלג בירושלים',
     worldforecast:'תחזית לחו"ל',
     israelforecast:'תחזית בארץ',
-    youtube02ws:'ירושמיים Youtube'
+    youtube02ws:'ירושמיים Youtube',
+    choosestartpage:'בחירת דף פתיחה'
   }
 };
  function bindStrings(){
@@ -114,6 +116,7 @@ var locales = {
      $('#lblcombined').text(currentLocale.combinedwithadfree);
      $('#lbladfreetitle').text(currentLocale.adfreetitle);
      $('#lbldailyforecasttitle').text(currentLocale.dailyforecasttitle);
+     $('#lblchoosestartpage').text(currentLocale.choosestartpage);
      $('#missing').text(currentLocale.missing);
      $('.monthly').text(currentLocale.monthly);
      $('.yearly').text(currentLocale.yearly);
