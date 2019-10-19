@@ -16,9 +16,6 @@
     <preference name="prerendered-icon" value="true"/>
     <preference name="detect-data-types" value="true"/>
     <preference name="exit-on-suspend" value="true"/>
-    <preference name="show-splash-screen-spinner" value="true"/>
-    <preference name="auto-hide-splash-screen" value="true"/>
-    <preference name="SplashScreenDelay" value="0" />
     <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="CameraUsesGeolocation" value="false" />
     <preference name="EnableViewportScale" value="true" />
@@ -32,9 +29,7 @@
     <plugin name="phonegap-plugin-push" spec="1.8.0">
         <param name="SENDER_ID" value="12345678" />
      </plugin>
-    <plugin name="cordova-plugin-spinner" source="npm" />
     <plugin name="cordova-plugin-statusbar" source="npm" />
-    <plugin name="cordova-plugin-splashscreen" source="npm" />
     <plugin name="cordova-plugin-inappbrowser" source="npm"/>
     <plugin name="cordova-plugin-camera-with-exif" source="npm"/>
     <plugin name="cordova-plugin-x-socialsharing" source="npm" />
@@ -65,22 +60,8 @@
    <!-- iPhone 6 / 6+ -->
     <icon gap:platform="ios" src="res/icon/ios/icon-60.png" width="60" height="60"/>
     <icon gap:platform="ios" src="res/icon/ios/icon-60@3x.png" width="180" height="180"/>
-    <splash src="Default.png"         platform="ios"     width="320" height="480" />
-    <splash src="Default@2x.png"      platform="ios"     width="640" height="960" />
-    <splash src="Default-568h@2x.png" platform="ios"     width="640" height="1136" />
-    <splash src="res/screen/ios/screen-iphone-portrait.png"          platform="ios"     width="320" height="480" />
-    <splash src="res/screen/ios/screen-iphone-portrait-2x.png"       platform="ios"     width="640" height="960" />
     
-    <!-- Retina iPad -->
-    <splash src="Default-Portrait@2x.png" platform="ios" width="1536" height="2048" />
-    <splash src="Default-Landscape@2x.png" platform="ios" width="2048" height="1536" />
-    <!-- iPhone 6 -->
     <!-- 2732x2732 -->
     <splash src="splash.png" platform="ios" />
-    <splash src="res/screen/ios/Default@2x~iphone~comany.png" />
-    <splash src="res/screen/ios/Default@2x~iphone~comcom.png" />
-    <splash src="res/screen/ios/Default@3x~iphone~anycom.png" />
-    <splash src="res/screen/ios/Default@3x~iphone~comany.png" />
-    <splash src="res/screen/ios/Default@2x~ipad~anyany.png" />
-    <splash src="res/screen/ios/Default@2x~ipad~comany.png" />
+    
 </widget>

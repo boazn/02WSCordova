@@ -221,7 +221,7 @@ var app = {
     // initialize the purchase plugin if available
     initStore:function() {
 
-    console.log('initStore');
+    log('initStore');
     app.platform = device.platform.toLowerCase();
     //document.getElementsByTagName('body')[0].className = app.platform;
     inAppPurchase
@@ -276,7 +276,7 @@ var app = {
             app.showAlert('You are not subscribed');
         }
     });*/
-    console.log('initStore done');
+    log('initStore done');
     },
     renderIAP:function(p) {
 
@@ -809,7 +809,7 @@ function okcloseadfreeClicked(){
             */
         })
         .catch(function (err) {
-            console.log(err);
+            log(err);
         });
         
     if ($('#checkbox_AdFree_yearly').is(':checked'))
@@ -826,7 +826,7 @@ function okcloseadfreeClicked(){
             */
         })
         .catch(function (err) {
-            console.log(err);
+            log(err);
         });
         
     
