@@ -221,7 +221,7 @@ var app = {
     // initialize the purchase plugin if available
     initStore:function() {
 
-    log('initStore');
+    //log('initStore');
     app.platform = device.platform.toLowerCase();
     //document.getElementsByTagName('body')[0].className = app.platform;
     inAppPurchase
