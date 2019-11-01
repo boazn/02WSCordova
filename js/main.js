@@ -63,7 +63,7 @@ var app = {
         window.localStorage.setItem(LOC_TIPS_NOTIFICATIONS, isToTipsNotify);
          //ini cloth
         var iscloth = window.localStorage.getItem(LOC_CLOTH);
-        if ((iscloth == null)||(iscloth == undefined)) {iscloth = true;};
+        if ((iscloth == null)||(iscloth == undefined)) {iscloth = false;};
         window.localStorage.setItem(LOC_CLOTH, iscloth);
        //ini fulltext
         var isfulltext = window.localStorage.getItem(LOC_FULLTEXT);
@@ -227,7 +227,7 @@ var app = {
     inAppPurchase
     .getProducts([SUB_SHORTTERM_MONTHLY, SUB_SHORTTERM_YEARLY, SUB_ADFREE_MONTHLY, SUB_ADFREE_YEARLY, SUB_DAILYFORECAST_MONTHLY, SUB_DAILYFORECAST_YEARLYY])
     .then(function (products) {
-        console.log(products);
+        log(products);
         /*
         [{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' }, ...]
         */
@@ -240,7 +240,7 @@ var app = {
     inAppPurchase
     .restorePurchases()
     .then((purchases) => {
-        purchases.forEach(purchase => console.log(purchase.productId + ' should be restored') );
+        purchases.forEach(purchase => log(purchase.productId + ' should be restored') );
         // unlock the relevant feature based on this product id
     })
     .catch(err => console.log(err) );
