@@ -63,13 +63,35 @@
     <icon gap:platform="ios" src="res/icon/ios/icon-40.png" width="40" height="40"/>
     <icon gap:platform="ios" src="res/icon/ios/icon-40@2x.png" width="80" height="80"/>
     
-   <!-- iPhone 6 / 6+ -->
-    <icon gap:platform="ios" src="res/icon/ios/icon-60.png" width="60" height="60"/>
-    <icon gap:platform="ios" src="res/icon/ios/icon-60@3x.png" width="180" height="180"/>
+  
+    <gap:splash src="Default.png"         gap:platform="ios"     width="320" height="480" />
+    <gap:splash src="Default@2x.png"      gap:platform="ios"     width="640" height="960" />
+    <gap:splash src="Default-568h@2x.png" gap:platform="ios"     width="640" height="1136" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png"          gap:platform="ios"     width="320" height="480" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait-2x.png"       gap:platform="ios"     width="640" height="960" />
+    <gap:splash src="res/screen/ios/screen-iphone-landscape.png"         gap:platform="ios"     width="480" height="320" />
+    <gap:splash src="res/screen/ios/screen-iphone-landscape-2x.png"      gap:platform="ios"     width="960" height="640" />
+    <gap:splash src="res/screen/ios/screen-ipad-portrait.png"            gap:platform="ios"     width="768" height="1024" />
+    <gap:splash src="res/screen/ios/screen-ipad-portrait-2x.png"         gap:platform="ios"     width="1536" height="2008" />
+    <gap:splash src="res/screen/ios/screen-ipad-landscape.png"           gap:platform="ios"     width="1024" height="768" />
+    <gap:splash src="res/screen/ios/screen-ipad-landscape-2x.png"        gap:platform="ios"     width="2048" height="1496" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png"  gap:platform="ios"     width="640"  height="1136" />
+    <!-- iPhone 6 -->
+    <gap:splash src="res/screen/ios/Default-667h@2x.png" width="750" height="1334" gap:platform="ios"/>
+    <gap:splash src="res/screen/ios/Default-Portrait-736h@3x.png" width="1242" height="2208" gap:platform="ios"/>
+    <gap:splash src="res/screen/ios/Default-Landscape-736h@3x.png" width="2208" height="1242" gap:platform="ios"/>
+    <!-- 1334x1334 -->
+    <splash src="res/screen/ios/Default@2x~iphone~anyany.png" platform="ios" />
+    <!-- 750x1334 -->
+    <splash src="res/screen/ios/Default@2x~iphone~comany.png" gap:platform="ios" />
+    <!-- 2208x2208 -->
+    <splash src="res/screen/ios/Default@2x~iphone~comcom.png" platform="ios" />
+    <!-- 1242x2208 -->
+    <splash src="res/screen/ios/Default@3x~iphone~anyany.png" platform="ios" />
+    <!-- 1278x2732 -->
+    <splash src="res/screen/ios/Default@3x~iphone~anycom.png" platform="ios" />
     
-    <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
     <!-- 2732x2732 -->
     <splash src="splash.png" platform="ios" />
-
-   
+    <gap:splash src="res/screen/ios/Default@2x~universal~anyany.png" platform="ios" />
 </widget>
