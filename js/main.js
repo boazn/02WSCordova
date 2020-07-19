@@ -224,19 +224,23 @@ var app = {
     //log('initStore');
     app.platform = device.platform.toLowerCase();
     //document.getElementsByTagName('body')[0].className = app.platform;
+    /*
     inAppPurchase
-    .getProducts([SUB_SHORTTERM_MONTHLY, SUB_SHORTTERM_YEARLY, SUB_ADFREE_MONTHLY, SUB_ADFREE_YEARLY, SUB_DAILYFORECAST_MONTHLY, SUB_DAILYFORECAST_YEARLYY])
+    .getProducts([SUB_SHORTTERM_MONTHLY, SUB_SHORTTERM_YEARLY, SUB_ADFREE_MONTHLY, SUB_ADFREE_YEARLY, SUB_DAILYFORECAST_MONTHLY, SUB_DAILYFORECAST_YEARLY])
     .then(function (products) {
         log(products);
-        /*
-        [{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' }, ...]
-        */
+        
+        [{ productId: SUB_SHORTTERM_MONTHLY, 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' }, 
+        { productId: SUB_ADFREE_MONTHLY, 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' },
+        { productId: SUB_SHORTTERM_YEARLY, 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' },
+        { productId: SUB_ADFREE_YEARLY, 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' } ]
+        
     })
     .catch(function (err) {
         console.log(err);
     });
     
-
+    
     inAppPurchase
     .restorePurchases()
     .then((purchases) => {
@@ -244,9 +248,9 @@ var app = {
         // unlock the relevant feature based on this product id
     })
     .catch(err => console.log(err) );
-   
+   */
 
-    /*store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
+    store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
         log(SUB_SHORTTERM_MONTHLY + " approved");
         p.finish();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
@@ -275,36 +279,9 @@ var app = {
             app.updateUserParams();
             app.showAlert('You are not subscribed');
         }
-    });*/
+    });
+    store.refresh();
     log('initStore done');
-    },
-    renderIAP:function(p) {
-
-        var parts = p.id.split(".");
-        var elId = parts[parts.length-1];
-    
-        var el = document.getElementById(elId + '-purchase');
-        if (!el) return;
-    
-        if (!p.loaded) {
-            el.innerHTML = '<h3>...</h3>';
-        }
-        else if (!p.valid) {
-            el.innerHTML = '<h3>' + p.alias + ' Invalid</h3>';
-        }
-        else if (p.valid) {
-            var html = "<h3>" + p.title + "</h3>" + "<p>" + p.description + "</p>";
-            if (p.canPurchase) {
-                html += "<div class='button' id='buy-" + p.id + "' productId='" + p.id + "' type='button'>" + p.price + "</div>";
-            }
-            el.innerHTML = html;
-            if (p.canPurchase) {
-                document.getElementById("buy-" + p.id).onclick = function (event) {
-                    var pid = this.getAttribute("productId");
-                    store.order(pid);
-                };
-            }
-        }
     }
 };
 
@@ -729,8 +706,8 @@ var onShareError = function(msg) {
 }
 
 function log(msg){
-    //console.log(msg);
-    app.showAlert(msg, '');
+    console.log(msg);
+    //app.showAlert(msg, '');
 }
 function successIconBadgeNumberHandler(){
    console.log("successIconBadgeNumber"); 
@@ -1197,7 +1174,7 @@ $(document).ready(function() {
     });
     //app.initStore();
     //handleExternalURLs();
-    //openAllLinksWithBlankTargetInSystemBrowser();
+    openAllLinksWithBlankTargetInSystemBrowser();
     
 });
 
