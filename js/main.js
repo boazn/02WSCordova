@@ -1173,8 +1173,8 @@ $(document).ready(function() {
         log(url);
     });
     //app.initStore();
-    //handleExternalURLs();
-    openAllLinksWithBlankTargetInSystemBrowser();
+    handleExternalURLs();
+    //openAllLinksWithBlankTargetInSystemBrowser();
     
 });
 
