@@ -250,6 +250,25 @@ var app = {
     .catch(err => console.log(err) );
    */
 
+    store.register([{
+        id:    SUB_SHORTTERM_MONTHLY,
+        type:   store.PAID_SUBSCRIPTION,
+    }, {
+        id:    SUB_SHORTTERM_YEARLY,
+        type:   store.PAID_SUBSCRIPTION,
+    }, {
+        id:    SUB_ADFREE_MONTHLY,
+        type:   store.PAID_SUBSCRIPTION,
+    }, {
+        id:    SUB_ADFREE_YEARLY,
+        type:   store.PAID_SUBSCRIPTION,
+    }, {
+        id:    SUB_DAILYFORECAST_MONTHLY,
+        type:   store.PAID_SUBSCRIPTION,
+    }, {
+        id:    SUB_DAILYFORECAST_YEARLY,
+        type:   store.PAID_SUBSCRIPTION,
+    }]);
     store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
         log(SUB_SHORTTERM_MONTHLY + " approved");
         p.finish();
@@ -279,6 +298,15 @@ var app = {
             app.updateUserParams();
             app.showAlert('You are not subscribed');
         }
+    });
+    // Setup the receipt validator service.
+    store.validator = 'https://validator.fovea.cc/v1/webhook/apple?appName=il.co.02ws&apiKey=bd72d7ea-362d-4a49-ae5f-12ef3eb6a2cd';
+    // Show errors for 10 seconds.
+    store.error(function(error) {
+        setState({ error: `ERROR ${error.code}: ${error.message}` });
+        setTimeout(function() {
+            setState({ error: `` });
+        }, 10000);
     });
     store.refresh();
     log('initStore done');
@@ -706,8 +734,8 @@ var onShareError = function(msg) {
 }
 
 function log(msg){
-    console.log(msg);
-    //app.showAlert(msg, '');
+    //console.log(msg);
+    app.showAlert(msg, '');
 }
 function successIconBadgeNumberHandler(){
    console.log("successIconBadgeNumber"); 
@@ -754,18 +782,22 @@ function navlinkCLicked(){
     $("input[type='radio']").checkboxradio("refresh");
 }
 function adfreeYearlyClicked(checked){
-    
+    log('adfreeYearlyClicked:' + checked);
 }
 function adfreeMonthyClicked(checked){
+    log('adfreeMonthyClicked:' + checked);
     
 }
 function shorttermYearlyClicked(checked){
+    log('shorttermYearlyClicked:' + checked);
     
 }
 function shorttermMonthlyClicked(checked){
+    log('shorttermMonthlyClicked:' + checked);
    
 }
 function shorttermCombinedClicked(checked){
+    log('shorttermCombinedClicked:' + checked);
 
 }
 function okcloseadfreeClicked(){
