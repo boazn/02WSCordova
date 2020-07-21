@@ -277,9 +277,30 @@ var app = {
         type:   store.PAID_SUBSCRIPTION,
     }]);
     store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
-        log(SUB_SHORTTERM_MONTHLY + " approved");
+        app.showAlert(SUB_SHORTTERM_MONTHLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+        window.localStorage.setItem(LOC_APPROVED, true);
+        app.updateUserParams();
+    });
+    store.when(SUB_SHORTTERM_YEARLY).approved(function(p) {
+        app.showAlert(SUB_SHORTTERM_YEARLY + " approved");
+        p.verify();
+        window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+        window.localStorage.setItem(LOC_APPROVED, true);
+        app.updateUserParams();
+    });
+    store.when(SUB_ADFREE_MONTHLY).approved(function(p) {
+        app.showAlert(SUB_ADFREE_MONTHLY + " approved");
+        p.verify();
+        window.localStorage.setItem(LOC_ADFREE, true);
+        window.localStorage.setItem(LOC_APPROVED, true);
+        app.updateUserParams();
+    });
+    store.when(SUB_ADFREE_YEARLY).approved(function(p) {
+        app.showAlert(SUB_ADFREE_YEARLY + " approved");
+        p.verify();
+        window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
     });
@@ -292,7 +313,7 @@ var app = {
         app.showAlert("subscription " + SUB_SHORTTERM_MONTHLY + "unverified");
     });
     store.when('subscription').updated(function(p) {
-        app.showAlert(p.id + ' owned:' + p.owned);
+        log(p.id + ' owned:' + p.owned);
    
     });
     // Setup the receipt validator service.
@@ -301,6 +322,7 @@ var app = {
     store.error(function(error) {
         app.showAlert('error:' + error);
     });
+    store.autoFinishTransactions = true;
     store.refresh();
     store.ready(function() {
         if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
@@ -827,14 +849,14 @@ function okcloseadfreeClicked(){
         if ($('#checkbox_AdFree_monthly').is(':checked'))
         {
             store.order(SUB_ADFREE_MONTHLY);
-            app.showAlert(SUB_ADFREE_MONTHLY + ' ordered');
+            app.showAlert(SUB_ADFREE_MONTHLY + ' order initialized');
         }
        
         
     if ($('#checkbox_AdFree_yearly').is(':checked'))
         {
             store.order(SUB_ADFREE_YEARLY);
-            app.showAlert(SUB_ADFREE_MONTHLY + ' ordered');
+            app.showAlert(SUB_ADFREE_MONTHLY + ' order initialized');
         }
                
     
@@ -854,14 +876,14 @@ function okcloseshorttermClicked(){
     if ($('#checkbox_shortterm_monthly').is(':checked'))
     {
         store.order(SUB_SHORTTERM_MONTHLY);
-        app.showAlert(SUB_SHORTTERM_MONTHLY + ' ordered');
+        app.showAlert(SUB_SHORTTERM_MONTHLY + ' order initialzed');
     }
    
       
     if ($('#checkbox_shortterm_yearly').is(':checked'))
     {
         store.order(SUB_SHORTTERM_YEARLY);
-        app.showAlert(SUB_SHORTTERM_YEARLY + ' ordered');
+        app.showAlert(SUB_SHORTTERM_YEARLY + ' order initialized');
     }
         
         
@@ -884,38 +906,16 @@ function okclosedfpanelClicked(){
     
     try{
         if ($('#checkbox_dailyforecast_monthly').is(':checked'))
-        inAppPurchase
-        .subscribe(SUB_DAILYFORECAST_MONTHLY)
-        .then(function (data) {
-            console.log(data);
-            /*
-            {
-                transactionId: ...
-                receipt: ...
-                signature: ...
-            }
-            */
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
+        {
+            store.order(SUB_DAILYFORECAST_MONTHLY);
+            app.showAlert(SUB_DAILYFORECAST_MONTHLY + ' order initialized');
+        }
         
         if ($('#checkbox_dailyforecast_yearly').is(':checked'))
-        inAppPurchase
-        .subscribe(SUB_DAILYFORECAST_YEARLY)
-        .then(function (data) {
-            console.log(data);
-            /*
-            {
-                transactionId: ...
-                receipt: ...
-                signature: ...
-            }
-            */
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
+        {
+            store.order(SUB_DAILYFORECAST_YEARLY);
+            app.showAlert(SUB_DAILYFORECAST_YEARLY + ' order initialized');
+        }
             
         
         //$('#navpanel').panel('close');
