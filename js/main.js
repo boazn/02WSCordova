@@ -252,27 +252,27 @@ var app = {
    */
     store.verbosity = store.DEBUG;
     store.register([{
-        id:    PACKAGE_NAME + '.' + SUB_SHORTTERM_MONTHLY,
+        id:    SUB_SHORTTERM_MONTHLY,
         alias: SUB_SHORTTERM_MONTHLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    PACKAGE_NAME + '.' + SUB_SHORTTERM_YEARLY,
+        id:    SUB_SHORTTERM_YEARLY,
         alias: SUB_SHORTTERM_YEARLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    PACKAGE_NAME + '.' + SUB_ADFREE_MONTHLY,
+        id:     SUB_ADFREE_MONTHLY,
         alias: SUB_ADFREE_MONTHLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    PACKAGE_NAME + '.' + SUB_ADFREE_YEARLY,
+        id:     SUB_ADFREE_YEARLY,
         alias: SUB_ADFREE_YEARLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    PACKAGE_NAME + '.' + SUB_DAILYFORECAST_MONTHLY,
+        id:     SUB_DAILYFORECAST_MONTHLY,
         alias: SUB_DAILYFORECAST_MONTHLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    PACKAGE_NAME + '.' + SUB_DAILYFORECAST_YEARLY,
+        id:    SUB_DAILYFORECAST_YEARLY,
         alias: SUB_DAILYFORECAST_YEARLY,
         type:   store.PAID_SUBSCRIPTION,
     }]);
