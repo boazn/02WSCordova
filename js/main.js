@@ -26,6 +26,7 @@ var SUB_SHORTTERM_MONTHLY = 'short_term_monthly';
 var SUB_SHORTTERM_YEARLY = 'Short_term_alerts_yearly';
 var SUB_ADFREE_MONTHLY = 'Ad_free_monthly';
 var SUB_ADFREE_YEARLY = 'Ad_free_yearly';
+var PACKAGE_NAME = 'il.co.jws'
 var app = {
         // Application Constructor
     initialize: function() {
@@ -249,39 +250,46 @@ var app = {
     })
     .catch(err => console.log(err) );
    */
-
+    store.verbosity = store.DEBUG;
     store.register([{
-        id:    SUB_SHORTTERM_MONTHLY,
+        id:    PACKAGE_NAME + '.' + SUB_SHORTTERM_MONTHLY,
+        alias: SUB_SHORTTERM_MONTHLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    SUB_SHORTTERM_YEARLY,
+        id:    PACKAGE_NAME + '.' + SUB_SHORTTERM_YEARLY,
+        alias: SUB_SHORTTERM_YEARLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    SUB_ADFREE_MONTHLY,
+        id:    PACKAGE_NAME + '.' + SUB_ADFREE_MONTHLY,
+        alias: SUB_ADFREE_MONTHLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    SUB_ADFREE_YEARLY,
+        id:    PACKAGE_NAME + '.' + SUB_ADFREE_YEARLY,
+        alias: SUB_ADFREE_YEARLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    SUB_DAILYFORECAST_MONTHLY,
+        id:    PACKAGE_NAME + '.' + SUB_DAILYFORECAST_MONTHLY,
+        alias: SUB_DAILYFORECAST_MONTHLY,
         type:   store.PAID_SUBSCRIPTION,
     }, {
-        id:    SUB_DAILYFORECAST_YEARLY,
+        id:    PACKAGE_NAME + '.' + SUB_DAILYFORECAST_YEARLY,
+        alias: SUB_DAILYFORECAST_YEARLY,
         type:   store.PAID_SUBSCRIPTION,
     }]);
     store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
         log(SUB_SHORTTERM_MONTHLY + " approved");
-        p.finish();
+        p.verify();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
     });
     store.when(SUB_SHORTTERM_MONTHLY).verified(function(p) {
-        log("subscription verified");
+        p.finish();
+        app.showAlert("subscription " + SUB_SHORTTERM_MONTHLY + " verified");
        
     });
     store.when(SUB_SHORTTERM_MONTHLY).unverified(function(p) {
-        log("subscription unverified");
+        app.showAlert("subscription " + SUB_SHORTTERM_MONTHLY + "unverified");
     });
     store.when(SUB_SHORTTERM_MONTHLY).updated(function(p) {
         if (p.owned) {
@@ -306,6 +314,15 @@ var app = {
         app.showAlert('error:' + error);
     });
     store.refresh();
+    store.ready(function() {
+        if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
+            app.showAlert(SUB_SHORTTERM_MONTHLY + ' owned');
+        }
+        else {
+            app.showAlert(SUB_SHORTTERM_MONTHLY + ' not owned');
+        }
+    });
+    
     log('initStore done');
     }
 };
@@ -731,8 +748,8 @@ var onShareError = function(msg) {
 }
 
 function log(msg){
-    //console.log(msg);
-    app.showAlert(msg, '');
+    console.log(msg);
+    //app.showAlert(msg, '');
 }
 function successIconBadgeNumberHandler(){
    console.log("successIconBadgeNumber"); 
@@ -802,39 +819,16 @@ function okcloseadfreeClicked(){
     log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
     try{
         if ($('#checkbox_AdFree_monthly').is(':checked'))
-        inAppPurchase
-        .subscribe(SUB_ADFREE_MONTHLY)
-        .then(function (data) {
-            console.log(data);
-            /*
-            {
-                transactionId: ...
-                receipt: ...
-                signature: ...
-            }
-            */
-        })
-        .catch(function (err) {
-            log(err);
-        });
+        {
+            store.order(SUB_ADFREE_MONTHLY);
+        }
+       
         
     if ($('#checkbox_AdFree_yearly').is(':checked'))
-        inAppPurchase
-        .subscribe(SUB_ADFREE_YEARLY)
-        .then(function (data) {
-            console.log(data);
-            /*
-            {
-                transactionId: ...
-                receipt: ...
-                signature: ...
-            }
-            */
-        })
-        .catch(function (err) {
-            log(err);
-        });
-        
+        {
+            store.order(SUB_ADFREE_YEARLY);
+        }
+               
     
         $('#checkbox_adfree').prop('checked', isAdFreeSubscribed());
     }
@@ -850,38 +844,16 @@ function okcloseshorttermClicked(){
     
     try{
     if ($('#checkbox_shortterm_monthly').is(':checked'))
-    inAppPurchase
-    .subscribe(SUB_SHORTTERM_MONTHLY)
-    .then(function (data) {
-        console.log(data);
-        /*
-        {
-            transactionId: ...
-            receipt: ...
-            signature: ...
-        }
-        */
-    })
-    .catch(function (err) {
-        console.log(err);
-    });
+    {
+        store.order(SUB_SHORTTERM_MONTHLY);
+    }
+   
       
     if ($('#checkbox_shortterm_yearly').is(':checked'))
-        inAppPurchase
-        .subscribe(SUB_SHORTTERM_YEARLY)
-        .then(function (data) {
-            console.log(data);
-            /*
-            {
-                transactionId: ...
-                receipt: ...
-                signature: ...
-            }
-            */
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
+    {
+        store.order(SUB_SHORTTERM_YEARLY);
+    }
+        
         
     if (!$('#checkbox_shortterm_combined').is(':checked')){
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
