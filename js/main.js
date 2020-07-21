@@ -292,33 +292,8 @@ var app = {
         app.showAlert("subscription " + SUB_SHORTTERM_MONTHLY + "unverified");
     });
     store.when('subscription').updated(function(p) {
-        if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
-            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, true);
-            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
-            window.localStorage.setItem(LOC_APPROVED, true);
-            app.updateUserParams();
-            app.showAlert('You are a lucky ' + SUB_SHORTTERM_MONTHLY + ' subscriber!');
-        }
-        else {
-            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
-            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
-            window.localStorage.setItem(LOC_APPROVED, false);
-            app.updateUserParams();
-            app.showAlert('You are not ' + SUB_SHORTTERM_MONTHLY + ' subscribed');
-        }
-        if (store.get(SUB_ADFREE_MONTHLY).owned) {
-            window.localStorage.setItem(SUB_ADFREE_MONTHLY, true);
-            window.localStorage.setItem(LOC_ADFREE, true);
-            app.updateUserParams();
-            app.showAlert('You are a lucky ' + SUB_ADFREE_MONTHLY + ' subscriber!');
-        }
-        else {
-            window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
-            window.localStorage.setItem(LOC_ADFREE, false);
-            app.updateUserParams();
-            app.showAlert('You are not ' + SUB_ADFREE_MONTHLY + ' subscribed');
-        }
-
+        app.showAlert(p.id + ' owned:' + p.owned);
+   
     });
     // Setup the receipt validator service.
     store.validator = 'https://validator.fovea.cc/v1/webhook/apple?appName=il.co.02ws&apiKey=bd72d7ea-362d-4a49-ae5f-12ef3eb6a2cd';
@@ -328,7 +303,30 @@ var app = {
     });
     store.refresh();
     store.ready(function() {
-        
+        if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
+            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, true);
+            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+            window.localStorage.setItem(LOC_APPROVED, true);
+            
+           
+        }
+        else {
+            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
+            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
+            window.localStorage.setItem(LOC_APPROVED, false);
+            
+        }
+        if (store.get(SUB_ADFREE_MONTHLY).owned) {
+            window.localStorage.setItem(SUB_ADFREE_MONTHLY, true);
+            window.localStorage.setItem(LOC_ADFREE, true);
+           
+        }
+        else {
+            window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
+            window.localStorage.setItem(LOC_ADFREE, false);
+            
+        }
+        app.updateUserParams();
     });
     
     log('initStore done');
@@ -829,12 +827,14 @@ function okcloseadfreeClicked(){
         if ($('#checkbox_AdFree_monthly').is(':checked'))
         {
             store.order(SUB_ADFREE_MONTHLY);
+            app.showAlert(SUB_ADFREE_MONTHLY + ' ordered');
         }
        
         
     if ($('#checkbox_AdFree_yearly').is(':checked'))
         {
             store.order(SUB_ADFREE_YEARLY);
+            app.showAlert(SUB_ADFREE_MONTHLY + ' ordered');
         }
                
     
@@ -854,12 +854,14 @@ function okcloseshorttermClicked(){
     if ($('#checkbox_shortterm_monthly').is(':checked'))
     {
         store.order(SUB_SHORTTERM_MONTHLY);
+        app.showAlert(SUB_SHORTTERM_MONTHLY + ' ordered');
     }
    
       
     if ($('#checkbox_shortterm_yearly').is(':checked'))
     {
         store.order(SUB_SHORTTERM_YEARLY);
+        app.showAlert(SUB_SHORTTERM_YEARLY + ' ordered');
     }
         
         
