@@ -304,6 +304,20 @@ var app = {
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
     });
+    store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
+        app.showAlert(SUB_DAILYFORECAST_MONTHLY + " approved");
+        p.verify();
+        window.localStorage.setItem(LOC_DAILYFORECAST, true);
+        window.localStorage.setItem(LOC_APPROVED, true);
+        app.updateUserParams();
+    });
+    store.when(SUB_DAILYFORECAST_YEARLY).approved(function(p) {
+        app.showAlert(SUB_DAILYFORECAST_YEARLY + " approved");
+        p.verify();
+        window.localStorage.setItem(LOC_DAILYFORECAST, true);
+        window.localStorage.setItem(LOC_APPROVED, true);
+        app.updateUserParams();
+    });
     store.when(SUB_SHORTTERM_MONTHLY).verified(function(p) {
         p.finish();
         app.showAlert("subscription " + SUB_SHORTTERM_MONTHLY + " verified");
@@ -327,26 +341,60 @@ var app = {
     store.ready(function() {
         if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
             window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, true);
+            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
+            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+            window.localStorage.setItem(LOC_APPROVED, true);
+        }
+        else if (store.get(SUB_SHORTTERM_YEARLY).owned) {
+            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
+            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, true);
             window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
             window.localStorage.setItem(LOC_APPROVED, true);
             
-           
         }
         else {
             window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
+            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
             window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
-            window.localStorage.setItem(LOC_APPROVED, false);
-            
+            window.localStorage.setItem(LOC_ADFREE, false);
         }
+
         if (store.get(SUB_ADFREE_MONTHLY).owned) {
             window.localStorage.setItem(SUB_ADFREE_MONTHLY, true);
+            window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
             window.localStorage.setItem(LOC_ADFREE, true);
-           
+            window.localStorage.setItem(LOC_APPROVED, true);
+        }
+        else if (store.get(SUB_ADFREE_YEARLY).owned) {
+            window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
+            window.localStorage.setItem(SUB_ADFREE_YEARLY, true);
+            window.localStorage.setItem(LOC_ADFREE, true);
+            window.localStorage.setItem(LOC_APPROVED, true);
+            
         }
         else {
             window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
+            window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
             window.localStorage.setItem(LOC_ADFREE, false);
+        }
+
+        if (store.get(SUB_DAILYFORECAST_MONTHLY).owned) {
+            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, true);
+            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
+            window.localStorage.setItem(LOC_DAILYFORECAST, true);
+            window.localStorage.setItem(LOC_APPROVED, true);
+        }
+        else if (store.get(SUB_DAILYFORECAST_YEARLY).owned) {
+            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
+            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, true);
+            window.localStorage.setItem(LOC_DAILYFORECAST, true);
+            window.localStorage.setItem(LOC_APPROVED, true);
             
+        }
+        else {
+            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
+            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
+            window.localStorage.setItem(LOC_DAILYFORECAST, false);
         }
         app.updateUserParams();
     });
@@ -849,14 +897,12 @@ function okcloseadfreeClicked(){
         if ($('#checkbox_AdFree_monthly').is(':checked'))
         {
             store.order(SUB_ADFREE_MONTHLY);
-            app.showAlert(SUB_ADFREE_MONTHLY + ' order initialized');
         }
        
         
     if ($('#checkbox_AdFree_yearly').is(':checked'))
         {
             store.order(SUB_ADFREE_YEARLY);
-            app.showAlert(SUB_ADFREE_MONTHLY + ' order initialized');
         }
                
     
@@ -876,16 +922,13 @@ function okcloseshorttermClicked(){
     if ($('#checkbox_shortterm_monthly').is(':checked'))
     {
         store.order(SUB_SHORTTERM_MONTHLY);
-        app.showAlert(SUB_SHORTTERM_MONTHLY + ' order initialzed');
+        
     }
-   
       
     if ($('#checkbox_shortterm_yearly').is(':checked'))
     {
         store.order(SUB_SHORTTERM_YEARLY);
-        app.showAlert(SUB_SHORTTERM_YEARLY + ' order initialized');
     }
-        
         
     if (!$('#checkbox_shortterm_combined').is(':checked')){
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
@@ -908,16 +951,13 @@ function okclosedfpanelClicked(){
         if ($('#checkbox_dailyforecast_monthly').is(':checked'))
         {
             store.order(SUB_DAILYFORECAST_MONTHLY);
-            app.showAlert(SUB_DAILYFORECAST_MONTHLY + ' order initialized');
         }
         
         if ($('#checkbox_dailyforecast_yearly').is(':checked'))
         {
             store.order(SUB_DAILYFORECAST_YEARLY);
-            app.showAlert(SUB_DAILYFORECAST_YEARLY + ' order initialized');
         }
             
-        
         //$('#navpanel').panel('close');
         $('#checkbox_dailyforecast').prop('checked', isDFSubscribed());
     }
