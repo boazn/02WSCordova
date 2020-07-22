@@ -335,9 +335,8 @@ var app = {
     store.validator = 'https://validator.fovea.cc/v1/webhook/apple?appName=il.co.02ws&apiKey=bd72d7ea-362d-4a49-ae5f-12ef3eb6a2cd';
     // Show errors for 10 seconds.
     store.error(function(error) {
-        app.showAlert('error:' + error);
+        app.showAlert('error:' + error.message);
     });
-    store.autoFinishTransactions = true;
     store.refresh();
     store.ready(function() {
         if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
