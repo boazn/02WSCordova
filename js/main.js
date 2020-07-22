@@ -193,8 +193,9 @@ var app = {
         var isToShortNotify = window.localStorage.getItem(LOC_SHORT_NOTIFICATIONS);
         var isToTipsNotify = window.localStorage.getItem(LOC_TIPS_NOTIFICATIONS);
         var isToNotify = window.localStorage.getItem(LOC_NOTIFICATIONS);
+        var approved = window.localStorage.getItem(LOC_APPROVED);
         log('updateUserParams:' + ' isToNotify:' + isToNotify+' isToShortNotify:' + isToShortNotify+ ' isToTipsNotify:' + isToTipsNotify +  ' isdailyforecast:' + isdailyforecast+ ' dailyforecasthour:' + dailyforecasthour);
-        postNewTokenToServer(token, isToNotify, isToShortNotify, isToTipsNotify, isdailyforecast, dailyforecasthour);
+        postNewTokenToServer(token, isToNotify, isToShortNotify, isToTipsNotify, isdailyforecast, dailyforecasthour, approved);
     },
     saveIsToNotify:function(longNotify, shortNotify, tipsNotify){
         window.localStorage.setItem(LOC_NOTIFICATIONS, longNotify);
@@ -671,13 +672,9 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
 }
 function tokenHandler(result)
 {
-    //alert('device token from registration= ' + result);
-    var token = window.localStorage.getItem(LOC_TOKEN);
-    var isdailyforecast = window.localStorage.getItem(LOC_DAILYFORECAST);
-    var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR);
-    if (token != result){
+     if (token != result){
         window.localStorage.setItem(LOC_TOKEN, result);
-        postNewTokenToServer(result, true, false, true, isdailyforecast, dailyforecasthour);
+        app.updateUserParams();
     }
  }   
 function errorHandler(error)
