@@ -42,13 +42,8 @@ var app = {
         if ((tempunits == null)||(tempunits == undefined)) {tempunits = '°C'; window.localStorage.setItem("tempunits", tempunits);}
        //ini notifications
         var isToNotify = window.localStorage.getItem(LOC_NOTIFICATIONS);
-        if ((isToNotify == null)||(isToNotify == undefined))
-        {
-            isToNotify = true;
-        }
-        //alert(window.localStorage.getItem(LOC_CLOTH)+' '+window.localStorage.getItem(LOC_FULLTEXT)+' '+window.localStorage.getItem(LOC_SOUND));
-        
-        //ini shortnotifications
+        if ((isToNotify == null)||(isToNotify == undefined)){isToNotify = true;}
+       //ini shortnotifications
         var isToShortNotify = window.localStorage.getItem(LOC_SHORT_NOTIFICATIONS);
         if ((isToShortNotify == null)||(isToShortNotify == undefined)){isToShortNotify = false;};
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, isToShortNotify);
@@ -105,7 +100,8 @@ var app = {
         $('#checkbox_adfree').prop('checked', isadfree);
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
-        console.log("startup finished");
+        
+        app.showAlert('startup finished: isToNotify=' + isToNotify + ' isToShortNotify=' + isToShortNotify + ' isToTipsNotify=' + isToTipsNotify + ' iscloth=' + iscloth + ' isfulltext=' + isfulltext + ' issound=' + issound + ' isdailyforecast=' + ' isadfree=' + isadfree);
         //alert(window.localStorage.getItem(LOC_CLOTH)+' '+window.localStorage.getItem(LOC_FULLTEXT)+' '+window.localStorage.getItem(LOC_SOUND));
         onLanguageChoose(lang, window.localStorage.getItem(LOC_CLOTH)=== "true", window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
     },
@@ -296,6 +292,7 @@ var app = {
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
+       
         //app.updateUserParams();
     });
     store.when(SUB_ADFREE_YEARLY).approved(function(p) {
@@ -303,6 +300,7 @@ var app = {
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
+        
         //app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
@@ -323,6 +321,8 @@ var app = {
         p.finish();
         log("subscription " + p.id + " verified");
         app.updateUserParams();
+        if ((p.id == SUB_ADFREE_YEARLY) || (p.id == SUB_ADFREE_MONTHLY))
+            putAdFreeCode(1);
        
     });
     store.when('subscription').unverified(function(p) {
@@ -579,7 +579,7 @@ function postNewAdFreeCodeToServer(token, p_email, p_status)
        });
           
 }
-function putCode(status){
+function putAdFreeCode(status){
     
     var token = window.localStorage.getItem(LOC_TOKEN);
     postNewAdFreeCodeToServer(token, '', status);
