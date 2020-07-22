@@ -15,7 +15,7 @@ var locales = {
     adfreetitle:'Ad Free',
     adfreetitledesc:'choose to remove ads',
     shorttermdesc:'Short term alerts such as rain start-stop',
-    dailyforecastdesc:'daily forecast in every morning',
+    dailyforecastdesc:'daily forecast in every morning or evening',
     dailyforecasttitle:'daily forecast',
     share:'share this...',
     clear:'clear',
@@ -67,7 +67,7 @@ var locales = {
     adfreetitle:'הסרת פרסומות',
     adfreetitledesc:'בחרו כדי להוריד פרסומות',
     shorttermdesc:'התראות לטווח קצר כמו גשם בא-הולך או כל דבר לשעות הקרובות',
-    dailyforecastdesc:'תחזית יומית מפורטת לנייד בכל בוקר',
+    dailyforecastdesc:'תחזית יומית מפורטת לנייד בכל בוקר או ערב',
     dailyforecasttitle:'תחזית יומית',
     share:'שיתוף...',
     clear:'ניקוי',
@@ -143,7 +143,7 @@ var locales = {
      $('#commentonpic').attr('placeholder',currentLocale.feelslike);
      $('#adfreecodedesc').text(currentLocale.adfreetitledesc);
      $('#shorttermdesc').text(currentLocale.shorttermdesc);
-     $('#dailyforecastdesc').text(currentLocale.shorttermdesc);
+     $('#dailyforecastdesc').text(currentLocale.dailyforecastdesc);
      
      if (userLanguage == 'he'){
          $('#nameonpic').css('direction','rtl');

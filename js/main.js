@@ -277,42 +277,42 @@ var app = {
         type:   store.PAID_SUBSCRIPTION,
     }]);
     store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
-        app.showAlert(SUB_SHORTTERM_MONTHLY + " approved");
+        log(SUB_SHORTTERM_MONTHLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
     });
     store.when(SUB_SHORTTERM_YEARLY).approved(function(p) {
-        app.showAlert(SUB_SHORTTERM_YEARLY + " approved");
+        log(SUB_SHORTTERM_YEARLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
     });
     store.when(SUB_ADFREE_MONTHLY).approved(function(p) {
-        app.showAlert(SUB_ADFREE_MONTHLY + " approved");
+        log(SUB_ADFREE_MONTHLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
     });
     store.when(SUB_ADFREE_YEARLY).approved(function(p) {
-        app.showAlert(SUB_ADFREE_YEARLY + " approved");
+        log(SUB_ADFREE_YEARLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
-        app.showAlert(SUB_DAILYFORECAST_MONTHLY + " approved");
+        log(SUB_DAILYFORECAST_MONTHLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_DAILYFORECAST, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_YEARLY).approved(function(p) {
-        app.showAlert(SUB_DAILYFORECAST_YEARLY + " approved");
+        log(SUB_DAILYFORECAST_YEARLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_DAILYFORECAST, true);
         window.localStorage.setItem(LOC_APPROVED, true);
