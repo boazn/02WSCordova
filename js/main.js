@@ -282,50 +282,51 @@ var app = {
         p.verify();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-        app.updateUserParams();
+        //app.updateUserParams();
     });
     store.when(SUB_SHORTTERM_YEARLY).approved(function(p) {
         log(SUB_SHORTTERM_YEARLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-        app.updateUserParams();
+        //app.updateUserParams();
     });
     store.when(SUB_ADFREE_MONTHLY).approved(function(p) {
         log(SUB_ADFREE_MONTHLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-        app.updateUserParams();
+        //app.updateUserParams();
     });
     store.when(SUB_ADFREE_YEARLY).approved(function(p) {
         log(SUB_ADFREE_YEARLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-        app.updateUserParams();
+        //app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
         log(SUB_DAILYFORECAST_MONTHLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_DAILYFORECAST, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-        app.updateUserParams();
+        //app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_YEARLY).approved(function(p) {
         log(SUB_DAILYFORECAST_YEARLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_DAILYFORECAST, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-        app.updateUserParams();
+        //app.updateUserParams();
     });
-    store.when(SUB_SHORTTERM_MONTHLY).verified(function(p) {
+    store.when('subscription').verified(function(p) {
         p.finish();
-        log("subscription " + SUB_SHORTTERM_MONTHLY + " verified");
+        log("subscription " + p.id + " verified");
+        app.updateUserParams();
        
     });
-    store.when(SUB_SHORTTERM_MONTHLY).unverified(function(p) {
-        log("subscription " + SUB_SHORTTERM_MONTHLY + "unverified");
+    store.when('subscription').unverified(function(p) {
+        log("subscription " + p.id + "unverified");
     });
     store.when('subscription').updated(function(p) {
         log(p.id + ' owned:' + p.owned);
@@ -396,7 +397,8 @@ var app = {
             window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
             window.localStorage.setItem(LOC_DAILYFORECAST, false);
         }
-        app.updateUserParams();
+        //app.updateUserParams();
+        startup();
     });
     
     log('initStore done');
