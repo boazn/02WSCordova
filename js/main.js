@@ -194,7 +194,7 @@ var app = {
         var isToTipsNotify = window.localStorage.getItem(LOC_TIPS_NOTIFICATIONS);
         var isToNotify = window.localStorage.getItem(LOC_NOTIFICATIONS);
         var approved = window.localStorage.getItem(LOC_APPROVED);
-        log('updateUserParams:' + ' isToNotify:' + isToNotify+' isToShortNotify:' + isToShortNotify+ ' isToTipsNotify:' + isToTipsNotify +  ' isdailyforecast:' + isdailyforecast+ ' dailyforecasthour:' + dailyforecasthour);
+        app.showAlert('updateUserParams:' + ' isToNotify:' + isToNotify+' isToShortNotify:' + isToShortNotify+ ' isToTipsNotify:' + isToTipsNotify +  ' isdailyforecast:' + isdailyforecast+ ' dailyforecasthour:' + dailyforecasthour);
         postNewTokenToServer(token, isToNotify, isToShortNotify, isToTipsNotify, isdailyforecast, dailyforecasthour, approved);
     },
     saveIsToNotify:function(longNotify, shortNotify, tipsNotify){
@@ -321,11 +321,11 @@ var app = {
     });
     store.when(SUB_SHORTTERM_MONTHLY).verified(function(p) {
         p.finish();
-        app.showAlert("subscription " + SUB_SHORTTERM_MONTHLY + " verified");
+        log("subscription " + SUB_SHORTTERM_MONTHLY + " verified");
        
     });
     store.when(SUB_SHORTTERM_MONTHLY).unverified(function(p) {
-        app.showAlert("subscription " + SUB_SHORTTERM_MONTHLY + "unverified");
+        log("subscription " + SUB_SHORTTERM_MONTHLY + "unverified");
     });
     store.when('subscription').updated(function(p) {
         log(p.id + ' owned:' + p.owned);
@@ -335,7 +335,7 @@ var app = {
     store.validator = 'https://validator.fovea.cc/v1/webhook/apple?appName=il.co.02ws&apiKey=bd72d7ea-362d-4a49-ae5f-12ef3eb6a2cd';
     // Show errors for 10 seconds.
     store.error(function(error) {
-        app.showAlert('error:' + error.message);
+        log('error:' + error.message);
     });
     store.refresh();
     store.ready(function() {
