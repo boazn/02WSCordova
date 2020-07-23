@@ -357,7 +357,7 @@ var app = {
             window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
             window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
             window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
-            window.localStorage.setItem(LOC_ADFREE, false);
+            window.localStorage.setItem(LOC_APPROVED, false);
         }
 
         if (store.get(SUB_ADFREE_MONTHLY).owned) {
@@ -383,19 +383,20 @@ var app = {
             window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, true);
             window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
             window.localStorage.setItem(LOC_DAILYFORECAST, true);
-            window.localStorage.setItem(LOC_APPROVED, true);
+            
         }
         else if (store.get(SUB_DAILYFORECAST_YEARLY).owned) {
             window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
             window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, true);
             window.localStorage.setItem(LOC_DAILYFORECAST, true);
-            window.localStorage.setItem(LOC_APPROVED, true);
+            
             
         }
         else {
             window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
             window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
             window.localStorage.setItem(LOC_DAILYFORECAST, false);
+            window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
         }
         //app.updateUserParams();
         startup();
@@ -668,8 +669,21 @@ function postNewPictureToServer(fileURI, nameOnPic, comments, x, y)
     };
     options.params = {name:nameOnPic, comment:comments, x:x, y:y, reg_id:token, picname:options.fileName}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
-    ft.upload(fileURI, encodeURI("https://www.02ws.co.il/user_picture_reciever.php"), win, fail, options);
-    navigator.notification.alert(currentLocale.sentsuccess);          
+    ft.upload(fileURI, encodeURI("https://www.02ws.co.il/user_picture_reciever.php"), uploadwin, uploadfail, options);
+             
+}
+function uploadwin(r) {
+    log("Code = " + r.responseCode);
+    log("Response = " + r.response);
+    log("Sent = " + r.bytesSent);
+    navigator.notification.alert(currentLocale.sentsuccess); 
+}
+
+function uploadfail(error) {
+    log("An error has occurred: Code = " + error.code);
+    log("upload error source " + error.source);
+    log("upload error target " + error.target);
+    navigator.notification.alert(currentLocale.sentfailed); 
 }
 function tokenHandler(result)
 {
@@ -680,10 +694,10 @@ function tokenHandler(result)
  }   
 function errorHandler(error)
 {
-    //alert('error in registering: ' + error);
+    log('error in registering: ' + error);
 }
 function regsuccessHandler (result) {
-    console.log('registration = ' + result);
+    log('registration = ' + result);
     
 }
 function onRefresh()
@@ -955,7 +969,7 @@ function okclosedfpanelClicked(){
         {
             store.order(SUB_DAILYFORECAST_YEARLY);
         }
-            
+        if (!isDFSubscribed()) window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
         //$('#navpanel').panel('close');
         $('#checkbox_dailyforecast').prop('checked', isDFSubscribed());
     }
