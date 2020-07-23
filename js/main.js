@@ -101,7 +101,7 @@ var app = {
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
         
-        app.showAlert('startup finished: isToNotify=' + isToNotify + ' isToShortNotify=' + isToShortNotify + ' isToTipsNotify=' + isToTipsNotify + ' iscloth=' + iscloth + ' isfulltext=' + isfulltext + ' issound=' + issound + ' isdailyforecast=' + ' isadfree=' + isadfree);
+        app.showAlert('startup finished: isToNotify=' + isToNotify + ' isToShortNotify=' + isToShortNotify + ' isToTipsNotify=' + isToTipsNotify + ' iscloth=' + iscloth + ' isfulltext=' + isfulltext + ' issound=' + issound + ' isdailyforecast=' + ' isadfree=' + isadfree, '');
         //alert(window.localStorage.getItem(LOC_CLOTH)+' '+window.localStorage.getItem(LOC_FULLTEXT)+' '+window.localStorage.getItem(LOC_SOUND));
         onLanguageChoose(lang, window.localStorage.getItem(LOC_CLOTH)=== "true", window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
     },
@@ -190,7 +190,7 @@ var app = {
         var isToTipsNotify = window.localStorage.getItem(LOC_TIPS_NOTIFICATIONS);
         var isToNotify = window.localStorage.getItem(LOC_NOTIFICATIONS);
         var approved = window.localStorage.getItem(LOC_APPROVED);
-        app.showAlert('updateUserParams:' + ' isToNotify:' + isToNotify+' isToShortNotify:' + isToShortNotify+ ' isToTipsNotify:' + isToTipsNotify +  ' isdailyforecast:' + isdailyforecast+ ' dailyforecasthour:' + dailyforecasthour);
+        app.showAlert('updateUserParams:' + ' isToNotify:' + isToNotify+' isToShortNotify:' + isToShortNotify+ ' isToTipsNotify:' + isToTipsNotify +  ' isdailyforecast:' + isdailyforecast+ ' dailyforecasthour:' + dailyforecasthour, '');
         postNewTokenToServer(token, isToNotify, isToShortNotify, isToTipsNotify, isdailyforecast, dailyforecasthour, approved);
     },
     saveIsToNotify:function(longNotify, shortNotify, tipsNotify){
