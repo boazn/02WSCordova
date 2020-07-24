@@ -20,6 +20,7 @@
     <preference name="SplashMaintainAspectRatio" value="false" />
     <preference name="SplashShowOnlyFirstTime" value="true" />
     <preference name="SplashScreenSpinnerColor" value="black" />
+    <preference name="SplashScreenDelay" value="2000" />
     <preference name="auto-hide-splash-screen" value="true"/>
     <preference name="FadeSplashScreenDuration" value="1000"/>
     <preference name="AllowInlineMediaPlayback" value="true" />

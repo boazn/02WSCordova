@@ -32,7 +32,7 @@ var app = {
     initialize: function() {
         app.bindEvents();
         var self = this;
-        app.startup();
+        
      },
     startup:function(){
         
@@ -101,7 +101,7 @@ var app = {
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
         
-        log('startup finished: isToNotify=' + isToNotify + ' isToShortNotify=' + isToShortNotify + ' isToTipsNotify=' + isToTipsNotify + ' iscloth=' + iscloth + ' isfulltext=' + isfulltext + ' issound=' + issound + ' isdailyforecast=' + isdailyforecast + ' isadfree=' + isadfree);
+        log("startup finished: isToNotify=" + isToNotify + " isToShortNotify=" + isToShortNotify + " isToTipsNotify=" + isToTipsNotify + " iscloth=" + iscloth + " isfulltext=" + isfulltext + " issound=" + issound + " isdailyforecast=" + isdailyforecast + " isadfree=" + isadfree);
         //alert(window.localStorage.getItem(LOC_CLOTH)+' '+window.localStorage.getItem(LOC_FULLTEXT)+' '+window.localStorage.getItem(LOC_SOUND));
         onLanguageChoose(lang, window.localStorage.getItem(LOC_CLOTH)=== "true", window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
     },
@@ -135,7 +135,7 @@ var app = {
          console.log('device ready: ' + device.platform + ' ' +  device.uuid);
           setTimeout(function() {
                 navigator.splashscreen.hide();
-          }, 2500);
+          }, 1000);
         
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
@@ -145,7 +145,7 @@ var app = {
         StatusBar.styleDefault();
         var token = window.localStorage.getItem(LOC_TOKEN);
         console.log("token from storage:" + token);
-        this.initStore();
+        app.startup();
         try {
            registerDevice();
         }
@@ -190,7 +190,7 @@ var app = {
         var isToTipsNotify = window.localStorage.getItem(LOC_TIPS_NOTIFICATIONS);
         var isToNotify = window.localStorage.getItem(LOC_NOTIFICATIONS);
         var approved = window.localStorage.getItem(LOC_APPROVED);
-        log('updateUserParams:' + ' isToNotify:' + isToNotify+' isToShortNotify:' + isToShortNotify+ ' isToTipsNotify:' + isToTipsNotify +  ' isdailyforecast:' + isdailyforecast+ ' dailyforecasthour:' + dailyforecasthour);
+        log("updateUserParams: isToNotify:" + isToNotify +" isToShortNotify:" + isToShortNotify+ " isToTipsNotify:" + isToTipsNotify +  " isdailyforecast:" + isdailyforecast+ " dailyforecasthour:" + dailyforecasthour);
         postNewTokenToServer(token, isToNotify, isToShortNotify, isToTipsNotify, isdailyforecast, dailyforecasthour, approved);
     },
     saveIsToNotify:function(longNotify, shortNotify, tipsNotify){
@@ -219,7 +219,7 @@ var app = {
     // initialize the purchase plugin if available
     initStore:function() {
 
-    //log('initStore');
+    //log("initStore");
     app.platform = device.platform.toLowerCase();
     //document.getElementsByTagName('body')[0].className = app.platform;
     /*
@@ -575,7 +575,7 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive, 
 }
 function postNewAdFreeCodeToServer(token, p_email, p_status)
 {
-    app.showAlert('email='+p_email+ ' code='+p_status,'');
+    log('email='+p_email+ ' code='+p_status,'');
     $.ajax({
               
         url:'https://www.02ws.co.il/subscription_reciever.php',
@@ -617,7 +617,7 @@ function opendailyForecastCon(){
         }
     var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR); 
     if ((dailyforecasthour == null)||(dailyforecasthour == undefined)){dailyforecasthour = 7;};
-    log('set forecasthour radio to ' + dailyforecasthour);
+    log("set forecasthour radio to " + dailyforecasthour);
     $('[name="radio-choice-df"][value="' + dailyforecasthour + '"]').attr('checked',true); 
     $("input[type='radio']").checkboxradio();
     $("input[type='radio']").checkboxradio("refresh");
@@ -795,7 +795,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         var token  = window.localStorage.getItem(LOC_TOKEN);
         var tempunits = window.localStorage.getItem("tempunits");
         var active_sub = window.localStorage.getItem(LOC_ACTIVE_SUB);
-        log("onLanguageChoose:" + iscloth + isfulltext + issound);
+        //log("onLanguageChoose:" + iscloth + isfulltext + issound);
         //alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
         var url = "https://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + (active_sub != null ? "&reg_id=" + token : ''); 
         log(url);    
@@ -895,22 +895,22 @@ function navlinkCLicked(){
     $("input[type='radio']").checkboxradio("refresh");
 }
 function adfreeYearlyClicked(checked){
-    log('adfreeYearlyClicked:' + checked);
+    log("adfreeYearlyClicked:" + checked);
 }
 function adfreeMonthyClicked(checked){
-    log('adfreeMonthyClicked:' + checked);
+    log("adfreeMonthyClicked:" + checked);
     
 }
 function shorttermYearlyClicked(checked){
-    log('shorttermYearlyClicked:' + checked);
+    log("shorttermYearlyClicked:" + checked);
     
 }
 function shorttermMonthlyClicked(checked){
-    log('shorttermMonthlyClicked:' + checked);
+    log("shorttermMonthlyClicked:" + checked);
    
 }
 function shorttermCombinedClicked(checked){
-    log('shorttermCombinedClicked:' + checked);
+    log("shorttermCombinedClicked:" + checked);
 
 }
 function okcloseadfreeClicked(){
