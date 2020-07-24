@@ -274,21 +274,21 @@ var app = {
         type:   store.PAID_SUBSCRIPTION,
     }]);
     store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
-        log(SUB_SHORTTERM_MONTHLY + " approved");
+        //log(SUB_SHORTTERM_MONTHLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         //app.updateUserParams();
     });
     store.when(SUB_SHORTTERM_YEARLY).approved(function(p) {
-        log(SUB_SHORTTERM_YEARLY + " approved");
+        //log(SUB_SHORTTERM_YEARLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         //app.updateUserParams();
     });
     store.when(SUB_ADFREE_MONTHLY).approved(function(p) {
-        log(SUB_ADFREE_MONTHLY + " approved");
+        //log(SUB_ADFREE_MONTHLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
@@ -296,7 +296,7 @@ var app = {
         //app.updateUserParams();
     });
     store.when(SUB_ADFREE_YEARLY).approved(function(p) {
-        log(SUB_ADFREE_YEARLY + " approved");
+        //log(SUB_ADFREE_YEARLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
@@ -304,14 +304,14 @@ var app = {
         //app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
-        log(SUB_DAILYFORECAST_MONTHLY + " approved");
+        //log(SUB_DAILYFORECAST_MONTHLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_DAILYFORECAST, true);
         window.localStorage.setItem(LOC_APPROVED, true);
         //app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_YEARLY).approved(function(p) {
-        log(SUB_DAILYFORECAST_YEARLY + " approved");
+        //log(SUB_DAILYFORECAST_YEARLY + " approved");
         p.verify();
         window.localStorage.setItem(LOC_DAILYFORECAST, true);
         window.localStorage.setItem(LOC_APPROVED, true);
@@ -329,7 +329,7 @@ var app = {
         log("subscription " + p.id + "unverified");
     });
     store.when('subscription').updated(function(p) {
-        log(p.id + ' owned:' + p.owned);
+        //log(p.id + ' owned:' + p.owned);
    
     });
     // Setup the receipt validator service.
@@ -340,17 +340,20 @@ var app = {
     });
     store.refresh();
     store.ready(function() {
+        var owned;
         if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
             window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, true);
             window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
             window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
             window.localStorage.setItem(LOC_APPROVED, true);
+            owned = owned + " " + SUB_SHORTTERM_MONTHLY;
         }
         else if (store.get(SUB_SHORTTERM_YEARLY).owned) {
             window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
             window.localStorage.setItem(SUB_SHORTTERM_YEARLY, true);
             window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
             window.localStorage.setItem(LOC_APPROVED, true);
+            owned = owned + " " + SUB_SHORTTERM_YEARLY;
             
         }
         else {
@@ -365,12 +368,14 @@ var app = {
             window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
             window.localStorage.setItem(LOC_ADFREE, true);
             window.localStorage.setItem(LOC_APPROVED, true);
+            owned = owned + " " + SUB_ADFREE_MONTHLY;
         }
         else if (store.get(SUB_ADFREE_YEARLY).owned) {
             window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
             window.localStorage.setItem(SUB_ADFREE_YEARLY, true);
             window.localStorage.setItem(LOC_ADFREE, true);
             window.localStorage.setItem(LOC_APPROVED, true);
+            owned = owned + " " + SUB_ADFREE_YEARLY;
             
         }
         else {
@@ -383,12 +388,14 @@ var app = {
             window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, true);
             window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
             window.localStorage.setItem(LOC_DAILYFORECAST, true);
+            owned = owned + " " + SUB_DAILYFORECAST_MONTHLY;
             
         }
         else if (store.get(SUB_DAILYFORECAST_YEARLY).owned) {
             window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
             window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, true);
             window.localStorage.setItem(LOC_DAILYFORECAST, true);
+            owned = owned + " " + SUB_DAILYFORECAST_YEARLY;
             
             
         }
@@ -399,10 +406,11 @@ var app = {
             window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
         }
         //app.updateUserParams();
+        log("store ready: owned->" + owned);
         startup();
     });
     
-    log('initStore done');
+    //log('initStore done');
     }
 };
 
@@ -676,14 +684,17 @@ function uploadwin(r) {
     log("Code = " + r.responseCode);
     log("Response = " + r.response);
     log("Sent = " + r.bytesSent);
-    navigator.notification.alert(currentLocale.sentsuccess); 
+    navigator.notification.prompt(currentLocale.sentsuccess, uploadwincallback); 
 }
-
+function uploadwincallback(r) {
+}
 function uploadfail(error) {
     log("An error has occurred: Code = " + error.code);
     log("upload error source " + error.source);
     log("upload error target " + error.target);
-    navigator.notification.alert(currentLocale.sentfailed); 
+    navigator.notification.prompt(currentLocale.sentfailed, uploadfailcallback); 
+}
+function uploadfailcallback(r) {
 }
 function tokenHandler(result)
 {
@@ -837,7 +848,7 @@ var onShareError = function(msg) {
 
 function log(msg){
     console.log(msg);
-    //app.showAlert(msg, '');
+    app.showAlert(msg, '');
 }
 function successIconBadgeNumberHandler(){
    console.log("successIconBadgeNumber"); 
