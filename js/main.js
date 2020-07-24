@@ -784,10 +784,10 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         var token  = window.localStorage.getItem(LOC_TOKEN);
         var tempunits = window.localStorage.getItem("tempunits");
         var active_sub = window.localStorage.getItem(LOC_ACTIVE_SUB);
-        console.log("onLanguageChoose:" + iscloth + isfulltext + issound);
+        log("onLanguageChoose:" + iscloth + isfulltext + issound);
         //alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
         var url = "https://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + (active_sub != null ? "&reg_id=" + token : ''); 
-        console.log(url);    
+        log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
         if( $('#navpanel').hasClass("ui-panel-open") == true ){
