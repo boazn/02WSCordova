@@ -32,7 +32,7 @@ var app = {
     initialize: function() {
         app.bindEvents();
         var self = this;
-        
+        onLanguageChoose(window.localStorage.getItem(LOC_LANG), window.localStorage.getItem(LOC_CLOTH)=== "true", window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
      },
     startup:function(){
         
@@ -103,7 +103,7 @@ var app = {
         
         log("startup finished: isToNotify=" + isToNotify + " isToShortNotify=" + isToShortNotify + " isToTipsNotify=" + isToTipsNotify + " iscloth=" + iscloth + " isfulltext=" + isfulltext + " issound=" + issound + " isdailyforecast=" + isdailyforecast + " isadfree=" + isadfree);
         //alert(window.localStorage.getItem(LOC_CLOTH)+' '+window.localStorage.getItem(LOC_FULLTEXT)+' '+window.localStorage.getItem(LOC_SOUND));
-        onLanguageChoose(lang, window.localStorage.getItem(LOC_CLOTH)=== "true", window.localStorage.getItem(LOC_FULLTEXT)=== "true", window.localStorage.getItem(LOC_SOUND)=== "true");
+        
     },
     // Bind Event Listeners
     //
@@ -141,11 +141,12 @@ var app = {
         destinationType=navigator.camera.DestinationType;
         //console.log('file plugin: ' + cordova.file.applicationDirectory);
         bindStrings();
+        startup();
         StatusBar.overlaysWebView(false);
         StatusBar.styleDefault();
         var token = window.localStorage.getItem(LOC_TOKEN);
         console.log("token from storage:" + token);
-        app.startup();
+        
         try {
            registerDevice();
         }
@@ -1210,7 +1211,7 @@ $(document).ready(function() {
     
      
    $('#02wsframe').load(function(){
-        console.log('frame has (re)loaded: ' + this.contentWindow.location);
+        console.log('frame has (re)loaded: ' + this);
         var allAsBlank = $('#02wsframe').contents().find("a[target=_blank]");
         allAsBlank.on("click",function(e){           
             e.preventDefault();           
