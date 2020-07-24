@@ -326,7 +326,7 @@ var app = {
        
     });
     store.when('subscription').unverified(function(p) {
-        log("subscription " + p.id + "unverified");
+        //log("subscription " + p.id + "unverified");
     });
     store.when('subscription').updated(function(p) {
         //log(p.id + ' owned:' + p.owned);
@@ -336,11 +336,11 @@ var app = {
     store.validator = 'https://validator.fovea.cc/v1/webhook/apple?appName=il.co.02ws&apiKey=bd72d7ea-362d-4a49-ae5f-12ef3eb6a2cd';
     // Show errors for 10 seconds.
     store.error(function(error) {
-        log('error:' + error.message);
+        //log('error:' + error.message);
     });
     store.refresh();
     store.ready(function() {
-        var owned;
+        var owned = "";
         if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
             window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, true);
             window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
