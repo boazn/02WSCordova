@@ -141,7 +141,7 @@ var app = {
         destinationType=navigator.camera.DestinationType;
         //console.log('file plugin: ' + cordova.file.applicationDirectory);
         bindStrings();
-        startup();
+        app.startup();
         StatusBar.overlaysWebView(false);
         StatusBar.styleDefault();
         var token = window.localStorage.getItem(LOC_TOKEN);
@@ -220,7 +220,7 @@ var app = {
     // initialize the purchase plugin if available
     initStore:function() {
 
-    //log("initStore");
+    
     app.platform = device.platform.toLowerCase();
     //document.getElementsByTagName('body')[0].className = app.platform;
     /*
@@ -411,7 +411,7 @@ var app = {
         startup();
     });
     
-    //log('initStore done');
+    
     }
 };
 
@@ -467,8 +467,11 @@ function registerDevice()
                 // data.sound,
                 // data.image,
                 // data.additionalData
-                //navigator.notification.alert(data.title);
-                //navigator.notification.alert(data.message);
+                navigator.notification.prompt(data.message,         // message
+                    null,                 // callback
+                    data.title,           // title
+                    'Ok'                  // buttonName
+                    );
                 onUrlClicked('alerts.php');
             });
 
@@ -896,27 +899,27 @@ function navlinkCLicked(){
     $("input[type='radio']").checkboxradio("refresh");
 }
 function adfreeYearlyClicked(checked){
-    log("adfreeYearlyClicked:" + checked);
+    //log("adfreeYearlyClicked:" + checked);
 }
 function adfreeMonthyClicked(checked){
-    log("adfreeMonthyClicked:" + checked);
+    //log("adfreeMonthyClicked:" + checked);
     
 }
 function shorttermYearlyClicked(checked){
-    log("shorttermYearlyClicked:" + checked);
+    //log("shorttermYearlyClicked:" + checked);
     
 }
 function shorttermMonthlyClicked(checked){
-    log("shorttermMonthlyClicked:" + checked);
+    //log("shorttermMonthlyClicked:" + checked);
    
 }
 function shorttermCombinedClicked(checked){
-    log("shorttermCombinedClicked:" + checked);
+    //log("shorttermCombinedClicked:" + checked);
 
 }
 function okcloseadfreeClicked(){
     $('#AdFreeContainer').hide();
-    log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
+    //log('okcloseadfreeClicked: checkbox_AdFree_monthly=' + $('#checkbox_AdFree_monthly').is(':checked') + ' checkbox_AdFree_yearly='+$('#checkbox_AdFree_yearly').is(':checked'));
     try{
         if ($('#checkbox_AdFree_monthly').is(':checked'))
         {
@@ -940,7 +943,7 @@ function okcloseadfreeClicked(){
 }
 function okcloseshorttermClicked(){
     $('#shorttermpanel').hide();
-    log('okcloseshorttermClicked: checkbox_shortterm_monthly=' + $('#checkbox_shortterm_monthly').is(':checked') + ' checkbox_shortterm_yearly='+$('#checkbox_shortterm_yearly').is(':checked'));
+    //log('okcloseshorttermClicked: checkbox_shortterm_monthly=' + $('#checkbox_shortterm_monthly').is(':checked') + ' checkbox_shortterm_yearly='+$('#checkbox_shortterm_yearly').is(':checked'));
     
     try{
     if ($('#checkbox_shortterm_monthly').is(':checked'))
@@ -1247,7 +1250,6 @@ $(document).ready(function() {
         else 
         log(url);
     });
-    //app.initStore();
     handleExternalURLs();
     //openAllLinksWithBlankTargetInSystemBrowser();
     
