@@ -293,7 +293,7 @@ var app = {
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-       
+        putAdFreeCode(1);
         //app.updateUserParams();
     });
     store.when(SUB_ADFREE_YEARLY).approved(function(p) {
@@ -301,7 +301,7 @@ var app = {
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-        
+        putAdFreeCode(1);
         //app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
@@ -320,7 +320,7 @@ var app = {
     });
     store.when('subscription').verified(function(p) {
         p.finish();
-        log("subscription " + p.id + " verified");
+        //log("subscription " + p.id + " verified");
         app.updateUserParams();
         if ((p.id == SUB_ADFREE_YEARLY) || (p.id == SUB_ADFREE_MONTHLY))
             putAdFreeCode(1);
@@ -621,7 +621,7 @@ function opendailyForecastCon(){
         }
     var dailyforecasthour = window.localStorage.getItem(LOC_DAILYFORECAST_HOUR); 
     if ((dailyforecasthour == null)||(dailyforecasthour == undefined)){dailyforecasthour = 7;};
-    log("set forecasthour radio to " + dailyforecasthour);
+    //log("set forecasthour radio to " + dailyforecasthour);
     $('[name="radio-choice-df"][value="' + dailyforecasthour + '"]').attr('checked',true); 
     $("input[type='radio']").checkboxradio();
     $("input[type='radio']").checkboxradio("refresh");
@@ -852,7 +852,7 @@ var onShareError = function(msg) {
 
 function log(msg){
     console.log(msg);
-    app.showAlert(msg, '');
+    //app.showAlert(msg, '');
 }
 function successIconBadgeNumberHandler(){
    console.log("successIconBadgeNumber"); 
