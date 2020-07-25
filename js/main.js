@@ -408,7 +408,7 @@ var app = {
         }
         //app.updateUserParams();
         log("store ready: owned->" + owned);
-        startup();
+        app.startup();
     });
     
     
