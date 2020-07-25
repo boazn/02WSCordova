@@ -584,7 +584,7 @@ function postNewAdFreeCodeToServer(token, p_email, p_status)
               
         url:'https://www.02ws.co.il/subscription_reciever.php',
         type:'POST',
-        data:{email:p_email, status:p_status, regId: token, action:'storeSub'},
+        data:{email:device.uuid, status:p_status, reg_id: token, action:'storeSub'},
         crossDomain:true,
         success: function(data){
         console.log('AdFreeCode sent token successfully: ' + data);
