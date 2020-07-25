@@ -407,8 +407,9 @@ var app = {
             window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
         }
         //app.updateUserParams();
-        //log("store ready: owned->" + owned);
+        
         app.startup();
+        log("store ready: owned->" + owned);
     });
     
     
@@ -595,6 +596,10 @@ function postNewAdFreeCodeToServer(token, p_email, p_status)
 function putAdFreeCode(status){
     
     var token = window.localStorage.getItem(LOC_TOKEN);
+    if (status == 1)
+        window.localStorage.setItem(LOC_ACTIVE_SUB, 1);
+    else
+        window.localStorage.setItem(LOC_ACTIVE_SUB, null);
     postNewAdFreeCodeToServer(token, '', status);
     onUrlClicked('');
     $('#AdFreeContainer').hide();
@@ -852,7 +857,7 @@ var onShareError = function(msg) {
 
 function log(msg){
     console.log(msg);
-    //app.showAlert(msg, '');
+    app.showAlert(msg, '');
 }
 function successIconBadgeNumberHandler(){
    console.log("successIconBadgeNumber"); 
