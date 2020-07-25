@@ -580,7 +580,7 @@ function postNewTokenToServer(token, islongactive, isshortactive, istipsactive, 
 }
 function postNewAdFreeCodeToServer(token, p_email, p_status)
 {
-    log('email='+p_email+ ' code='+p_status,'');
+    //log('email='+p_email+ ' code='+p_status,'');
     $.ajax({
               
         url:'https://www.02ws.co.il/subscription_reciever.php',
