@@ -101,7 +101,7 @@ var app = {
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
         
-        log("startup finished: isToNotify=" + isToNotify + " isToShortNotify=" + isToShortNotify + " isToTipsNotify=" + isToTipsNotify + " iscloth=" + iscloth + " isfulltext=" + isfulltext + " issound=" + issound + " isdailyforecast=" + isdailyforecast + " isadfree=" + isadfree);
+        log("startup: isToNotify=" + isToNotify + " isToShortNotify=" + isToShortNotify + " isToTipsNotify=" + isToTipsNotify + " iscloth=" + iscloth + " isfulltext=" + isfulltext + " issound=" + issound + " isdailyforecast=" + isdailyforecast + " isadfree=" + isadfree);
         //alert(window.localStorage.getItem(LOC_CLOTH)+' '+window.localStorage.getItem(LOC_FULLTEXT)+' '+window.localStorage.getItem(LOC_SOUND));
         
     },
@@ -347,14 +347,14 @@ var app = {
             window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
             window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
             window.localStorage.setItem(LOC_APPROVED, true);
-            owned = owned + " " + SUB_SHORTTERM_MONTHLY;
+            owned = owned.concat(SUB_SHORTTERM_MONTHLY);
         }
         else if (store.get(SUB_SHORTTERM_YEARLY).owned) {
             window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
             window.localStorage.setItem(SUB_SHORTTERM_YEARLY, true);
             window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
             window.localStorage.setItem(LOC_APPROVED, true);
-            owned = owned + " " + SUB_SHORTTERM_YEARLY;
+            owned = owned.concat(SUB_SHORTTERM_YEARLY);
             
         }
         else {
@@ -369,14 +369,14 @@ var app = {
             window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
             window.localStorage.setItem(LOC_ADFREE, true);
             window.localStorage.setItem(LOC_APPROVED, true);
-            owned = owned + " " + SUB_ADFREE_MONTHLY;
+            owned = owned.concat(SUB_ADFREE_MONTHLY);
         }
         else if (store.get(SUB_ADFREE_YEARLY).owned) {
             window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
             window.localStorage.setItem(SUB_ADFREE_YEARLY, true);
             window.localStorage.setItem(LOC_ADFREE, true);
             window.localStorage.setItem(LOC_APPROVED, true);
-            owned = owned + " " + SUB_ADFREE_YEARLY;
+            owned = owned.concat(SUB_ADFREE_YEARLY);
             
         }
         else {
@@ -389,14 +389,14 @@ var app = {
             window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, true);
             window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
             window.localStorage.setItem(LOC_DAILYFORECAST, true);
-            owned = owned + " " + SUB_DAILYFORECAST_MONTHLY;
+            owned = owned.concat(SUB_DAILYFORECAST_MONTHLY);
             
         }
         else if (store.get(SUB_DAILYFORECAST_YEARLY).owned) {
             window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
             window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, true);
             window.localStorage.setItem(LOC_DAILYFORECAST, true);
-            owned = owned + " " + SUB_DAILYFORECAST_YEARLY;
+            owned = owned.concat(SUB_DAILYFORECAST_YEARLY);
             
             
         }
@@ -407,7 +407,7 @@ var app = {
             window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
         }
         //app.updateUserParams();
-        log("store ready: owned->" + owned);
+        //log("store ready: owned->" + owned);
         app.startup();
     });
     
@@ -972,7 +972,7 @@ function okcloseshorttermClicked(){
 
 function okclosedfpanelClicked(){
     $('#dailyforecastpanel').hide();
-    log('okclosedfpanelClicked: checkbox_dailyforecast_monthly=' + $('#checkbox_dailyforecast_monthly').is(':checked') + ' checkbox_dailyforecast_yearly='+$('#checkbox_dailyforecast_yearly').is(':checked'));
+    //log('okclosedfpanelClicked: checkbox_dailyforecast_monthly=' + $('#checkbox_dailyforecast_monthly').is(':checked') + ' checkbox_dailyforecast_yearly='+$('#checkbox_dailyforecast_yearly').is(':checked'));
     
     try{
         if ($('#checkbox_dailyforecast_monthly').is(':checked'))
