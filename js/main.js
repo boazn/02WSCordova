@@ -331,6 +331,114 @@ var app = {
     });
     store.when('subscription').updated(function(p) {
         //log(p.id + ' owned:' + p.owned);
+
+        var owned = "";
+        if (p.id == SUB_SHORTTERM_MONTHLY) {
+            if (p.owned){
+                window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, true);
+                window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
+                window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+                window.localStorage.setItem(LOC_APPROVED, true);
+                owned = owned.concat(SUB_SHORTTERM_MONTHLY);
+            }
+            else{
+                window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
+                if (window.localStorage.getItem(SUB_SHORTTERM_YEARLY) == "false")
+                {
+                    window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
+                    window.localStorage.setItem(LOC_APPROVED, false);
+                }
+            }
+            
+        }
+        if (p.id == SUB_SHORTTERM_YEARLY) {
+            if (p.owned){
+                window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
+                window.localStorage.setItem(SUB_SHORTTERM_YEARLY, true);
+                window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+                window.localStorage.setItem(LOC_APPROVED, true);
+                owned = owned.concat(SUB_SHORTTERM_YEARLY);
+            }
+            else{
+                window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
+                if (window.localStorage.getItem(SUB_SHORTTERM_MONTHLY) == "false")
+                {
+                    window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
+                    window.localStorage.setItem(LOC_APPROVED, false);
+                }
+                
+            }
+            
+        }
+        
+        if (p.id == SUB_ADFREE_MONTHLY) {
+            if (p.owned){
+                window.localStorage.setItem(SUB_ADFREE_MONTHLY, true);
+                window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
+                window.localStorage.setItem(LOC_ADFREE, true);
+                window.localStorage.setItem(LOC_APPROVED, true);
+                owned = owned.concat(SUB_ADFREE_MONTHLY);
+            }
+            else{
+                window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
+                if (window.localStorage.getItem(SUB_ADFREE_YEARLY) == "false")
+                    window.localStorage.setItem(LOC_ADFREE, false);
+            }
+        }
+        if (p.id == SUB_ADFREE_YEARLY) {
+            if (p.owned){
+                window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
+                window.localStorage.setItem(SUB_ADFREE_YEARLY, true);
+                window.localStorage.setItem(LOC_ADFREE, true);
+                window.localStorage.setItem(LOC_APPROVED, true);
+                owned = owned.concat(SUB_ADFREE_YEARLY);
+            }
+            else{
+                window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
+                if (window.localStorage.getItem(SUB_ADFREE_MONTHLY) == "false")
+                    window.localStorage.setItem(LOC_ADFREE, false);
+            }
+            
+        }
+       
+        if (p.id == SUB_DAILYFORECAST_MONTHLY) {
+            if (p.owned){
+                window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, true);
+                window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
+                window.localStorage.setItem(LOC_DAILYFORECAST, true);
+                owned = owned.concat(SUB_DAILYFORECAST_MONTHLY);
+            }
+            else {
+                window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
+                if (window.localStorage.getItem(SUB_DAILYFORECAST_YEARLY) == "false"){
+                    window.localStorage.setItem(LOC_DAILYFORECAST, false);
+                    window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
+                }
+            }
+            
+        }
+        if (p.id == SUB_DAILYFORECAST_YEARLY) {
+            if (p.owned){
+                window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
+                window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, true);
+                window.localStorage.setItem(LOC_DAILYFORECAST, true);
+                owned = owned.concat(SUB_DAILYFORECAST_YEARLY);
+            }
+            else{
+                window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
+                if (window.localStorage.getItem(SUB_DAILYFORECAST_MONTHLY) == "false"){
+                    window.localStorage.setItem(LOC_DAILYFORECAST, false);
+                    window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
+                }
+                    
+            }
+            
+        }
+        
+        //app.updateUserParams();
+        
+        app.startup();
+        log("updated: owned->" + owned);
    
     });
     // Setup the receipt validator service.
@@ -341,75 +449,7 @@ var app = {
     });
     store.refresh();
     store.ready(function() {
-        var owned = "";
-        if (store.get(SUB_SHORTTERM_MONTHLY).owned) {
-            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, true);
-            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
-            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
-            window.localStorage.setItem(LOC_APPROVED, true);
-            owned = owned.concat(SUB_SHORTTERM_MONTHLY);
-        }
-        else if (store.get(SUB_SHORTTERM_YEARLY).owned) {
-            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
-            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, true);
-            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
-            window.localStorage.setItem(LOC_APPROVED, true);
-            owned = owned.concat(SUB_SHORTTERM_YEARLY);
-            
-        }
-        else {
-            window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
-            window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
-            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, false);
-            window.localStorage.setItem(LOC_APPROVED, false);
-        }
-
-        if (store.get(SUB_ADFREE_MONTHLY).owned) {
-            window.localStorage.setItem(SUB_ADFREE_MONTHLY, true);
-            window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
-            window.localStorage.setItem(LOC_ADFREE, true);
-            window.localStorage.setItem(LOC_APPROVED, true);
-            owned = owned.concat(SUB_ADFREE_MONTHLY);
-        }
-        else if (store.get(SUB_ADFREE_YEARLY).owned) {
-            window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
-            window.localStorage.setItem(SUB_ADFREE_YEARLY, true);
-            window.localStorage.setItem(LOC_ADFREE, true);
-            window.localStorage.setItem(LOC_APPROVED, true);
-            owned = owned.concat(SUB_ADFREE_YEARLY);
-            
-        }
-        else {
-            window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
-            window.localStorage.setItem(SUB_ADFREE_YEARLY, false);
-            window.localStorage.setItem(LOC_ADFREE, false);
-        }
-
-        if (store.get(SUB_DAILYFORECAST_MONTHLY).owned) {
-            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, true);
-            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
-            window.localStorage.setItem(LOC_DAILYFORECAST, true);
-            owned = owned.concat(SUB_DAILYFORECAST_MONTHLY);
-            
-        }
-        else if (store.get(SUB_DAILYFORECAST_YEARLY).owned) {
-            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
-            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, true);
-            window.localStorage.setItem(LOC_DAILYFORECAST, true);
-            owned = owned.concat(SUB_DAILYFORECAST_YEARLY);
-            
-            
-        }
-        else {
-            window.localStorage.setItem(SUB_DAILYFORECAST_MONTHLY, false);
-            window.localStorage.setItem(SUB_DAILYFORECAST_YEARLY, false);
-            window.localStorage.setItem(LOC_DAILYFORECAST, false);
-            window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
-        }
-        //app.updateUserParams();
-        
-        app.startup();
-        log("store ready: owned->" + owned);
+       
     });
     
     
