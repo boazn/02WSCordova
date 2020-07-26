@@ -293,7 +293,7 @@ var app = {
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-        putAdFreeCode(1);
+        //putAdFreeCode(1);
         //app.updateUserParams();
     });
     store.when(SUB_ADFREE_YEARLY).approved(function(p) {
@@ -301,7 +301,7 @@ var app = {
         p.verify();
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
-        putAdFreeCode(1);
+        //putAdFreeCode(1);
         //app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
@@ -340,6 +340,7 @@ var app = {
                 window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
                 window.localStorage.setItem(LOC_APPROVED, true);
                 owned = owned.concat(SUB_SHORTTERM_MONTHLY);
+                log("updated: owned->" + owned);
             }
             else{
                 window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
@@ -358,6 +359,7 @@ var app = {
                 window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
                 window.localStorage.setItem(LOC_APPROVED, true);
                 owned = owned.concat(SUB_SHORTTERM_YEARLY);
+                log("updated: owned->" + owned);
             }
             else{
                 window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
@@ -378,6 +380,7 @@ var app = {
                 window.localStorage.setItem(LOC_ADFREE, true);
                 window.localStorage.setItem(LOC_APPROVED, true);
                 owned = owned.concat(SUB_ADFREE_MONTHLY);
+                log("updated: owned->" + owned);
             }
             else{
                 window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
@@ -438,7 +441,7 @@ var app = {
         //app.updateUserParams();
         
         app.startup();
-        log("updated: owned->" + owned);
+        
    
     });
     // Setup the receipt validator service.
