@@ -101,7 +101,7 @@ var app = {
         $('[name="radio-choice-lang"][value="' + lang + '"]').prop('checked',true); 
         $('[name="radio-choice-temp"][value="' + tempunits + '"]').prop('checked',true); 
         
-        log("startup: isToNotify=" + isToNotify + " isToShortNotify=" + isToShortNotify + " isToTipsNotify=" + isToTipsNotify + " iscloth=" + iscloth + " isfulltext=" + isfulltext + " issound=" + issound + " isdailyforecast=" + isdailyforecast + " isadfree=" + isadfree);
+        //log("startup: isToNotify=" + isToNotify + " isToShortNotify=" + isToShortNotify + " isToTipsNotify=" + isToTipsNotify + " iscloth=" + iscloth + " isfulltext=" + isfulltext + " issound=" + issound + " isdailyforecast=" + isdailyforecast + " isadfree=" + isadfree);
         //alert(window.localStorage.getItem(LOC_CLOTH)+' '+window.localStorage.getItem(LOC_FULLTEXT)+' '+window.localStorage.getItem(LOC_SOUND));
         
     },
@@ -1251,9 +1251,9 @@ $(document).ready(function() {
         if (url.includes("opensettings"))
             navlinkCLicked();
         else if (url.includes("googleads"))
-            window.open(url, '_blank');
+            window.open(url, '_system');
         else 
-        log(url);
+            console.log(url);
     });
     handleExternalURLs();
     //openAllLinksWithBlankTargetInSystemBrowser();
