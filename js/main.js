@@ -225,7 +225,7 @@ var app = {
      
     app.platform = device.platform.toLowerCase();
     
-    store.verbosity = store.INFO;
+    store.verbosity = store.DEBUG;
     store.register([{
         id:    SUB_SHORTTERM_MONTHLY,
         alias: SUB_SHORTTERM_MONTHLY,
@@ -313,7 +313,7 @@ var app = {
     store.when('subscription').unverified(function(p) {
         //log("subscription " + p.id + "unverified");
     });
-    store.when('subscription').expired(function(p) {
+    /*store.when('subscription').expired(function(p) {
         //log("subscription " + p.id + "unverified");
         if ((p.id == SUB_ADFREE_YEARLY) || (p.id == SUB_ADFREE_MONTHLY))
             putAdFreeCode(0);
@@ -329,7 +329,7 @@ var app = {
             app.updateUserParams();
         }
             
-    });
+    });*/
     store.when('subscription').updated(function(p) {
         //log(p.id + ' owned:' + p.owned);
 
@@ -449,9 +449,9 @@ var app = {
     store.error(function(error) {
         //log('error:' + error.message);
     });
-    
+    store.refresh();
     store.ready(function() {
-        store.refresh();
+        
     });
     
     
