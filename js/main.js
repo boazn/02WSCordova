@@ -220,35 +220,12 @@ var app = {
     // initialize the purchase plugin if available
     initStore:function() {
 
-    
+     // Setup the receipt validator service.
+     store.validator = 'https://validator.fovea.cc/v1/webhook/apple?appName=il.co.02ws&apiKey=bd72d7ea-362d-4a49-ae5f-12ef3eb6a2cd';
+     
     app.platform = device.platform.toLowerCase();
-    //document.getElementsByTagName('body')[0].className = app.platform;
-    /*
-    inAppPurchase
-    .getProducts([SUB_SHORTTERM_MONTHLY, SUB_SHORTTERM_YEARLY, SUB_ADFREE_MONTHLY, SUB_ADFREE_YEARLY, SUB_DAILYFORECAST_MONTHLY, SUB_DAILYFORECAST_YEARLY])
-    .then(function (products) {
-        log(products);
-        
-        [{ productId: SUB_SHORTTERM_MONTHLY, 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' }, 
-        { productId: SUB_ADFREE_MONTHLY, 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' },
-        { productId: SUB_SHORTTERM_YEARLY, 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' },
-        { productId: SUB_ADFREE_YEARLY, 'title': '...', description: '...', currency: '...', price: '...', priceAsDecimal: '...' } ]
-        
-    })
-    .catch(function (err) {
-        console.log(err);
-    });
     
-    
-    inAppPurchase
-    .restorePurchases()
-    .then((purchases) => {
-        purchases.forEach(purchase => log(purchase.productId + ' should be restored') );
-        // unlock the relevant feature based on this product id
-    })
-    .catch(err => console.log(err) );
-   */
-    store.verbosity = store.DEBUG;
+    store.verbosity = store.INFO;
     store.register([{
         id:    SUB_SHORTTERM_MONTHLY,
         alias: SUB_SHORTTERM_MONTHLY,
@@ -276,58 +253,82 @@ var app = {
     }]);
     store.when(SUB_SHORTTERM_MONTHLY).approved(function(p) {
         //log(SUB_SHORTTERM_MONTHLY + " approved");
-        p.verify();
+        
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
+        p.verify();
         //app.updateUserParams();
     });
     store.when(SUB_SHORTTERM_YEARLY).approved(function(p) {
         //log(SUB_SHORTTERM_YEARLY + " approved");
-        p.verify();
+        
         window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
         window.localStorage.setItem(LOC_APPROVED, true);
+        p.verify();
         //app.updateUserParams();
     });
     store.when(SUB_ADFREE_MONTHLY).approved(function(p) {
         //log(SUB_ADFREE_MONTHLY + " approved");
-        p.verify();
+        
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
+        p.verify();
         //putAdFreeCode(1);
         //app.updateUserParams();
     });
     store.when(SUB_ADFREE_YEARLY).approved(function(p) {
         //log(SUB_ADFREE_YEARLY + " approved");
-        p.verify();
+       
         window.localStorage.setItem(LOC_ADFREE, true);
         window.localStorage.setItem(LOC_APPROVED, true);
+        p.verify();
         //putAdFreeCode(1);
         //app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_MONTHLY).approved(function(p) {
         //log(SUB_DAILYFORECAST_MONTHLY + " approved");
-        p.verify();
+      
         window.localStorage.setItem(LOC_DAILYFORECAST, true);
         window.localStorage.setItem(LOC_APPROVED, true);
+        p.verify();
         //app.updateUserParams();
     });
     store.when(SUB_DAILYFORECAST_YEARLY).approved(function(p) {
         //log(SUB_DAILYFORECAST_YEARLY + " approved");
-        p.verify();
+       
         window.localStorage.setItem(LOC_DAILYFORECAST, true);
         window.localStorage.setItem(LOC_APPROVED, true);
+        p.verify();
         //app.updateUserParams();
     });
     store.when('subscription').verified(function(p) {
-        p.finish();
-        //log("subscription " + p.id + " verified");
+        
+        log("subscription " + p.id + " verified");
         app.updateUserParams();
         if ((p.id == SUB_ADFREE_YEARLY) || (p.id == SUB_ADFREE_MONTHLY))
             putAdFreeCode(1);
+        p.finish();
        
     });
     store.when('subscription').unverified(function(p) {
         //log("subscription " + p.id + "unverified");
+    });
+    store.when('subscription').expired(function(p) {
+        //log("subscription " + p.id + "unverified");
+        if ((p.id == SUB_ADFREE_YEARLY) || (p.id == SUB_ADFREE_MONTHLY))
+            putAdFreeCode(0);
+        if ((p.id == SUB_DAILYFORECAST_MONTHLY) || (p.id == SUB_DAILYFORECAST_YEARLY))
+        {
+            window.localStorage.setItem(LOC_DAILYFORECAST, false);
+            window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
+            app.updateUserParams();
+        }
+        if ((p.id == SUB_DAILYFORECAST_MONTHLY) || (p.id == SUB_DAILYFORECAST_YEARLY))
+        {
+            window.localStorage.setItem(LOC_APPROVED, false);
+            app.updateUserParams();
+        }
+            
     });
     store.when('subscription').updated(function(p) {
         //log(p.id + ' owned:' + p.owned);
@@ -350,7 +351,7 @@ var app = {
                     window.localStorage.setItem(LOC_APPROVED, false);
                 }
             }
-            
+                        
         }
         if (p.id == SUB_SHORTTERM_YEARLY) {
             if (p.owned){
@@ -444,15 +445,13 @@ var app = {
         
    
     });
-    // Setup the receipt validator service.
-    store.validator = 'https://validator.fovea.cc/v1/webhook/apple?appName=il.co.02ws&apiKey=bd72d7ea-362d-4a49-ae5f-12ef3eb6a2cd';
-    // Show errors for 10 seconds.
+   
     store.error(function(error) {
         //log('error:' + error.message);
     });
-    store.refresh();
+    
     store.ready(function() {
-       
+        store.refresh();
     });
     
     
@@ -511,7 +510,7 @@ function registerDevice()
                 // data.sound,
                 // data.image,
                 // data.additionalData
-                navigator.notification.prompt(data.message,         // message
+                navigator.notification.alert(data.message,         // message
                     null,                 // callback
                     data.title,           // title
                     'Ok'                  // buttonName
@@ -736,7 +735,7 @@ function uploadwin(r) {
     log("Code = " + r.responseCode);
     log("Response = " + r.response);
     log("Sent = " + r.bytesSent);
-    navigator.notification.prompt(currentLocale.sentsuccess, uploadwincallback); 
+    navigator.notification.alert(currentLocale.sentsuccess, uploadwincallback); 
 }
 function uploadwincallback(r) {
 }
@@ -744,7 +743,7 @@ function uploadfail(error) {
     log("An error has occurred: Code = " + error.code);
     log("upload error source " + error.source);
     log("upload error target " + error.target);
-    navigator.notification.prompt(currentLocale.sentfailed, uploadfailcallback); 
+    navigator.notification.alert(currentLocale.sentfailed, uploadfailcallback); 
 }
 function uploadfailcallback(r) {
 }
@@ -850,7 +849,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         //log("onLanguageChoose:" + iscloth + isfulltext + issound);
         //alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
         var url = "https://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + (active_sub != null ? "&reg_id=" + token : ''); 
-        log(url);    
+        //log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
         if( $('#navpanel').hasClass("ui-panel-open") == true ){
@@ -1298,7 +1297,7 @@ $(document).ready(function() {
         else 
             console.log(url);
     });
-    handleExternalURLs();
+    //handleExternalURLs();
     //openAllLinksWithBlankTargetInSystemBrowser();
     
 });
