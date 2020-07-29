@@ -1334,7 +1334,7 @@ $(document).ready(function() {
     const {HijackWebviewLinkClick} = window.cordova.plugins;
  
     HijackWebviewLinkClick.listen((url) => {
-        //log(url);
+        log(url);
         if (url.includes("opensettings"))
             navlinkCLicked();
         else if (url.includes("googleads"))
