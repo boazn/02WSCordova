@@ -191,7 +191,7 @@ var app = {
         var isToTipsNotify = window.localStorage.getItem(LOC_TIPS_NOTIFICATIONS);
         var isToNotify = window.localStorage.getItem(LOC_NOTIFICATIONS);
         var approved = window.localStorage.getItem(LOC_APPROVED);
-        log("updateUserParams: isToNotify:" + isToNotify +" isToShortNotify:" + isToShortNotify+ " isToTipsNotify:" + isToTipsNotify +  " isdailyforecast:" + isdailyforecast+ " dailyforecasthour:" + dailyforecasthour);
+        //log("updateUserParams: isToNotify:" + isToNotify +" isToShortNotify:" + isToShortNotify+ " isToTipsNotify:" + isToTipsNotify +  " isdailyforecast:" + isdailyforecast+ " dailyforecasthour:" + dailyforecasthour);
         postNewTokenToServer(token, isToNotify, isToShortNotify, isToTipsNotify, isdailyforecast, dailyforecasthour, approved);
     },
     saveIsToNotify:function(longNotify, shortNotify, tipsNotify){
@@ -306,7 +306,7 @@ var app = {
         
         if ((p.id == SUB_DAILYFORECAST_MONTHLY) || (p.id == SUB_DAILYFORECAST_YEARLY))
         {   
-            window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, $("[name='radio-choice-df']").val());
+            window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, $("[name='radio-choice-df']:checked").val());
             window.localStorage.setItem(LOC_DAILYFORECAST, true);
             app.updateUserParams();
         }
