@@ -944,7 +944,7 @@ var onShareError = function(msg) {
 
 function log(msg){
     console.log(msg);
-    app.showAlert(msg, '');
+    //app.showAlert(msg, '');
 }
 function successIconBadgeNumberHandler(){
    console.log("successIconBadgeNumber"); 
@@ -1334,7 +1334,7 @@ $(document).ready(function() {
     const {HijackWebviewLinkClick} = window.cordova.plugins;
  
     HijackWebviewLinkClick.listen((url) => {
-        log(url);
+        //log(url);
         if (url.includes("opensettings"))
             navlinkCLicked();
         else if (url.includes("googleads"))
