@@ -303,18 +303,30 @@ var app = {
     });
     store.when('subscription').verified(function(p) {
         
-        log("subscription " + p.id + " verified");
-        app.updateUserParams();
+        
+        if ((p.id == SUB_DAILYFORECAST_MONTHLY) || (p.id == SUB_DAILYFORECAST_YEARLY))
+        {   
+            window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, $("[name='radio-choice-df']").value);
+            window.localStorage.setItem(LOC_DAILYFORECAST, true);
+            app.updateUserParams();
+        }
+        if ((p.id == SUB_SHORTTERM_MONTHLY) || (p.id == SUB_SHORTTERM_YEARLY))
+        {
+            window.localStorage.setItem(LOC_APPROVED, true);
+            window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
+            app.updateUserParams();
+        }
         if ((p.id == SUB_ADFREE_YEARLY) || (p.id == SUB_ADFREE_MONTHLY))
             putAdFreeCode(1);
+        //log("subscription " + p.id + " verified");
         p.finish();
        
     });
     store.when('subscription').unverified(function(p) {
         //log("subscription " + p.id + "unverified");
     });
-    /*store.when('subscription').expired(function(p) {
-        //log("subscription " + p.id + "unverified");
+    store.when('subscription').expired(function(p) {
+        
         if ((p.id == SUB_ADFREE_YEARLY) || (p.id == SUB_ADFREE_MONTHLY))
             putAdFreeCode(0);
         if ((p.id == SUB_DAILYFORECAST_MONTHLY) || (p.id == SUB_DAILYFORECAST_YEARLY))
@@ -328,8 +340,8 @@ var app = {
             window.localStorage.setItem(LOC_APPROVED, false);
             app.updateUserParams();
         }
-            
-    });*/
+        log("subscription " + p.id + "expired");    
+    });
     store.when('subscription').updated(function(p) {
         //log(p.id + ' owned:' + p.owned);
 
@@ -510,10 +522,10 @@ function registerDevice()
                 // data.sound,
                 // data.image,
                 // data.additionalData
-                navigator.notification.alert(data.message,         // message
-                    null,                 // callback
+                navigator.notification.confirm(data.message,         // message
+                    onConfirm,                 // callback
                     data.title,           // title
-                    'Ok'                  // buttonName
+                    ['Ok','Reply']                  // buttonName
                     );
                 onUrlClicked('alerts.php');
             });
@@ -528,7 +540,13 @@ function registerDevice()
         }
 }
 
-    
+    function onConfirm(buttonIndex) {
+        log('You selected button ' + buttonIndex);
+        if (buttonIndex == 1)
+        {
+            onUrlClicked('contact.php');
+        }
+    }
     function cancelPic(){
         console.log("pic canceled");
         $('#imagepreviewContainer').hide();
