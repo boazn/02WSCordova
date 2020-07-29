@@ -1338,11 +1338,11 @@ $(document).ready(function() {
         if (url.includes("opensettings"))
             navlinkCLicked();
         else if (url.includes("googleads"))
-            window.open(url, '_system');
+            window.open(url, '_blank');
         else 
             console.log(url);
     });
-    //handleExternalURLs();
+    handleExternalURLs();
     //openAllLinksWithBlankTargetInSystemBrowser();
     
 });
