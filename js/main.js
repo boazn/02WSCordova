@@ -306,7 +306,7 @@ var app = {
         
         if ((p.id == SUB_DAILYFORECAST_MONTHLY) || (p.id == SUB_DAILYFORECAST_YEARLY))
         {   
-            window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, $("[name='radio-choice-df']").value);
+            window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, $("[name='radio-choice-df']").val());
             window.localStorage.setItem(LOC_DAILYFORECAST, true);
             app.updateUserParams();
         }
@@ -340,7 +340,24 @@ var app = {
             window.localStorage.setItem(LOC_APPROVED, false);
             app.updateUserParams();
         }
-        log("subscription " + p.id + "expired");    
+        //log("subscription " + p.id + "expired");    
+    });
+    store.when('subscription').cancelled(function(p) {
+        
+        if ((p.id == SUB_ADFREE_YEARLY) || (p.id == SUB_ADFREE_MONTHLY))
+            putAdFreeCode(0);
+        if ((p.id == SUB_DAILYFORECAST_MONTHLY) || (p.id == SUB_DAILYFORECAST_YEARLY))
+        {
+            window.localStorage.setItem(LOC_DAILYFORECAST, false);
+            window.localStorage.setItem(LOC_DAILYFORECAST_HOUR, null);
+            app.updateUserParams();
+        }
+        if ((p.id == SUB_DAILYFORECAST_MONTHLY) || (p.id == SUB_DAILYFORECAST_YEARLY))
+        {
+            window.localStorage.setItem(LOC_APPROVED, false);
+            app.updateUserParams();
+        }
+        //log("subscription " + p.id + "expired");    
     });
     store.when('subscription').updated(function(p) {
         //log(p.id + ' owned:' + p.owned);
@@ -353,7 +370,7 @@ var app = {
                 window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
                 window.localStorage.setItem(LOC_APPROVED, true);
                 owned = owned.concat(SUB_SHORTTERM_MONTHLY);
-                log("updated: owned->" + owned);
+                //log("updated: owned->" + owned);
             }
             else{
                 window.localStorage.setItem(SUB_SHORTTERM_MONTHLY, false);
@@ -372,7 +389,7 @@ var app = {
                 window.localStorage.setItem(LOC_SHORT_NOTIFICATIONS, true);
                 window.localStorage.setItem(LOC_APPROVED, true);
                 owned = owned.concat(SUB_SHORTTERM_YEARLY);
-                log("updated: owned->" + owned);
+                //log("updated: owned->" + owned);
             }
             else{
                 window.localStorage.setItem(SUB_SHORTTERM_YEARLY, false);
@@ -393,7 +410,7 @@ var app = {
                 window.localStorage.setItem(LOC_ADFREE, true);
                 window.localStorage.setItem(LOC_APPROVED, true);
                 owned = owned.concat(SUB_ADFREE_MONTHLY);
-                log("updated: owned->" + owned);
+                //log("updated: owned->" + owned);
             }
             else{
                 window.localStorage.setItem(SUB_ADFREE_MONTHLY, false);
@@ -523,9 +540,11 @@ function registerDevice()
                 // data.image,
                 // data.additionalData
                 navigator.notification.confirm(data.message,         // message
-                    onConfirm,                 // callback
+                    function(buttonIndex){
+                        onConfirm(buttonIndex, data.message);
+                    },                 // callback
                     data.title,           // title
-                    ['Ok','Reply']                  // buttonName
+                    [currentLocale.ok, currentLocale.reply, currentLocale.share]                  // buttonName
                     );
                 onUrlClicked('alerts.php');
             });
@@ -540,11 +559,19 @@ function registerDevice()
         }
 }
 
-    function onConfirm(buttonIndex) {
-        log('You selected button ' + buttonIndex);
+    function onConfirm(buttonIndex, msg) {
+        //log('You selected button ' + buttonIndex);
         if (buttonIndex == 1)
         {
+            onUrlClicked('alerts.php');
+        }
+        if (buttonIndex == 2)
+        {
             onUrlClicked('contact.php');
+        }
+        if (buttonIndex == 3)
+        {
+            window.plugins.socialsharing.share(currentLocale.sharemessage + " " + msg);
         }
     }
     function cancelPic(){
