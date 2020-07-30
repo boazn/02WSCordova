@@ -836,7 +836,7 @@ function onReplyNotification(data)
 {
       console.log("onReplyNotification:" + data);
         var lang = window.localStorage.getItem(LOC_LANG);
-        var url = "https://www.02ws.co.il/small.php?lang=" + lang + "&section=SendEmailForm.php&data="+data;
+        var url = "https://www.02ws.co.il/small/?lang=" + lang + "&section=SendEmailForm.php&data="+data;
         console.log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
@@ -866,7 +866,7 @@ function isShortTermSubscribed(){
 function onNotificationsCheck(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked)
 {
     app.saveIsToNotify(longNotifyIsChecked, shortNotifyIsChecked, tipsNotifyIsChecked);
-    $('#navpanel').panel('close');
+    //$('#navpanel').panel('close');
    
 }
 function onStartPageChoose(value)
@@ -878,7 +878,7 @@ function onStartPageChoose(value)
     var token  = window.localStorage.getItem(LOC_TOKEN);
     var active_sub = window.localStorage.getItem(LOC_ACTIVE_SUB);
     console.log("active_sub="+active_sub+"token="+token); 
-    var url = "https://www.02ws.co.il/small.php?lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0) + "&startpage=" + (value ? 1 : 0) + (active_sub != null ? "&reg_id=" + token : ''); ;
+    var url = "https://www.02ws.co.il/small/?lang=" + lang + "&c=" + (iscloth == "true" ? 1 : 0) + "&fullt=" + (isfulltext == "true" ? 1 : 0)  + "&s=" + (issound == "true" ? 1 : 0) + "&startpage=" + (value ? 1 : 0) + (active_sub != null ? "&reg_id=" + token : ''); ;
     $('#02wsframe').attr('src', url);
 }
 function onLanguageChoose(value, iscloth, isfulltext, issound)
@@ -893,13 +893,11 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
         var active_sub = window.localStorage.getItem(LOC_ACTIVE_SUB);
         //log("onLanguageChoose:" + iscloth + isfulltext + issound);
         //alert(value+' '+iscloth+' '+isfulltext+' '+issound+' '+tempunits);
-        var url = "https://www.02ws.co.il/small.php?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + (active_sub != null ? "&reg_id=" + token : ''); 
+        var url = "https://www.02ws.co.il/small/?lang=" + value + "&c=" + (iscloth == true ? 1 : 0) + "&fullt=" + (isfulltext == true ? 1 : 0)  + "&s=" + (issound == true ? 1 : 0)+ "&tempunit=" + tempunits + (active_sub != null ? "&reg_id=" + token : ''); 
         //log(url);    
         $('#02wsframe').attr('src', url);
         setView(320);
-        if( $('#navpanel').hasClass("ui-panel-open") == true ){
-         $('#navpanel').panel('close');
-        }
+        
    }
      catch (e) {
         console.log('error on onLanguageChoose: ' + e);
@@ -909,7 +907,7 @@ function onLanguageChoose(value, iscloth, isfulltext, issound)
 
 function onUrlClicked(section)
 {
-    navClicked("https://www.02ws.co.il/small.php?section=" + section + "&lang=", 320);
+    navClicked("https://www.02ws.co.il/small/?section=" + section + "&lang=", 320);
          
 }
 function onDailyForecastHourChoose(value)
@@ -1090,26 +1088,26 @@ function youtubeClicked(){
     navClicked('https://m.youtube.com/channel/UCcFdTuHfckfOsCy7MwbY9vQ', 320);
 }
 function dailypicClicked(){
-    navClicked('https://www.02ws.co.il/small.php?section=picoftheday.php&lang=', 320);
+    navClicked('https://www.02ws.co.il/small/?section=picoftheday.php&lang=', 320);
     $('#campanel').panel('close');
 }
 function radarClicked(){
-    navClicked('https://www.02ws.co.il/small.php?section=radar.php&lang=', 570);
+    navClicked('https://www.02ws.co.il/small/?section=radar.php&lang=', 570);
 }
 function userpicsClicked(){
-    navClicked('https://www.02ws.co.il/small.php?section=userPics.php&lang=', 320);
+    navClicked('https://www.02ws.co.il/small/?section=userPics.php&lang=', 320);
 }
 function contactClicked(){
-    navClicked('https://www.02ws.co.il/small.php?section=SendEmailForm.php&lang=', 320);
+    navClicked('https://www.02ws.co.il/small/?section=SendEmailForm.php&lang=', 320);
 }
 function forumClicked(){
-    navClicked('https://www.02ws.co.il/small.php?section=chatmobile.php&lang=', 320);
+    navClicked('https://www.02ws.co.il/small/?section=chatmobile.php&lang=', 320);
 }
 function tempClicked(){
-    navClicked('https://www.02ws.co.il/small.php?section=graph.php&graph=temp2.php&profile=1&lang=', 320);
+    navClicked('https://www.02ws.co.il/small/?section=graph.php&graph=temp2.php&profile=1&lang=', 320);
 }
 function humClicked(){
-    navClicked('https://www.02ws.co.il/small.php?section=graph.php&graph=humwind.php&profile=1&lang=', 320);
+    navClicked('https://www.02ws.co.il/small/?section=graph.php&graph=humwind.php&profile=1&lang=', 320);
 }
 function homeClicked(){
     lang = window.localStorage.getItem(LOC_LANG);
