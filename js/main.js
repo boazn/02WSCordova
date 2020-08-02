@@ -134,7 +134,7 @@ var app = {
         app.receivedEvent('deviceready');
          console.log('device ready: ' + device.platform + ' ' +  device.uuid);
           setTimeout(function() {
-                navigator.splashscreen.hide();
+               // navigator.splashscreen.hide();
           }, 1000);
         
         pictureSource=navigator.camera.PictureSourceType;
