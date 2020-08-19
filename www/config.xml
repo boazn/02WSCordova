@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="il.co.jws" version="2.0">
-    <name>ירושמיים</name>
+    <name>JWS</name>
     <description>
         Jerusalem Weather Station.
     </description>
